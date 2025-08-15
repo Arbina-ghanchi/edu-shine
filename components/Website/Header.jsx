@@ -1,9 +1,11 @@
 import { ChevronDown, BookOpen } from "lucide-react";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
 export const Header = () => {
   const [coursesOpen, setCoursesOpen] = useState(false);
   const [joinUsOpen, setJoinUsOpen] = useState(false);
+  const router = useRouter();
 
   return (
     <header className="relative z-50 bg-white/90 backdrop-blur-md border-b border-blue-100/50">
@@ -88,7 +90,10 @@ export const Header = () => {
             <button className="text-blue-600 hover:text-blue-700 font-medium transition-colors">
               Forgot Password?
             </button>
-            <button className="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-4 py-2 rounded-lg font-medium hover:from-blue-600 hover:to-blue-700 transition-all transform hover:scale-105 shadow-lg">
+            <button
+              onClick={() => router.push("/auth")}
+              className="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-4 py-2 rounded-lg font-medium hover:from-blue-600 hover:to-blue-700 transition-all transform hover:scale-105 shadow-lg"
+            >
               Login / Sign Up
             </button>
           </div>
