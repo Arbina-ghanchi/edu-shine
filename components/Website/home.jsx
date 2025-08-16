@@ -7,6 +7,7 @@ import Achievements from "./ourachivement";
 import CoursesPage from "./ourclients";
 import GetInTouchPage from "./getintouch";
 import OurTeam from "./ourteam";
+import Footer from "./footer";
 
 export default function EduShineLanding() {
   return (
@@ -14,10 +15,11 @@ export default function EduShineLanding() {
       <Header />
       <MainPage />
       <WhyChooseEdu />
-      <Achievements />  
+      <Achievements />
       <CoursesPage />
       <GetInTouchPage />
       <OurTeam />
+      <Footer />
 
       <style jsx>{`
         @keyframes fadeInUp {
