@@ -47,7 +47,7 @@ export default function CoursesPage() {
       title: "Computer Science",
       description: "Programming, web development, and digital literacy",
       grade: "Grade 8-12",
-      image: "https://images.unsplash.com/photo-1518709268805-4e9042af2176?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2125&q=80",
+      image: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?ixlib=rb-4.0.3&auto=format&fit=crop&w=2069&q=80",
       icon: Code,
       subjects: ["Python", "JavaScript", "Web Dev", "Data Science"],
       students: "1,200+",
