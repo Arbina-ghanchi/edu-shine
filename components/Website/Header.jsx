@@ -70,16 +70,22 @@ export const Header = () => {
               {joinUsOpen && (
                 <div className="absolute top-full left-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-100 py-2">
                   <a
-                    href="#"
+                    href="/student"
                     className="block px-4 py-2 text-gray-700 hover:bg-blue-50"
                   >
                     As Student
                   </a>
                   <a
-                    href="#"
+                    href="/teacher"
                     className="block px-4 py-2 text-gray-700 hover:bg-blue-50"
                   >
                     As Teacher
+                  </a>
+                  <a
+                    href="/parent"
+                    className="block px-4 py-2 text-gray-700 hover:bg-blue-50"
+                  >
+                    As Parent
                   </a>
                 </div>
               )}
