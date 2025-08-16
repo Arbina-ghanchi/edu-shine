@@ -12,11 +12,10 @@ export default function EduShineLanding() {
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50">
       <Header />
       <MainPage />
-
       <WhyChooseEdu />
-<Achievements/>
-<CoursesPage/>
-<GetInTouchPage/>
+      <Achievements />
+      <CoursesPage />
+      <GetInTouchPage />
       <style jsx>{`
         @keyframes fadeInUp {
           from {
