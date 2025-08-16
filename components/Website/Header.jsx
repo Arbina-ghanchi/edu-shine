@@ -87,9 +87,9 @@ export const Header = () => {
           </nav>
 
           <div className="flex items-center space-x-4">
-            <button className="text-blue-600 hover:text-blue-700 font-medium transition-colors">
+            {/* <button className="text-blue-600 hover:text-blue-700 font-medium transition-colors">
               Forgot Password?
-            </button>
+            </button> */}
             <button
               onClick={() => router.push("/auth")}
               className="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-4 py-2 rounded-lg font-medium hover:from-blue-600 hover:to-blue-700 transition-all transform hover:scale-105 shadow-lg"

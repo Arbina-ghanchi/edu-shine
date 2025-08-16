@@ -3,6 +3,9 @@ import React from "react";
 import WhyChooseEdu from "./whyChooseEdu";
 import { Header } from "./Header";
 import { MainPage } from "./MainPage";
+import Achievements from "./ourachivement";
+import CoursesPage from "./ourclients";
+import GetInTouchPage from "./getintouch";
 
 export default function EduShineLanding() {
   return (
@@ -11,7 +14,9 @@ export default function EduShineLanding() {
       <MainPage />
 
       <WhyChooseEdu />
-
+<Achievements/>
+<CoursesPage/>
+<GetInTouchPage/>
       <style jsx>{`
         @keyframes fadeInUp {
           from {
