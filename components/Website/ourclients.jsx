@@ -205,7 +205,6 @@ export default function CoursesPage() {
           <a href="/student">
           <button className="bg-white text-blue-600 font-semibold px-8 py-4 rounded-lg hover:bg-gray-100 transition-all duration-300 transform hover:scale-105">
             Enroll Now
-            {/* <Link href="/student" /> */}
           </button>
           </a>
         </div>

@@ -1,75 +1,142 @@
 "use client";
-import { useState } from "react";
-import {
-  User,
-  GraduationCap,
-  Users,
-  ArrowLeft,
-  Mail,
-  Lock,
-  Eye,
-  EyeOff,
-} from "lucide-react";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { User, ArrowLeft, Mail, Lock, Eye, EyeOff } from "lucide-react";
+import { roles } from "./roles";
+import { authService } from "@/service/authService";
+import { useAuth } from "@/context/AuthContext";
 
 const Page = () => {
   const [selectedRole, setSelectedRole] = useState(null);
   const [authMode, setAuthMode] = useState("login");
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   const [formData, setFormData] = useState({
     email: "",
     password: "",
     confirmPassword: "",
     fullName: "",
+    description: "",
   });
 
-  const roles = [
-    {
-      id: "teacher",
-      title: "Teacher",
-      description: "Manage classes and student progress",
-      icon: GraduationCap,
-      color: "bg-gradient-to-br from-blue-500 to-blue-600",
-      hoverColor: "hover:from-blue-600 hover:to-blue-700",
-    },
-    {
-      id: "student",
-      title: "Student",
-      description: "Access courses and assignments",
-      icon: User,
-      color: "bg-gradient-to-br from-green-500 to-green-600",
-      hoverColor: "hover:from-green-600 hover:to-green-700",
-    },
-    {
-      id: "parent",
-      title: "Parent",
-      description: "Monitor child's academic progress",
-      icon: Users,
-      color: "bg-gradient-to-br from-purple-500 to-purple-600",
-      hoverColor: "hover:from-purple-600 hover:to-purple-700",
-    },
-  ];
+  const { login, isAuthenticated } = useAuth();
+  const router = useRouter();
+
+  // Redirect if already authenticated
+  useEffect(() => {
+    if (isAuthenticated) {
+      router.push("/dashboard");
+    }
+  }, [isAuthenticated, router]);
 
   const handleInputChange = (e) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
     });
+    setError(""); // Clear error when user starts typing
+  };
+
+  const handleSignup = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setError("");
+
+    // Validation
+    if (formData.password !== formData.confirmPassword) {
+      setError("Passwords do not match");
+      setLoading(false);
+      return;
+    }
+
+    if (formData.password.length < 6) {
+      setError("Password must be at least 6 characters long");
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const userData = {
+        fullName: formData.fullName,
+        email: formData.email,
+        password: formData.password,
+        role: selectedRole,
+        description: formData.description || "",
+      };
+
+      const result = await authService.signup(userData);
+
+      if (result.success) {
+        console.log("Signup successful:", result.data);
+
+        // Store user data and token using context
+        login(result.data.data.user, result.data.data.token);
+
+        // Redirect to dashboard
+        router.push("/dashboard");
+      } else {
+        setError(result.error.message || "Signup failed. Please try again.");
+      }
+    } catch (error) {
+      setError("An unexpected error occurred. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleSignin = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setError("");
+
+    try {
+      const credentials = {
+        email: formData.email,
+        password: formData.password,
+      };
+
+      const result = await authService.signin(credentials);
+
+      if (result.success) {
+        console.log("Login successful:", result.data);
+
+        // Store user data and token using context
+        login(result.data.data.user, result.data.data.token);
+
+        // Redirect to dashboard
+        router.push("/dashboard");
+      } else {
+        setError(
+          result.error.message || "Login failed. Please check your credentials."
+        );
+      }
+    } catch (error) {
+      setError("An unexpected error occurred. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Form submitted:", {
-      role: selectedRole,
-      mode: authMode,
-      data: formData,
-    });
-    // Handle authentication logic here
+    if (authMode === "signup") {
+      handleSignup(e);
+    } else {
+      handleSignin(e);
+    }
   };
 
   const resetToRoleSelection = () => {
     setSelectedRole(null);
     setAuthMode("login");
-    setFormData({ email: "", password: "", confirmPassword: "", fullName: "" });
+    setFormData({
+      email: "",
+      password: "",
+      confirmPassword: "",
+      fullName: "",
+      description: "",
+    });
+    setError("");
   };
 
   if (!selectedRole) {
@@ -149,7 +216,13 @@ const Page = () => {
             </p>
           </div>
 
-          {/* Auth Mode Toggle */}
+          {/* Error Message */}
+          {error && (
+            <div className="mb-4 p-3 bg-red-500/20 border border-red-500/50 text-red-200 rounded-lg text-sm">
+              {error}
+            </div>
+          )}
+
           <div className="flex bg-white/10 rounded-lg p-1 mb-6">
             <button
               onClick={() => setAuthMode("login")}
@@ -174,7 +247,7 @@ const Page = () => {
           </div>
 
           {/* Form */}
-          <div className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-4">
             {authMode === "signup" && (
               <div>
                 <label className="block text-sm font-medium text-gray-300 mb-2">
@@ -193,6 +266,26 @@ const Page = () => {
                     className="w-full pl-10 pr-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-white/40 focus:bg-white/20 transition-all"
                     placeholder="Enter your full name"
                     required
+                    disabled={loading}
+                  />
+                </div>
+              </div>
+            )}
+
+            {authMode === "signup" && (
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-2">
+                  Description (Optional)
+                </label>
+                <div className="relative">
+                  <textarea
+                    name="description"
+                    value={formData.description}
+                    onChange={handleInputChange}
+                    className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-white/40 focus:bg-white/20 transition-all"
+                    placeholder="Tell us about yourself..."
+                    rows={3}
+                    disabled={loading}
                   />
                 </div>
               </div>
@@ -215,6 +308,7 @@ const Page = () => {
                   className="w-full pl-10 pr-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-white/40 focus:bg-white/20 transition-all"
                   placeholder="Enter your email"
                   required
+                  disabled={loading}
                 />
               </div>
             </div>
@@ -236,11 +330,13 @@ const Page = () => {
                   className="w-full pl-10 pr-12 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-white/40 focus:bg-white/20 transition-all"
                   placeholder="Enter your password"
                   required
+                  disabled={loading}
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
                   className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-300"
+                  disabled={loading}
                 >
                   {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
                 </button>
@@ -265,19 +361,50 @@ const Page = () => {
                     className="w-full pl-10 pr-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-white/40 focus:bg-white/20 transition-all"
                     placeholder="Confirm your password"
                     required
+                    disabled={loading}
                   />
                 </div>
               </div>
             )}
 
             <button
-              type="button"
-              onClick={handleSubmit}
-              className={`w-full py-3 px-4 ${selectedRoleData.color} ${selectedRoleData.hoverColor} text-white font-medium rounded-lg transition-all transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-white/30`}
+              type="submit"
+              disabled={loading}
+              className={`w-full py-3 px-4 ${selectedRoleData.color} ${selectedRoleData.hoverColor} text-white font-medium rounded-lg transition-all transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-white/30 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100`}
             >
-              {authMode === "login" ? "Sign In" : "Create Account"}
+              {loading ? (
+                <span className="flex items-center justify-center">
+                  <svg
+                    className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                    ></circle>
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                    ></path>
+                  </svg>
+                  {authMode === "login"
+                    ? "Signing In..."
+                    : "Creating Account..."}
+                </span>
+              ) : authMode === "login" ? (
+                "Sign In"
+              ) : (
+                "Create Account"
+              )}
             </button>
-          </div>
+          </form>
 
           {authMode === "login" && (
             <div className="text-center mt-6">
