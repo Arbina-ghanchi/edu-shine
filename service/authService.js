@@ -60,7 +60,6 @@ export const authService = {
 
   // Signin service (for future use)
   signin: async (credentials) => {
-    console.log("Credentials:", credentials);
     try {
       const response = await api.post("/auth/login", credentials);
       return {
@@ -81,7 +80,6 @@ export const authService = {
 
   // Get user profile (for future use)
   getProfile: async (token) => {
-    console.log("Token:", token);
     try {
       const response = await api.get("/auth/profile", {
         headers: {
@@ -104,7 +102,7 @@ export const authService = {
   },
 
   deleteAccount: async (token, password) => {
-    console.log("Token:", token);
+    console.log(token);
     try {
       const response = await api.delete("/auth/delete", {
         data: { password },
