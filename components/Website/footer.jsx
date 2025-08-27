@@ -10,7 +10,7 @@ const Footer = () => {
           {/* About Section */}
           <div>
             <h3 className="text-xl font-bold mb-6 flex items-center">
-              <BookOpen className="w-6 h-6 mr-2 text-blue-400" />
+              <BookOpen className="w-6 h-6 mr-2 text-blue-400"/>
               EduMentor
             </h3>
             <p className="text-gray-400 mb-6">
@@ -27,11 +27,11 @@ const Footer = () => {
                 <Instagram className="w-5 h-5" />
               </a>
               <a href="#" className="text-gray-400 hover:text-white transition-colors">
-                <Linkedin className="w-5 h-5" />
+                <Linkedin className="w-5 h-5"/>
               </a>
             </div>
           </div>
-
+          
           {/* Quick Links */}
           <div>
             <h3 className="text-lg font-semibold mb-6">Quick Links</h3>
@@ -125,7 +125,7 @@ const Footer = () => {
                 <input 
                   type="email" 
                   placeholder="Your email address" 
-                  className="px-4 py-3 rounded-l-lg w-full md:w-64 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="px-4 py-3 rounded-l-lg w-full md:w-64 text-white-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
                 <button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-r-lg font-medium transition-colors">
                   Subscribe
@@ -144,6 +144,7 @@ const Footer = () => {
             <a href="#" className="text-gray-400 hover:text-white transition-colors">Privacy Policy</a>
             <a href="#" className="text-gray-400 hover:text-white transition-colors">Terms of Service</a>
             <a href="#" className="text-gray-400 hover:text-white transition-colors">FAQ</a>
+            <a href="#" className="text-gray-400 hover:text-white transition-colors">About Us</a>
           </div>
         </div>
       </div>

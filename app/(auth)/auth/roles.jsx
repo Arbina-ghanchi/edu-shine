@@ -1,3 +1,4 @@
+"use client";
 import { GraduationCap, User, Users } from "lucide-react";
 
 export const roles = [
@@ -26,3 +27,5 @@ export const roles = [
     hoverColor: "hover:from-purple-600 hover:to-purple-700",
   },
 ];
+
+

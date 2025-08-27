@@ -1,10 +1,12 @@
 "use client";
-import React from "react";
+import React, { useRef } from "react";
 import { motion } from "framer-motion";
-import { GraduationCap, Award, BookOpen, Languages, Star, MessageSquare, Mail } from "lucide-react";
+import { GraduationCap, Award, BookOpen, Languages, Star, MessageSquare, Mail, ChevronLeft, ChevronRight } from "lucide-react";
 
 const OurTeam = () => {
-  const teamMembers = [
+  const scrollRef = useRef(null);
+  
+  const featuredTeamMembers = [
     {
       id: 1,
       name: "Dr. Priya Sharma",
@@ -59,6 +61,68 @@ const OurTeam = () => {
     },
   ];
 
+  // Generate 250 teacher profiles with varied data
+  const allTeachers = Array.from({ length: 250 }, (_, i) => {
+    const subjects = [
+      ["Math", "Algebra", "Calculus"],
+      ["Physics", "Chemistry", "Science"],
+      ["English", "Literature", "Grammar"],
+      ["History", "Geography", "Civics"],
+      ["Computer Science", "Programming", "AI"],
+      ["Biology", "Botany", "Zoology"],
+      ["Economics", "Business", "Finance"],
+      ["Art", "Music", "Drama"]
+    ];
+    
+    const names = [
+      "Aarav Sharma", "Ananya Patel", "Vihaan Kumar", "Saanvi Singh", "Advait Joshi",
+      "Diya Reddy", "Ishaan Gupta", "Myra Desai", "Vivaan Malhotra", "Anika Agarwal",
+      "Arjun Mehta", "Pooja Choudhury", "Reyansh Trivedi", "Aahana Bhatt", "Mohit Kapoor",
+      "Sneha Menon", "Krishna Iyer", "Navya Nair", "Rohan Sengupta", "Tara Krishnan"
+    ];
+    
+    const roles = [
+      "Subject Expert", "Senior Educator", "Curriculum Specialist", "Exam Coach",
+      "Learning Strategist", "Concept Developer", "Academic Mentor", "Study Guide"
+    ];
+    
+    const qualifications = [
+      "Ph.D Education", "M.Ed with Distinction", "B.Ed, M.A", "M.Sc, B.Ed",
+      "Post Graduate Diploma", "Doctorate in Education", "Double Masters", "Gold Medalist"
+    ];
+    
+    const subjectSet = subjects[i % subjects.length];
+    const randomName = names[Math.floor(Math.random() * names.length)];
+    const randomRole = roles[Math.floor(Math.random() * roles.length)];
+    const randomQualification = qualifications[Math.floor(Math.random() * qualifications.length)];
+    
+    return {
+      id: i + 5,
+      name: randomName,
+      role: `${subjectSet[0]} ${randomRole}`,
+      experience: `${5 + (i % 20)}+ years`,
+      qualification: randomQualification,
+      expertise: [subjectSet[0], subjectSet[1], subjectSet[2]],
+      bio: "Dedicated educator focused on student success and conceptual understanding",
+      image: `https://i.pravatar.cc/150?img=${(i % 70) + 1}`,
+      rating: (4.5 + (Math.random() * 0.5)).toFixed(1),
+      subjects: subjectSet,
+      social: { linkedin: "#", twitter: "#", email: `teacher${i}@example.com` },
+    };
+  });
+
+  const scrollLeft = () => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollBy({ left: -400, behavior: 'smooth' });
+    }
+  };
+
+  const scrollRight = () => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollBy({ left: 400, behavior: 'smooth' });
+    }
+  };
+
   return (
     <div className="py-16 bg-gradient-to-b from-blue-50 to-white">
       <div className="max-w-7xl mx-auto px-6">
@@ -77,9 +141,9 @@ const OurTeam = () => {
           </p>
         </motion.div>
 
-        {/* Team Members */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {teamMembers.map((member, index) => (
+        {/* Featured Team Members */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
+          {featuredTeamMembers.map((member, index) => (
             <motion.div
               key={member.id}
               className="bg-white rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-2"
@@ -159,9 +223,93 @@ const OurTeam = () => {
           ))}
         </div>
 
+        {/* All Teachers Horizontal Scroll Section */}
+        <motion.div 
+          className="mb-16"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 0.7 }}
+          viewport={{ once: true }}
+        >
+          <div className="flex justify-between items-center mb-6">
+            <h3 className="text-2xl font-bold text-gray-900">
+              Explore Our 250+ Expert Teachers
+            </h3>
+            <div className="flex space-x-2">
+              <button 
+                onClick={scrollLeft}
+                className="p-2 rounded-full bg-white border border-gray-300 hover:bg-gray-100 transition-colors"
+                aria-label="Scroll left"
+              >
+                <ChevronLeft className="w-5 h-5" />
+              </button>
+              <button 
+                onClick={scrollRight}
+                className="p-2 rounded-full bg-white border border-gray-300 hover:bg-gray-100 transition-colors"
+                aria-label="Scroll right"
+              >
+                <ChevronRight className="w-5 h-5" />
+              </button>
+            </div>
+          </div>
+          
+          <div 
+            ref={scrollRef}
+            className="flex overflow-x-auto pb-6 gap-4 scrollbar-hide scroll-smooth"
+            style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+          >
+            {allTeachers.map((teacher) => (
+              <div 
+                key={teacher.id} 
+                className="flex-shrink-0 w-64 bg-white rounded-lg shadow-md overflow-hidden transition-transform hover:shadow-lg hover:-translate-y-1"
+              >
+                <div className="relative">
+                  <img 
+                    src={teacher.image} 
+                    alt={teacher.name} 
+                    className="w-full h-40 object-cover"
+                  />
+                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent p-3">
+                    <h4 className="text-white font-semibold text-sm truncate">{teacher.name}</h4>
+                    <p className="text-blue-200 text-xs truncate">{teacher.role}</p>
+                  </div>
+                  <div className="absolute top-2 right-2 bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full flex items-center text-xs font-medium">
+                    <Star className="w-3 h-3 mr-1" />
+                    {teacher.rating}
+                  </div>
+                </div>
+                
+                <div className="p-4">
+                  <div className="flex items-center mb-2">
+                    <Award className="w-4 h-4 text-blue-600 mr-1" />
+                    <span className="text-xs text-gray-600">{teacher.experience}</span>
+                  </div>
+                  
+                  <div className="flex flex-wrap gap-1 mb-3">
+                    {teacher.subjects.slice(0, 2).map((subject, idx) => (
+                      <span key={idx} className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">
+                        {subject}
+                      </span>
+                    ))}
+                    {teacher.subjects.length > 2 && (
+                      <span className="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded-full">
+                        +{teacher.subjects.length - 2}
+                      </span>
+                    )}
+                  </div>
+                  
+                  <button className="w-full bg-blue-600 text-white py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors">
+                    View Profile
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </motion.div>
+
         {/* Why Stand Out Section */}
         <motion.div
-          className="text-center mt-16"
+          className="text-center"
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7 }}
@@ -206,6 +354,16 @@ const OurTeam = () => {
           </div>
         </motion.div>
       </div>
+      
+      <style jsx>{`
+        .scrollbar-hide::-webkit-scrollbar {
+          display: none;
+        }
+        .scrollbar-hide {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+        }
+      `}</style>
     </div>
   );
 };

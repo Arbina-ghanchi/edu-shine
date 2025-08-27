@@ -1,10 +1,54 @@
 "use client";
-import { Play, Check, Star, TrendingUp } from "lucide-react";
+import { Play, Check, Star, TrendingUp, X } from "lucide-react";
+import { useState } from "react";
+
+// Video Modal Component
+const VideoModal = ({ isOpen, onClose }) => {
+  if (!isOpen) return null;
+
+  // List of educational demo videos
+  const demoVideos = [
+    "https://www.youtube.com/embed/9M4tdMsg3ts", // Educational technology
+    "https://www.youtube.com/embed/7KMM387HNQk", // Online learning
+    "https://www.youtube.com/embed/7_XI7tvO4hY", // Tutoring demo
+    "https://www.youtube.com/embed/7KbY6Zg0q2c", // Teaching techniques
+    "https://www.youtube.com/embed/9M4tdMsg3ts", // Digital classroom
+  ];
+
+  // Select a random video from the list
+  const randomVideo = demoVideos[Math.floor(Math.random() * demoVideos.length)];
+
+  return (
+    <div className="fixed inset-0 opacity-20 z-50 flex items-center justify-center bg-black bg-opacity-75 animate-fadeIn">
+      <div className="relative w-full max-w-4xl mx-4">
+        <button
+          onClick={onClose}
+          className="absolute -top-12 right-0 text-white hover:text-gray-300 transition-colors z-10"
+          aria-label="Close video"
+        >
+          <X className="w-8 h-8" />
+        </button>
+        <div className="aspect-video bg-black rounded-lg overflow-hidden shadow-2xl">
+          <iframe
+            src="https://www.youtube.com/embed/tt79RIukKu0"
+            className="w-full h-full"
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            title="Educational Demo Video"
+          />
+        </div>
+      </div>
+    </div>
+  );
+};
 
 export const MainPage = () => {
+  const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
+
   return (
-    <main className="relative overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-20">
+    <main className="relative overflow-hidden opacity-20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12  lg:py-20">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Left Content */}
           <div className="space-y-8 animate-fadeInUp">
@@ -16,7 +60,6 @@ export const MainPage = () => {
                 <br />
                 <span className="text-gray-900">Home Tutoring</span>
               </h1>
-
               <p className="text-lg text-gray-600 leading-relaxed max-w-lg">
                 Connect with verified, expert teachers for personalized
                 one-on-one learning at home. Experience the future of education
@@ -33,7 +76,10 @@ export const MainPage = () => {
                 </div>
               </button>
 
-              <button className="flex items-center space-x-3 text-gray-700 hover:text-blue-600 transition-colors group">
+              <button
+                onClick={() => setIsVideoModalOpen(true)}
+                className="flex items-center space-x-3 text-gray-700 hover:text-blue-600 transition-colors group"
+              >
                 <div className="w-12 h-12 bg-white rounded-full shadow-lg flex items-center justify-center group-hover:shadow-xl transition-all">
                   <Play className="w-5 h-5 text-blue-600 ml-1" />
                 </div>
@@ -199,6 +245,12 @@ export const MainPage = () => {
         <div className="absolute bottom-20 right-10 w-40 h-40 bg-gradient-to-r from-purple-400/10 to-pink-400/10 rounded-full blur-3xl"></div>
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-to-r from-blue-400/5 to-indigo-400/5 rounded-full blur-3xl"></div>
       </div>
+
+      {/* Video Modal */}
+      <VideoModal
+        isOpen={isVideoModalOpen}
+        onClose={() => setIsVideoModalOpen(false)}
+      />
     </main>
   );
 };
