@@ -10,8 +10,9 @@ const WhyChooseEdu = () => {
             Why Choose Edu-Shine?
           </h2>
           <p className="text-xl text-gray-600 leading-relaxed">
-            We combine traditional home tutoring with modern technology to
-            provide the best learning experience for your child.
+            Trusted learning support beyond the classroom — from school subjects
+            to competitive exam preparation for JEE & NEET, across all major
+            boards including CBSE, ICSE, GSEB, and NIOS.
           </p>
         </div>
 
@@ -39,7 +40,7 @@ const WhyChooseEdu = () => {
                 <div className="flex items-center space-x-2">
                   <div className="w-2 h-2 bg-green-500 rounded-full"></div>
                   <span className="text-sm font-medium text-gray-700">
-                    500+ Verified
+                    250+ Verified
                   </span>
                 </div>
               </div>

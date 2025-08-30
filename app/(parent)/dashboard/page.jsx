@@ -18,6 +18,7 @@ import { FeatureCard } from "@/components/common/dahboard/Featurecard";
 import { DashboardHeader } from "@/components/common/dahboard/Header";
 import { EmptyState } from "@/components/common/dahboard/Emptystate";
 import { FeeManagement } from "@/components/common/dahboard/FeeComponent";
+import { ReviewManagement } from "@/components/common/dahboard/Review";
 
 const ParentDashboard = () => {
   const [selectedStudent, setSelectedStudent] = useState("Emma Wilson");
@@ -135,6 +136,9 @@ const ParentDashboard = () => {
         {/* Main Content Area */}
         {activeTab === "Fees" ? (
           <FeeManagement />
+        ) : 
+        activeTab === "Reviews" ? (
+          <ReviewManagement />
         ) : (
           <>
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">

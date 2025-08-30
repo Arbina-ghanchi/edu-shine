@@ -145,6 +145,8 @@ const Footer = () => {
             <a href="#" className="text-gray-400 hover:text-white transition-colors">Terms of Service</a>
             <a href="#" className="text-gray-400 hover:text-white transition-colors">FAQ</a>
             <a href="#" className="text-gray-400 hover:text-white transition-colors">About Us</a>
+            <a href="/testomonial" className="text-gray-400 hover:text-white transition-colors">Testimonials</a>
+
           </div>
         </div>
       </div>

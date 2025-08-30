@@ -19,7 +19,7 @@ const VideoModal = ({ isOpen, onClose }) => {
   const randomVideo = demoVideos[Math.floor(Math.random() * demoVideos.length)];
 
   return (
-    <div className="fixed inset-0 opacity-20 z-50 flex items-center justify-center bg-black bg-opacity-75 animate-fadeIn">
+    <div className="fixed inset-0  z-50 flex items-center justify-center bg-black bg-opacity-75 animate-fadeIn">
       <div className="relative w-full max-w-4xl mx-4">
         <button
           onClick={onClose}
@@ -47,7 +47,7 @@ export const MainPage = () => {
   const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
 
   return (
-    <main className="relative overflow-hidden opacity-20">
+    <main className="relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12  lg:py-20">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Left Content */}
@@ -61,16 +61,17 @@ export const MainPage = () => {
                 <span className="text-gray-900">Home Tutoring</span>
               </h1>
               <p className="text-lg text-gray-600 leading-relaxed max-w-lg">
-                Connect with verified, expert teachers for personalized
-                one-on-one learning at home. Experience the future of education
-                with our AI-powered learning platform.
+                Wherever you are — at home or online — your journey toward
+                brighter results begins here. Edu-Shine brings together trusted
+                tutors and innovative methods to guide every learner — from
+                daily to advanced topics.
               </p>
             </div>
 
             {/* Action Buttons */}
             <div className="flex flex-col sm:flex-row gap-4">
               <button className="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-8 py-4 rounded-xl font-semibold text-lg hover:from-blue-600 hover:to-blue-700 transition-all transform hover:scale-105 shadow-xl hover:shadow-2xl flex items-center justify-center space-x-2">
-                <span>Start Learning Today</span>
+                <span>Personalize My Learning</span>
                 <div className="w-6 h-6 bg-white/20 rounded-full flex items-center justify-center">
                   <span className="text-sm">→</span>
                 </div>
@@ -83,7 +84,7 @@ export const MainPage = () => {
                 <div className="w-12 h-12 bg-white rounded-full shadow-lg flex items-center justify-center group-hover:shadow-xl transition-all">
                   <Play className="w-5 h-5 text-blue-600 ml-1" />
                 </div>
-                <span className="font-medium">Watch Demo</span>
+                <span className="font-medium">Experience Learning</span>
               </button>
             </div>
 
