@@ -117,7 +117,7 @@ export default function CoursesPage() {
     },
     hover: {
       scale: 1.03,
-      y: -10,
+      y: -8,
       transition: {
         duration: 0.4,
         ease: "easeOut",
@@ -125,164 +125,13 @@ export default function CoursesPage() {
     },
   };
 
-  // Mathematical symbols and formulas
-  const mathSymbols = [
-    "π",
-    "∑",
-    "∫",
-    "√",
-    "∞",
-    "α",
-    "β",
-    "θ",
-   
-    "→",
-    "∴",
-    "∵",
-    "∀",
-    "∃",
-  ];
-
-  // English letters and punctuation
-  const englishLetters = [
-    "A",
-    "B",
-    "?",
-    ".",
-    ",",
-  ];
-
-  // French letters and accents
-  const frenchLetters = [
-    "À",
-    "Â",
-    "Æ",
-    "œ",
-    "ù",
-    "û",
-    "ü",
-    "ÿ",
-  ];
-
-  // Science symbols
-  const scienceSymbols = [
-    "H₂O",
-    "CO₂",
-    "O₂",
-    "NaCl",
-  
-  ];
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-blue-50/30 overflow-hidden">
-      {/* Educational Symbol Animations */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        {/* Math symbols floating animation */}
-        {mathSymbols.map((symbol, i) => (
-          <motion.div
-            key={`math-${i}`}
-            className="absolute text-blue-400/60 font-mono text-xl"
-            style={{
-              top: `${Math.random() * 100}%`,
-              left: `${Math.random() * 100}%`,
-            }}
-            animate={{
-              y: [0, -20, -40, -60, -80, -100],
-              x: [0, Math.random() * 20 - 10, Math.random() * 20 - 10, 0],
-              opacity: [0, 1, 0.8, 0.6, 0.4, 0],
-              rotate: [0, Math.random() * 360],
-            }}
-            transition={{
-              duration: Math.random() * 10 + 15,
-              repeat: Infinity,
-              delay: Math.random() * 5,
-            }}
-          >
-            {symbol}
-          </motion.div>
-        ))}
-
-        {/* English letters floating animation */}
-        {englishLetters.map((letter, i) => (
-          <motion.div
-            key={`eng-${i}`}
-            className="absolute text-purple-400/50 font-serif text-lg"
-            style={{
-              top: `${Math.random() * 100}%`,
-              left: `${Math.random() * 100}%`,
-            }}
-            animate={{
-              y: [0, -15, -30, -45, -60, -75],
-              x: [0, Math.random() * 15 - 7.5, Math.random() * 15 - 7.5, 0],
-              opacity: [0, 1, 0.9, 0.7, 0.5, 0],
-              rotate: [0, Math.random() * 20 - 10],
-            }}
-            transition={{
-              duration: Math.random() * 8 + 12,
-              repeat: Infinity,
-              delay: Math.random() * 4,
-            }}
-          >
-            {letter}
-          </motion.div>
-        ))}
-
-        {/* French letters floating animation */}
-        {frenchLetters.map((letter, i) => (
-          <motion.div
-            key={`fr-${i}`}
-            className="absolute text-red-400/50 font-serif text-lg"
-            style={{
-              top: `${Math.random() * 100}%`,
-              left: `${Math.random() * 100}%`,
-            }}
-            animate={{
-              y: [0, -25, -50, -75, -100, -125],
-              x: [0, Math.random() * 25 - 12.5, Math.random() * 25 - 12.5, 0],
-              opacity: [0, 1, 0.8, 0.6, 0.4, 0],
-              rotate: [0, Math.random() * 15 - 7.5],
-            }}
-            transition={{
-              duration: Math.random() * 12 + 18,
-              repeat: Infinity,
-              delay: Math.random() * 6,
-            }}
-          >
-            {letter}
-          </motion.div>
-        ))}
-
-        {/* Science symbols floating animation */}
-        {scienceSymbols.map((symbol, i) => (
-          <motion.div
-            key={`sci-${i}`}
-            className="absolute text-green-500/60 font-mono text-sm"
-            style={{
-              top: `${Math.random() * 100}%`,
-              left: `${Math.random() * 100}%`,
-            }}
-            animate={{
-              y: [0, -30, -60, -90, -120, -150],
-              x: [0, Math.random() * 30 - 15, Math.random() * 30 - 15, 0],
-              opacity: [0, 1, 0.7, 0.5, 0.3, 0],
-              rotate: [0, Math.random() * 10 - 5],
-            }}
-            transition={{
-              duration: Math.random() * 15 + 20,
-              repeat: Infinity,
-              delay: Math.random() * 8,
-            }}
-          >
-            {symbol}
-          </motion.div>
-        ))}
-      </div>
-
       {/* Header Section */}
-      <section className="relative py-20 px-6 overflow-hidden">
+      <section className="relative py-12 md:py-16 lg:py-20 px-4 sm:px-6 overflow-hidden">
         <div className="max-w-7xl mx-auto">
           <motion.div
-            className="text-center mb-16"
+            className="text-center mb-12 md:mb-16"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
@@ -291,25 +140,25 @@ export default function CoursesPage() {
               initial={{ scale: 0.9 }}
               animate={{ scale: 1 }}
               transition={{ duration: 0.5 }}
-              className="inline-block mb-6"
+              className="inline-block mb-4 md:mb-6"
             >
-              <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-3 rounded-2xl shadow-lg inline-block">
-                <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4">
-                  <BookOpen className="w-8 h-8 text-white" />
+              <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-2 md:p-3 rounded-xl md:rounded-2xl shadow-lg inline-block">
+                <div className="bg-white/10 backdrop-blur-sm rounded-lg md:rounded-xl p-3 md:p-4">
+                  <BookOpen className="w-6 h-6 md:w-8 md:h-8 text-white" />
                 </div>
               </div>
             </motion.div>
 
             <motion.h1
-              className="text-5xl md:text-6xl font-bold text-gray-900 mb-6 leading-tight bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600"
+              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-4 md:mb-6 leading-tight bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600 px-2"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.2 }}
             >
-              Explore Our Course 
+              Explore Our Courses
             </motion.h1>
             <motion.p
-              className="text-xl md:text-2xl text-gray-600 max-w-4xl mx-auto leading-relaxed"
+              className="text-lg sm:text-xl md:text-2xl text-gray-600 max-w-4xl mx-auto leading-relaxed px-4 sm:px-0"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.4 }}
@@ -319,25 +168,25 @@ export default function CoursesPage() {
             </motion.p>
 
             <motion.div
-              className="mt-10"
+              className="mt-8 md:mt-10"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.6 }}
             >
-              <div className="w-24 h-1 bg-gradient-to-r from-blue-500 to-purple-500 mx-auto rounded-full"></div>
+              <div className="w-20 md:w-24 h-1 bg-gradient-to-r from-blue-500 to-purple-500 mx-auto rounded-full"></div>
             </motion.div>
           </motion.div>
         </div>
       </section>
 
       {/* Courses Grid */}
-      <section className="relative pb-28 px-6">
+      <section className="relative pb-16 md:pb-20 lg:pb-28 px-4 sm:px-6">
         <div className="max-w-7xl mx-auto">
           <motion.div
             variants={containerVariants}
             initial="hidden"
             animate="visible"
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8"
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8"
           >
             {courses.map((course, index) => {
               const IconComponent = course.icon;
@@ -367,10 +216,10 @@ export default function CoursesPage() {
                     variants={cardHoverVariants}
                     initial="rest"
                     whileHover="hover"
-                    className="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100 h-full flex flex-col"
+                    className="bg-white rounded-xl md:rounded-2xl shadow-lg md:shadow-xl overflow-hidden border border-gray-100 h-full flex flex-col"
                   >
                     {/* Image with overlay */}
-                    <div className="relative h-48 overflow-hidden">
+                    <div className="relative h-40 sm:h-48 overflow-hidden">
                       <motion.img
                         src={course.image}
                         alt={course.title}
@@ -382,17 +231,17 @@ export default function CoursesPage() {
 
                       {/* Course icon */}
                       <div
-                        className={`absolute top-4 right-4 bg-white/20 backdrop-blur-sm rounded-full p-3 ${
+                        className={`absolute top-3 right-3 md:top-4 md:right-4 bg-white/20 backdrop-blur-sm rounded-full p-2 md:p-3 ${
                           bgColorMap[course.color]
                         }`}
                       >
-                        <IconComponent className="w-6 h-6 text-white" />
+                        <IconComponent className="w-4 h-4 md:w-6 md:h-6 text-white" />
                       </div>
 
                       {/* Rating badge */}
-                      <div className="absolute top-4 left-4 bg-white/95 backdrop-blur-sm rounded-full px-3 py-1 flex items-center shadow-sm">
-                        <Star className="w-4 h-4 text-yellow-500 fill-current mr-1" />
-                        <span className="text-sm font-semibold text-gray-800">
+                      <div className="absolute top-3 left-3 md:top-4 md:left-4 bg-white/95 backdrop-blur-sm rounded-full px-2 py-1 md:px-3 md:py-1 flex items-center shadow-sm">
+                        <Star className="w-3 h-3 md:w-4 md:h-4 text-yellow-500 fill-current mr-1" />
+                        <span className="text-xs md:text-sm font-semibold text-gray-800">
                           {course.rating}
                         </span>
                       </div>
@@ -411,52 +260,52 @@ export default function CoursesPage() {
                     </div>
 
                     {/* Content */}
-                    <div className="p-6 flex-1 flex flex-col">
-                      <div className="mb-4 flex-1">
-                        <h3 className="text-2xl font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors duration-300">
+                    <div className="p-4 md:p-6 flex-1 flex flex-col">
+                      <div className="mb-3 md:mb-4 flex-1">
+                        <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-1 md:mb-2 group-hover:text-blue-600 transition-colors duration-300">
                           {course.title}
                         </h3>
-                        <p className="text-gray-600 leading-relaxed mb-4">
+                        <p className="text-sm md:text-base text-gray-600 leading-relaxed mb-3 md:mb-4">
                           {course.description}
                         </p>
                       </div>
 
                       {/* Grade Badge */}
-                      <div className="mb-4">
+                      <div className="mb-3 md:mb-4">
                         <span
                           className={`inline-block bg-gradient-to-r ${
                             colorMap[course.color]
-                          } text-white text-sm font-semibold px-3 py-1 rounded-full`}
+                          } text-white text-xs md:text-sm font-semibold px-2 py-1 md:px-3 md:py-1 rounded-full`}
                         >
                           {course.grade}
                         </span>
                       </div>
 
                       {/* Course Stats */}
-                      <div className="space-y-3 mb-6">
-                        <div className="flex items-center text-sm text-gray-500">
-                          <Users className="w-4 h-4 mr-2" />
-                          <span>{course.students} students enrolled</span>
+                      <div className="space-y-2 md:space-y-3 mb-4 md:mb-6">
+                        <div className="flex items-center text-xs md:text-sm text-gray-500">
+                          <Users className="w-3 h-3 md:w-4 md:h-4 mr-1 md:mr-2" />
+                          <span>{course.students} students</span>
                         </div>
-                        <div className="flex items-center text-sm text-gray-500">
-                          <Clock className="w-4 h-4 mr-2" />
+                        <div className="flex items-center text-xs md:text-sm text-gray-500">
+                          <Clock className="w-3 h-3 md:w-4 md:h-4 mr-1 md:mr-2" />
                           <span>{course.duration}</span>
                         </div>
                       </div>
 
                       {/* Features List */}
-                      <div className="mb-6">
-                        <h4 className="font-semibold text-gray-900 mb-3 flex items-center">
-                          <Zap className="w-4 h-4 mr-2 text-yellow-500" />
+                      <div className="mb-4 md:mb-6">
+                        <h4 className="font-semibold text-gray-900 mb-2 md:mb-3 flex items-center text-sm md:text-base">
+                          <Zap className="w-3 h-3 md:w-4 md:h-4 mr-1 md:mr-2 text-yellow-500" />
                           Key Features:
                         </h4>
-                        <ul className="space-y-2">
+                        <ul className="space-y-1 md:space-y-2">
                           {course.features.map((feature, idx) => (
                             <li
                               key={idx}
-                              className="flex items-center text-sm text-gray-600"
+                              className="flex items-center text-xs md:text-sm text-gray-600"
                             >
-                              <div className="w-1.5 h-1.5 bg-blue-500 rounded-full mr-2"></div>
+                              <div className="w-1.5 h-1.5 bg-blue-500 rounded-full mr-1 md:mr-2"></div>
                               {feature}
                             </li>
                           ))}
@@ -469,14 +318,14 @@ export default function CoursesPage() {
                         whileTap={{ scale: 0.98 }}
                         className={`mt-auto bg-gradient-to-r ${
                           colorMap[course.color]
-                        } text-white font-semibold py-3 px-6 rounded-lg hover:shadow-lg transition-all duration-300 flex items-center justify-center group/btn`}
+                        } text-white font-semibold py-2 md:py-3 px-4 md:px-6 rounded-lg md:rounded-lg hover:shadow-lg transition-all duration-300 flex items-center justify-center group/btn text-sm md:text-base`}
                       >
                         <span>Explore Course</span>
                         <motion.div
                           animate={{ x: hoveredCourse === course.id ? 5 : 0 }}
                           transition={{ duration: 0.2 }}
                         >
-                          <ChevronRight className="w-4 h-4 ml-2" />
+                          <ChevronRight className="w-3 h-3 md:w-4 md:h-4 ml-1 md:ml-2" />
                         </motion.div>
                       </motion.button>
                     </div>
@@ -486,7 +335,7 @@ export default function CoursesPage() {
                   <div
                     className={`absolute inset-0 bg-gradient-to-r ${
                       colorMap[course.color]
-                    } rounded-2xl opacity-0 group-hover:opacity-20 blur-xl transition-opacity duration-300 -z-10`}
+                    } rounded-xl md:rounded-2xl opacity-0 group-hover:opacity-20 blur-xl transition-opacity duration-300 -z-10`}
                   ></div>
                 </motion.div>
               );
@@ -496,14 +345,14 @@ export default function CoursesPage() {
       </section>
 
       {/* Stats Section */}
-      <section className="py-16 px-6 bg-white/50 backdrop-blur-sm">
+      <section className="py-12 md:py-16 px-4 sm:px-6 bg-white/50 backdrop-blur-sm">
         <div className="max-w-7xl mx-auto">
           <motion.div
-            className="grid grid-cols-2 md:grid-cols-4 gap-8"
+            className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 lg:gap-8"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7 }}
-            viewport={{ once: true }}
+            viewport={{ once: true, margin: "-50px" }}
           >
             {[
               {
@@ -533,18 +382,18 @@ export default function CoursesPage() {
             ].map((stat, index) => (
               <motion.div
                 key={index}
-                className="text-center p-6 bg-white rounded-2xl shadow-lg border border-gray-100"
+                className="text-center p-4 md:p-6 bg-white rounded-xl md:rounded-2xl shadow-lg border border-gray-100"
                 whileHover={{ y: -5, transition: { duration: 0.2 } }}
               >
                 <div
-                  className={`w-16 h-16 bg-${stat.color}-100 rounded-2xl flex items-center justify-center mx-auto mb-4`}
+                  className={`w-12 h-12 md:w-16 md:h-16 bg-${stat.color}-100 rounded-xl md:rounded-2xl flex items-center justify-center mx-auto mb-3 md:mb-4`}
                 >
-                  <stat.icon className={`w-8 h-8 text-${stat.color}-600`} />
+                  <stat.icon className={`w-6 h-6 md:w-8 md:h-8 text-${stat.color}-600`} />
                 </div>
-                <h3 className="text-3xl font-bold text-gray-900 mb-2">
+                <h3 className="text-xl md:text-2xl lg:text-3xl font-bold text-gray-900 mb-1 md:mb-2">
                   {stat.value}
                 </h3>
-                <p className="text-gray-600">{stat.label}</p>
+                <p className="text-xs md:text-sm text-gray-600">{stat.label}</p>
               </motion.div>
             ))}
           </motion.div>
@@ -552,32 +401,32 @@ export default function CoursesPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 px-6 relative">
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600 skew-y-3"></div>
+      <section className="py-12 md:py-16 lg:py-20 px-4 sm:px-6 relative">
+        <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600 skew-y-2 md:skew-y-3"></div>
         <div className="max-w-4xl mx-auto text-center relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7 }}
-            viewport={{ once: true }}
+            viewport={{ once: true, margin: "-50px" }}
           >
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
+            <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white mb-4 md:mb-6">
               Ready to Start Your Learning Journey?
             </h2>
-            <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
+            <p className="text-lg md:text-xl text-blue-100 mb-6 md:mb-8 max-w-2xl mx-auto px-2">
               Join thousands of students who have achieved academic excellence
               with our interactive courses
             </p>
 
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-              <button className="bg-white text-blue-600 font-semibold px-8 py-4 rounded-lg hover:bg-gray-50 transition-all duration-300 shadow-2xl flex items-center justify-center mx-auto">
+              <button className="bg-white text-blue-600 font-semibold px-6 py-3 md:px-8 md:py-4 rounded-lg hover:bg-gray-50 transition-all duration-300 shadow-2xl flex items-center justify-center mx-auto text-sm md:text-base">
                 <span>Enroll Now</span>
-                <ChevronRight className="w-5 h-5 ml-2" />
+                <ChevronRight className="w-4 h-4 md:w-5 md:h-5 ml-2" />
               </button>
             </motion.div>
 
             <motion.p
-              className="text-blue-200 mt-6 text-sm"
+              className="text-blue-200 mt-4 md:mt-6 text-xs md:text-sm"
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               transition={{ delay: 0.3 }}
