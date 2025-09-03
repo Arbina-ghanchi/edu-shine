@@ -19,6 +19,8 @@ import { DashboardHeader } from "@/components/common/dahboard/Header";
 import { EmptyState } from "@/components/common/dahboard/Emptystate";
 import { FeeManagement } from "@/components/common/dahboard/FeeComponent";
 import { ReviewManagement } from "@/components/common/dahboard/Review";
+import { GradeManagement } from "@/components/common/dahboard/GradeManagemnt";
+import { AssignmentManagement } from "@/components/common/dahboard/Assignment";
 
 const ParentDashboard = () => {
   const [selectedStudent, setSelectedStudent] = useState("Emma Wilson");
@@ -139,6 +141,12 @@ const ParentDashboard = () => {
         ) : 
         activeTab === "Reviews" ? (
           <ReviewManagement />
+        ) : 
+        activeTab === "Grades" ? (
+          <GradeManagement />
+        ) : 
+        activeTab === "Assignments" ? (
+          <AssignmentManagement />
         ) : (
           <>
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">

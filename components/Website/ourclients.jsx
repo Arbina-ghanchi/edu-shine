@@ -147,21 +147,6 @@ export default function CoursesPage() {
   const englishLetters = [
     "A",
     "B",
-    "C",
-    "D",
-    "E",
-    "F",
-    "G",
-    "H",
-    "I",
-    "J",
-    "K",
-  
-    "W",
-    "X",
-    "Y",
-    "Z",
-    "!",
     "?",
     ".",
     ",",
@@ -172,20 +157,6 @@ export default function CoursesPage() {
     "À",
     "Â",
     "Æ",
-    "Ç",
-    "É",
-    "È",
-    "Ê",
-    "Ë",
-    "Î",
-    "Ï",
-    "Ô",
-    "Œ",
-    "Ù",
-    "Û",
-    "Ü",
-    "Ÿ",
-  
     "œ",
     "ù",
     "û",
@@ -199,19 +170,7 @@ export default function CoursesPage() {
     "CO₂",
     "O₂",
     "NaCl",
-    "°C",
-    "°F",
-    "μ",
-    "λ",
-    "Ω",
-    "Ω",
-    "Å",
-    "♻",
-    "⚗",
-    "🧪",
-    "🔬",
-    "🧬",
-    "⚛",
+  
   ];
 
   return (
@@ -347,9 +306,8 @@ export default function CoursesPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.2 }}
             >
-              Explore Our Courses
+              Explore Our Course 
             </motion.h1>
-
             <motion.p
               className="text-xl md:text-2xl text-gray-600 max-w-4xl mx-auto leading-relaxed"
               initial={{ opacity: 0, y: 20 }}

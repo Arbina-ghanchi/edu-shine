@@ -99,13 +99,17 @@ const Page = () => {
       const result = await authService.signin(credentials);
 
       if (result.success) {
-        console.log("Login successful:", result.data);
+        const user = result.data.data.user;
+        const token = result.data.data.token;
 
-        // Store user data and token using context
-        login(result.data.data.user, result.data.data.token);
+        login(user, token);
 
-        // Redirect to dashboard
-        router.push("/dashboard");
+        // role-based redirect
+        if (user.role === "teacher") {
+          router.push("/teacher-dashboard");
+        } else {
+          router.push("/dashboard");
+        }
       } else {
         setError(
           result.error.message || "Login failed. Please check your credentials."

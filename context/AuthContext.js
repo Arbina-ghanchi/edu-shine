@@ -1,5 +1,6 @@
 "use client";
 import { createContext, useContext, useState, useEffect } from "react";
+import { useRouter } from "next/navigation"; // ✅ add router
 import Cookies from "js-cookie";
 
 const AuthContext = createContext();
@@ -16,6 +17,7 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [token, setToken] = useState(null);
+  const router = useRouter();
 
   useEffect(() => {
     // Check for existing auth data on app load
@@ -23,8 +25,16 @@ export const AuthProvider = ({ children }) => {
     const savedUser = Cookies.get("user");
 
     if (savedToken && savedUser) {
+      const parsedUser = JSON.parse(savedUser);
       setToken(savedToken);
-      setUser(JSON.parse(savedUser));
+      setUser(parsedUser);
+
+      // 🔥 auto-redirect on app load based on role
+      if (parsedUser?.role === "teacher") {
+        router.push("/teacher-dashboard");
+      } else {
+        router.push("/dashboard");
+      }
     }
     setLoading(false);
   }, []);
@@ -36,6 +46,13 @@ export const AuthProvider = ({ children }) => {
 
     setUser(userData);
     setToken(authToken);
+
+    // 🔥 redirect immediately after login
+    if (userData?.role === "teacher") {
+      router.push("/teacher-dashboard");
+    } else {
+      router.push("/dashboard");
+    }
   };
 
   const logout = () => {
@@ -43,6 +60,7 @@ export const AuthProvider = ({ children }) => {
     Cookies.remove("user");
     setUser(null);
     setToken(null);
+    router.push("/");
   };
 
   const value = {
