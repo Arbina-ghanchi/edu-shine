@@ -1,0 +1,42 @@
+export const students = [
+  {
+    id: 1,
+    name: "John Doe",
+    grade: "A",
+    attendance: 95,
+    lastActive: "2 hours ago",
+    email: "john.doe@student.edu",
+  },
+  {
+    id: 2,
+    name: "Jane Smith",
+    grade: "B+",
+    attendance: 88,
+    lastActive: "1 day ago",
+    email: "jane.smith@student.edu",
+  },
+  {
+    id: 3,
+    name: "Mike Johnson",
+    grade: "A-",
+    attendance: 92,
+    lastActive: "3 hours ago",
+    email: "mike.johnson@student.edu",
+  },
+  {
+    id: 4,
+    name: "Sarah Wilson",
+    grade: "B",
+    attendance: 85,
+    lastActive: "5 hours ago",
+    email: "sarah.wilson@student.edu",
+  },
+  {
+    id: 5,
+    name: "Alex Brown",
+    grade: "A",
+    attendance: 97,
+    lastActive: "1 hour ago",
+    email: "alex.brown@student.edu",
+  },
+];

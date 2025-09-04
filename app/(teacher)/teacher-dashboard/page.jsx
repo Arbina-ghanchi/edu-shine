@@ -20,14 +20,19 @@ import {
   Download,
   Menu,
   X,
-  Eye,
   Edit,
   Trash2,
   Send,
-  CheckCircle,
-  AlertCircle,
-  User
+  User,
 } from "lucide-react";
+import Cookies from "js-cookie";
+import { useRouter } from "next/navigation";
+import { recentActivities } from "./recetnActivites";
+import { upcomingEvents } from "./upcoming";
+import { classSchedule } from "./classSchedule";
+import { students } from "./student";
+import { assignments } from "./assignment";
+import { messages } from "./message";
 
 const TeacherDashboard = () => {
   const [activeTab, setActiveTab] = useState("overview");
@@ -35,7 +40,7 @@ const TeacherDashboard = () => {
   const [showProfile, setShowProfile] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-
+  const router = useRouter();
   // Check if mobile on mount and resize
   useEffect(() => {
     const checkMobile = () => {
@@ -44,10 +49,10 @@ const TeacherDashboard = () => {
         setSidebarOpen(false);
       }
     };
-    
+
     checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
   // Mock user data
@@ -55,215 +60,49 @@ const TeacherDashboard = () => {
     name: "Dr. Sarah Johnson",
     email: "sarah.johnson@school.edu",
     role: "teacher",
-    avatar: null
+    avatar: null,
   };
 
   const logout = () => {
-    console.log("Logout clicked");
+    Cookies.remove("token");
+    Cookies.remove("user");
+    router.push("/");
   };
 
   // Sample data
   const classes = [
     "Mathematics - Grade 10A",
-    "Physics - Grade 11B", 
+    "Physics - Grade 11B",
     "Chemistry - Grade 12A",
-  ];
-
-  const recentActivities = [
-    {
-      id: 1,
-      type: "assignment",
-      title: "Algebra Quiz submitted by John Doe",
-      time: "2 hours ago",
-    },
-    {
-      id: 2,
-      type: "grade",
-      title: "Graded Chemistry Lab Report",
-      time: "4 hours ago",
-    },
-    {
-      id: 3,
-      type: "message",
-      title: "Parent meeting request from Sarah's mother",
-      time: "1 day ago",
-    },
-    {
-      id: 4,
-      type: "announcement",
-      title: "New curriculum guidelines available",
-      time: "2 days ago",
-    },
-  ];
-
-  const upcomingEvents = [
-    {
-      id: 1,
-      title: "Parent-Teacher Conference",
-      date: "Aug 25",
-      time: "2:00 PM",
-    },
-    { 
-      id: 2, 
-      title: "Math Quiz - Grade 10A", 
-      date: "Aug 27", 
-      time: "10:00 AM" 
-    },
-    { 
-      id: 3, 
-      title: "Faculty Meeting", 
-      date: "Aug 30", 
-      time: "3:30 PM" 
-    },
-  ];
-
-  const students = [
-    {
-      id: 1,
-      name: "John Doe",
-      grade: "A",
-      attendance: 95,
-      lastActive: "2 hours ago",
-      email: "john.doe@student.edu",
-    },
-    {
-      id: 2,
-      name: "Jane Smith",
-      grade: "B+",
-      attendance: 88,
-      lastActive: "1 day ago",
-      email: "jane.smith@student.edu",
-    },
-    {
-      id: 3,
-      name: "Mike Johnson",
-      grade: "A-",
-      attendance: 92,
-      lastActive: "3 hours ago",
-      email: "mike.johnson@student.edu",
-    },
-    {
-      id: 4,
-      name: "Sarah Wilson",
-      grade: "B",
-      attendance: 85,
-      lastActive: "5 hours ago",
-      email: "sarah.wilson@student.edu",
-    },
-    {
-      id: 5,
-      name: "Alex Brown",
-      grade: "A",
-      attendance: 97,
-      lastActive: "1 hour ago",
-      email: "alex.brown@student.edu",
-    },
-  ];
-
-  const assignments = [
-    {
-      id: 1,
-      title: "Quadratic Equations Worksheet",
-      dueDate: "Aug 25",
-      submitted: 24,
-      total: 30,
-      status: "active",
-      description: "Complete exercises 1-20 from Chapter 5",
-    },
-    {
-      id: 2,
-      title: "Trigonometry Project",
-      dueDate: "Aug 30",
-      submitted: 15,
-      total: 30,
-      status: "active",
-      description: "Create a presentation on real-world trigonometry applications",
-    },
-    {
-      id: 3,
-      title: "Linear Algebra Quiz",
-      dueDate: "Aug 22",
-      submitted: 30,
-      total: 30,
-      status: "completed",
-      description: "Online quiz covering matrix operations",
-    },
-  ];
-
-  const messages = [
-    {
-      id: 1,
-      from: "John Smith (Parent)",
-      subject: "Question about homework",
-      time: "2 hours ago",
-      unread: true,
-    },
-    {
-      id: 2,
-      from: "Principal Davis",
-      subject: "Faculty meeting next week",
-      time: "1 day ago",
-      unread: false,
-    },
-    {
-      id: 3,
-      from: "Emily Johnson (Student)",
-      subject: "Assignment extension request",
-      time: "2 days ago",
-      unread: true,
-    },
-  ];
-
-  const classSchedule = [
-    {
-      id: 1,
-      subject: "Mathematics",
-      grade: "Grade 10A",
-      time: "08:00 - 09:30",
-      room: "Room 101",
-      day: "Monday",
-    },
-    {
-      id: 2,
-      subject: "Physics",
-      grade: "Grade 11B",
-      time: "10:00 - 11:30",
-      room: "Room 205",
-      day: "Monday",
-    },
-    {
-      id: 3,
-      subject: "Chemistry",
-      grade: "Grade 12A",
-      time: "13:00 - 14:30",
-      room: "Lab 1",
-      day: "Monday",
-    },
   ];
 
   const renderSidebar = () => (
     <>
       {/* Mobile overlay */}
       {isMobile && sidebarOpen && (
-        <div 
+        <div
           className="fixed inset-0 bg-black bg-opacity-50 z-40 md:hidden"
           onClick={() => setSidebarOpen(false)}
         />
       )}
-      
+
       {/* Sidebar */}
-      <div className={`
-        ${isMobile ? 'fixed' : 'fixed'} 
-        ${isMobile && !sidebarOpen ? '-translate-x-full' : 'translate-x-0'}
+      <div
+        className={`
+        ${isMobile ? "fixed" : "fixed"} 
+        ${isMobile && !sidebarOpen ? "-translate-x-full" : "translate-x-0"}
         w-64 bg-slate-900 text-white h-screen left-0 top-0 overflow-y-auto z-50 transition-transform duration-300 ease-in-out
-      `}>
+      `}
+      >
         <div className="p-4 md:p-6">
           <div className="flex items-center justify-between mb-8">
             <div className="flex items-center space-x-3">
               <GraduationCap className="w-6 h-6 md:w-8 md:h-8 text-blue-400" />
               <div>
                 <h1 className="text-lg md:text-xl font-bold">EduDash</h1>
-                <p className="text-xs md:text-sm text-slate-400">Teacher Portal</p>
+                <p className="text-xs md:text-sm text-slate-400">
+                  Teacher Portal
+                </p>
               </div>
             </div>
             {isMobile && (
@@ -323,7 +162,7 @@ const TeacherDashboard = () => {
           <h2 className="text-xl md:text-2xl font-bold text-slate-800 capitalize">
             {activeTab}
           </h2>
-          {activeTab !== 'settings' && activeTab !== 'calendar' && (
+          {activeTab !== "settings" && activeTab !== "calendar" && (
             <div className="relative hidden sm:block">
               <select
                 value={selectedClass}
@@ -350,11 +189,11 @@ const TeacherDashboard = () => {
               className="pl-9 pr-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
             />
           </div>
-          
+
           <button className="md:hidden p-2 text-slate-600 hover:text-slate-800">
             <Search className="w-5 h-5" />
           </button>
-          
+
           <button className="relative p-2 text-slate-600 hover:text-slate-800">
             <Bell className="w-5 h-5 md:w-6 md:h-6" />
             <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-red-500 rounded-full"></span>
@@ -401,9 +240,9 @@ const TeacherDashboard = () => {
           </div>
         </div>
       </div>
-      
+
       {/* Mobile class selector */}
-      {activeTab !== 'settings' && activeTab !== 'calendar' && (
+      {activeTab !== "settings" && activeTab !== "calendar" && (
         <div className="mt-4 sm:hidden">
           <select
             value={selectedClass}
@@ -461,33 +300,48 @@ const TeacherDashboard = () => {
           >
             <div className="flex items-center justify-between">
               <div className="flex-1">
-                <p className="text-slate-600 text-xs md:text-sm">{stat.title}</p>
+                <p className="text-slate-600 text-xs md:text-sm">
+                  {stat.title}
+                </p>
                 <p className="text-xl md:text-2xl font-bold text-slate-800 mt-1">
                   {stat.value}
                 </p>
-                <p className={`text-xs md:text-sm mt-2 font-medium ${
-                  stat.color === 'blue' ? 'text-blue-600' :
-                  stat.color === 'green' ? 'text-green-600' :
-                  stat.color === 'yellow' ? 'text-yellow-600' :
-                  'text-purple-600'
-                }`}>
+                <p
+                  className={`text-xs md:text-sm mt-2 font-medium ${
+                    stat.color === "blue"
+                      ? "text-blue-600"
+                      : stat.color === "green"
+                      ? "text-green-600"
+                      : stat.color === "yellow"
+                      ? "text-yellow-600"
+                      : "text-purple-600"
+                  }`}
+                >
                   {stat.change} from last month
                 </p>
               </div>
               <div
                 className={`w-10 h-10 md:w-12 md:h-12 rounded-lg flex items-center justify-center flex-shrink-0 ${
-                  stat.color === 'blue' ? 'bg-blue-100' :
-                  stat.color === 'green' ? 'bg-green-100' :
-                  stat.color === 'yellow' ? 'bg-yellow-100' :
-                  'bg-purple-100'
+                  stat.color === "blue"
+                    ? "bg-blue-100"
+                    : stat.color === "green"
+                    ? "bg-green-100"
+                    : stat.color === "yellow"
+                    ? "bg-yellow-100"
+                    : "bg-purple-100"
                 }`}
               >
-                <stat.icon className={`w-5 h-5 md:w-6 md:h-6 ${
-                  stat.color === 'blue' ? 'text-blue-600' :
-                  stat.color === 'green' ? 'text-green-600' :
-                  stat.color === 'yellow' ? 'text-yellow-600' :
-                  'text-purple-600'
-                }`} />
+                <stat.icon
+                  className={`w-5 h-5 md:w-6 md:h-6 ${
+                    stat.color === "blue"
+                      ? "text-blue-600"
+                      : stat.color === "green"
+                      ? "text-green-600"
+                      : stat.color === "yellow"
+                      ? "text-yellow-600"
+                      : "text-purple-600"
+                  }`}
+                />
               </div>
             </div>
           </div>
@@ -703,7 +557,9 @@ const TeacherDashboard = () => {
               </span>
             </div>
 
-            <p className="text-slate-600 text-sm mb-4">{assignment.description}</p>
+            <p className="text-slate-600 text-sm mb-4">
+              {assignment.description}
+            </p>
 
             <div className="space-y-3">
               <div className="flex items-center justify-between text-sm">
@@ -771,10 +627,10 @@ const TeacherDashboard = () => {
               <div className="flex items-start justify-between mb-4">
                 <div>
                   <h3 className="font-semibold text-slate-800 text-lg">
-                    {scheduleItem.subject || classItem.split(' - ')[0]}
+                    {scheduleItem.subject || classItem.split(" - ")[0]}
                   </h3>
                   <p className="text-slate-600 text-sm">
-                    {scheduleItem.grade || classItem.split(' - ')[1]}
+                    {scheduleItem.grade || classItem.split(" - ")[1]}
                   </p>
                 </div>
                 <BookOpen className="w-6 h-6 text-blue-600" />
@@ -783,12 +639,16 @@ const TeacherDashboard = () => {
               <div className="space-y-3">
                 <div className="flex items-center justify-between text-sm">
                   <span className="text-slate-600">Time:</span>
-                  <span className="font-medium">{scheduleItem.time || "TBD"}</span>
+                  <span className="font-medium">
+                    {scheduleItem.time || "TBD"}
+                  </span>
                 </div>
 
                 <div className="flex items-center justify-between text-sm">
                   <span className="text-slate-600">Room:</span>
-                  <span className="font-medium">{scheduleItem.room || "TBD"}</span>
+                  <span className="font-medium">
+                    {scheduleItem.room || "TBD"}
+                  </span>
                 </div>
 
                 <div className="flex items-center justify-between text-sm">
@@ -824,7 +684,9 @@ const TeacherDashboard = () => {
         <div className="lg:col-span-2">
           <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
             <div className="flex items-center justify-between mb-6">
-              <h3 className="text-lg font-semibold text-slate-800">August 2024</h3>
+              <h3 className="text-lg font-semibold text-slate-800">
+                August 2024
+              </h3>
               <div className="flex items-center space-x-2">
                 <button className="p-2 hover:bg-slate-100 rounded-lg">
                   <ChevronDown className="w-4 h-4 rotate-90" />
@@ -834,21 +696,24 @@ const TeacherDashboard = () => {
                 </button>
               </div>
             </div>
-            
+
             {/* Calendar Grid */}
             <div className="grid grid-cols-7 gap-1 mb-4">
-              {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((day) => (
-                <div key={day} className="p-3 text-center text-sm font-medium text-slate-600">
+              {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day) => (
+                <div
+                  key={day}
+                  className="p-3 text-center text-sm font-medium text-slate-600"
+                >
                   {day}
                 </div>
               ))}
-              
+
               {/* Calendar days - simplified for demo */}
               {Array.from({ length: 35 }, (_, i) => {
                 const dayNum = i - 4; // Adjust for month start
                 const isCurrentMonth = dayNum > 0 && dayNum <= 31;
                 const hasEvent = [15, 22, 25, 30].includes(dayNum);
-                
+
                 return (
                   <div
                     key={i}
@@ -860,7 +725,7 @@ const TeacherDashboard = () => {
                         : "text-slate-300"
                     }`}
                   >
-                    {isCurrentMonth ? dayNum : ''}
+                    {isCurrentMonth ? dayNum : ""}
                     {hasEvent && (
                       <div className="w-2 h-2 bg-blue-600 rounded-full mx-auto mt-1"></div>
                     )}
@@ -874,13 +739,20 @@ const TeacherDashboard = () => {
         {/* Upcoming Events Sidebar */}
         <div className="space-y-6">
           <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
-            <h3 className="text-lg font-semibold text-slate-800 mb-4">Today's Schedule</h3>
+            <h3 className="text-lg font-semibold text-slate-800 mb-4">
+              Today's Schedule
+            </h3>
             <div className="space-y-3">
               {classSchedule.map((item) => (
-                <div key={item.id} className="flex items-center space-x-3 p-3 bg-slate-50 rounded-lg">
+                <div
+                  key={item.id}
+                  className="flex items-center space-x-3 p-3 bg-slate-50 rounded-lg"
+                >
                   <div className="w-3 h-3 bg-blue-600 rounded-full flex-shrink-0"></div>
                   <div className="flex-1 min-w-0">
-                    <p className="font-medium text-slate-800 text-sm">{item.subject}</p>
+                    <p className="font-medium text-slate-800 text-sm">
+                      {item.subject}
+                    </p>
                     <p className="text-slate-600 text-xs">{item.time}</p>
                   </div>
                 </div>
@@ -889,7 +761,9 @@ const TeacherDashboard = () => {
           </div>
 
           <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
-            <h3 className="text-lg font-semibold text-slate-800 mb-4">Quick Actions</h3>
+            <h3 className="text-lg font-semibold text-slate-800 mb-4">
+              Quick Actions
+            </h3>
             <div className="space-y-3">
               <button className="w-full flex items-center space-x-2 px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm">
                 <Plus className="w-4 h-4" />
@@ -929,7 +803,7 @@ const TeacherDashboard = () => {
                 <div
                   key={message.id}
                   className={`p-4 md:p-6 hover:bg-slate-50 cursor-pointer ${
-                    message.unread ? 'bg-blue-50' : ''
+                    message.unread ? "bg-blue-50" : ""
                   }`}
                 >
                   <div className="flex items-start space-x-4">
@@ -938,16 +812,24 @@ const TeacherDashboard = () => {
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center justify-between mb-1">
-                        <p className={`font-medium text-sm ${
-                          message.unread ? 'text-slate-900' : 'text-slate-700'
-                        }`}>
+                        <p
+                          className={`font-medium text-sm ${
+                            message.unread ? "text-slate-900" : "text-slate-700"
+                          }`}
+                        >
                           {message.from}
                         </p>
-                        <span className="text-xs text-slate-500">{message.time}</span>
+                        <span className="text-xs text-slate-500">
+                          {message.time}
+                        </span>
                       </div>
-                      <p className={`text-sm ${
-                        message.unread ? 'font-medium text-slate-800' : 'text-slate-600'
-                      }`}>
+                      <p
+                        className={`text-sm ${
+                          message.unread
+                            ? "font-medium text-slate-800"
+                            : "text-slate-600"
+                        }`}
+                      >
                         {message.subject}
                       </p>
                       {message.unread && (
@@ -964,12 +846,14 @@ const TeacherDashboard = () => {
         {/* Message Stats */}
         <div className="space-y-6">
           <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
-            <h3 className="text-lg font-semibold text-slate-800 mb-4">Message Stats</h3>
+            <h3 className="text-lg font-semibold text-slate-800 mb-4">
+              Message Stats
+            </h3>
             <div className="space-y-4">
               <div className="flex items-center justify-between">
                 <span className="text-slate-600 text-sm">Unread</span>
                 <span className="font-semibold text-red-600">
-                  {messages.filter(m => m.unread).length}
+                  {messages.filter((m) => m.unread).length}
                 </span>
               </div>
               <div className="flex items-center justify-between">
@@ -980,7 +864,9 @@ const TeacherDashboard = () => {
           </div>
 
           <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
-            <h3 className="text-lg font-semibold text-slate-800 mb-4">Quick Filters</h3>
+            <h3 className="text-lg font-semibold text-slate-800 mb-4">
+              Quick Filters
+            </h3>
             <div className="space-y-2">
               <button className="w-full text-left px-3 py-2 text-sm text-slate-700 hover:bg-slate-100 rounded-lg">
                 All Messages
@@ -1007,7 +893,9 @@ const TeacherDashboard = () => {
         {/* Profile Settings */}
         <div className="lg:col-span-2 space-y-6">
           <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
-            <h3 className="text-lg font-semibold text-slate-800 mb-6">Profile Information</h3>
+            <h3 className="text-lg font-semibold text-slate-800 mb-6">
+              Profile Information
+            </h3>
             <div className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-2">
@@ -1046,18 +934,24 @@ const TeacherDashboard = () => {
           </div>
 
           <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
-            <h3 className="text-lg font-semibold text-slate-800 mb-6">Notification Preferences</h3>
+            <h3 className="text-lg font-semibold text-slate-800 mb-6">
+              Notification Preferences
+            </h3>
             <div className="space-y-4">
               {[
-                'Email notifications for new assignments',
-                'SMS notifications for urgent messages',
-                'Desktop notifications for calendar events',
-                'Weekly summary reports'
+                "Email notifications for new assignments",
+                "SMS notifications for urgent messages",
+                "Desktop notifications for calendar events",
+                "Weekly summary reports",
               ].map((setting, index) => (
                 <div key={index} className="flex items-center justify-between">
                   <span className="text-sm text-slate-700">{setting}</span>
                   <label className="relative inline-flex items-center cursor-pointer">
-                    <input type="checkbox" className="sr-only peer" defaultChecked={index % 2 === 0} />
+                    <input
+                      type="checkbox"
+                      className="sr-only peer"
+                      defaultChecked={index % 2 === 0}
+                    />
                     <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
                   </label>
                 </div>
@@ -1069,7 +963,9 @@ const TeacherDashboard = () => {
         {/* Settings Actions */}
         <div className="space-y-6">
           <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
-            <h3 className="text-lg font-semibold text-slate-800 mb-4">Account Actions</h3>
+            <h3 className="text-lg font-semibold text-slate-800 mb-4">
+              Account Actions
+            </h3>
             <div className="space-y-3">
               <button className="w-full px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm">
                 Save Changes
@@ -1084,7 +980,9 @@ const TeacherDashboard = () => {
           </div>
 
           <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
-            <h3 className="text-lg font-semibold text-slate-800 mb-4">System Info</h3>
+            <h3 className="text-lg font-semibold text-slate-800 mb-4">
+              System Info
+            </h3>
             <div className="space-y-3 text-sm">
               <div className="flex justify-between">
                 <span className="text-slate-600">Version:</span>
@@ -1127,7 +1025,11 @@ const TeacherDashboard = () => {
   return (
     <div className="min-h-screen bg-slate-50">
       {renderSidebar()}
-      <div className={`${isMobile ? 'ml-0' : 'md:ml-64'} flex flex-col min-h-screen`}>
+      <div
+        className={`${
+          isMobile ? "ml-0" : "md:ml-64"
+        } flex flex-col min-h-screen`}
+      >
         {renderHeader()}
         <main className="flex-1 p-4 md:p-6">{renderContent()}</main>
       </div>

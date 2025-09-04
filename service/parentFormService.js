@@ -35,10 +35,28 @@ api.interceptors.response.use(
 );
 
 export const formService = {
-  // Get all forms by userId 
+  // Get all forms by userId
   getFormsByUserId: async (userId) => {
     try {
       const response = await api.get(`/parentform/my-all-form/${userId}`);
+      return {
+        success: true,
+        data: response.data,
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error: error.response?.data || {
+          message: error.message || "Network error occurred",
+        },
+        status: error.response?.status,
+      };
+    }
+  },
+  // Create a new form
+  createForm: async (formData) => {
+    try {
+      const response = await api.post("/parentform", formData);
       return {
         success: true,
         data: response.data,

@@ -1,9 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import {
-  MessageCircle,
   BookOpen,
-  CheckCircle,
   TrendingUp,
   Calendar,
   DollarSign,
@@ -21,90 +19,28 @@ import { FeeManagement } from "@/components/common/dahboard/FeeComponent";
 import { ReviewManagement } from "@/components/common/dahboard/Review";
 import { GradeManagement } from "@/components/common/dahboard/GradeManagemnt";
 import { AssignmentManagement } from "@/components/common/dahboard/Assignment";
+import { upcomingEvents } from "./upcomingEvent";
+import { stats } from "./statsData";
+import { tabs } from "./tabData";
+import { students } from "./studentData";
+import { useRouter } from "next/navigation";
 
 const ParentDashboard = () => {
   const [selectedStudent, setSelectedStudent] = useState("Emma Wilson");
   const [activeTab, setActiveTab] = useState("Overview");
-
-  const students = [
-    { name: "Emma Wilson", grade: "10th Grade", id: "emma" },
-    { name: "Liam Chen", grade: "11th Grade", id: "liam" },
-    { name: "Sophia Rodriguez", grade: "9th Grade", id: "sophia" },
-  ];
-
-  const tabs = [
-    "Overview",
-    "Grades",
-    "Assignments",
-    "Fees",
-    "Reviews",
-    "Referrals",
-  ];
-
-  const stats = [
-    {
-      icon: <TrendingUp className="w-6 h-6" />,
-      title: "Average Grade",
-      value: "0.0%",
-      subtitle: "This semester",
-      trend: "+2.5%",
-      trendUp: true,
-      bgColor: "bg-blue-50",
-      iconColor: "text-blue-600",
-    },
-    {
-      icon: <BookOpen className="w-6 h-6" />,
-      title: "Assignments",
-      value: "0/0",
-      subtitle: "Completed",
-      trend: null,
-      bgColor: "bg-green-50",
-      iconColor: "text-green-600",
-    },
-    {
-      icon: <CheckCircle className="w-6 h-6" />,
-      title: "Attendance Rate",
-      value: "100.0%",
-      subtitle: "This month",
-      trend: "+1.2%",
-      trendUp: true,
-      bgColor: "bg-emerald-50",
-      iconColor: "text-emerald-600",
-    },
-    {
-      icon: <MessageCircle className="w-6 h-6" />,
-      title: "Messages",
-      value: "3",
-      subtitle: "From teachers",
-      trend: null,
-      bgColor: "bg-purple-50",
-      iconColor: "text-purple-600",
-    },
-  ];
-
-  const upcomingEvents = [
-    {
-      title: "Parent-Teacher Conference",
-      time: "Tomorrow at 3:00 PM",
-      icon: <BookOpen className="w-5 h-5" />,
-      bgColor: "bg-blue-100",
-      iconColor: "text-blue-600",
-      badge: "Tomorrow",
-    },
-    {
-      title: "Science Fair Presentation",
-      time: "Friday at 10:00 AM",
-      icon: <Calendar className="w-5 h-5" />,
-      bgColor: "bg-green-100",
-      iconColor: "text-green-600",
-      badge: "Friday",
-    },
-  ];
+  const router = useRouter();
 
   return (
     <div className="min-h-screen bg-gray-50 p-6">
       <div className="max-w-7xl mx-auto">
         <DashboardHeader />
+        <button
+          className="mb-4 bg-blue-500 text-white px-4 py-2 rounded-md cursor-pointer"
+          onClick={() => router.push("/parent")}
+        >
+          {" "}
+          Add Details parent
+        </button>
 
         <StudentSelector
           students={students}
@@ -138,14 +74,11 @@ const ParentDashboard = () => {
         {/* Main Content Area */}
         {activeTab === "Fees" ? (
           <FeeManagement />
-        ) : 
-        activeTab === "Reviews" ? (
+        ) : activeTab === "Reviews" ? (
           <ReviewManagement />
-        ) : 
-        activeTab === "Grades" ? (
+        ) : activeTab === "Grades" ? (
           <GradeManagement />
-        ) : 
-        activeTab === "Assignments" ? (
+        ) : activeTab === "Assignments" ? (
           <AssignmentManagement />
         ) : (
           <>
