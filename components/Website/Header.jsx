@@ -1,12 +1,33 @@
 import { ChevronDown, BookOpen, Music, Palette, Languages, School, Home, Atom, Heart } from "lucide-react";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 
 export const Header = () => {
-  const [coursesOpen, setCoursesOpen] = useState(false);
-  const [joinUsOpen, setJoinUsOpen] = useState(false);
-  const [activitiesOpen, setActivitiesOpen] = useState(false);
+  const [activeDropdown, setActiveDropdown] = useState(null);
   const router = useRouter();
+  const dropdownRef = useRef(null);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setActiveDropdown(null);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  const toggleDropdown = (dropdownName) => {
+    setActiveDropdown(activeDropdown === dropdownName ? null : dropdownName);
+  };
+
+  const isDropdownOpen = (dropdownName) => {
+    return activeDropdown === dropdownName;
+  };
 
   return (
     <header className="relative z-50 bg-white/90 backdrop-blur-md border-b border-blue-100/50">
@@ -21,17 +42,18 @@ export const Header = () => {
             </span>
           </div>  
 
-          <nav className="hidden md:flex items-center space-x-8">
+          <nav ref={dropdownRef} className="hidden md:flex items-center space-x-8">
+            {/* Boards Dropdown */}
             <div className="relative">
               <button
                 className="flex items-center space-x-1 text-gray-700 hover:text-blue-600 transition-colors"
-                onClick={() => setCoursesOpen(!coursesOpen)}
+                onClick={() => toggleDropdown('boards')}
               >
                 <span>Boards</span>
                 <ChevronDown className="w-4 h-4" />
               </button>
-              {coursesOpen && (
-                <div className="absolute top-full left-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-100 py-2">
+              {isDropdownOpen('boards') && (
+                <div className="absolute top-full left-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-100 py-2 z-10">
                   <a
                     href="#"
                     className="block px-4 py-2 text-gray-700 hover:bg-blue-50"
@@ -60,17 +82,17 @@ export const Header = () => {
               )}
             </div>
 
-            {/* New Curricular Activities Dropdown */}
+            {/* Curricular Activities Dropdown */}
             <div className="relative">
               <button
                 className="flex items-center space-x-1 text-gray-700 hover:text-blue-600 transition-colors"
-                onClick={() => setActivitiesOpen(!activitiesOpen)}
+                onClick={() => toggleDropdown('activities')}
               >
                 <span>Curricular Activities</span>
                 <ChevronDown className="w-4 h-4" />
               </button>
-              {activitiesOpen && (
-                <div className="absolute top-full left-0 mt-2 w-64 bg-white rounded-lg shadow-lg border border-gray-100 py-2 z-50">
+              {isDropdownOpen('activities') && (
+                <div className="absolute top-full left-0 mt-2 w-64 bg-white rounded-lg shadow-lg border border-gray-100 py-2 z-10">
                   <a
                     href="#"
                     className="flex items-center px-4 py-2 text-gray-700 hover:bg-blue-50"
@@ -99,7 +121,6 @@ export const Header = () => {
                     <School className="w-4 h-4 mr-2 text-green-500" />
                     Entrance coaching for Sainik School, Chhatralaya
                   </a>
-                 
                   <a
                     href="#"
                     className="flex items-center px-4 py-2 text-gray-700 hover:bg-blue-50"
@@ -125,16 +146,17 @@ export const Header = () => {
               )}
             </div>
 
+            {/* Join Us Dropdown */}
             <div className="relative">
               <button
                 className="flex items-center space-x-1 text-gray-700 hover:text-blue-600 transition-colors"
-                onClick={() => setJoinUsOpen(!joinUsOpen)}
+                onClick={() => toggleDropdown('joinus')}
               >
                 <span>Join Us</span>
                 <ChevronDown className="w-4 h-4" />
               </button>
-              {joinUsOpen && (
-                <div className="absolute top-full left-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-100 py-2">
+              {isDropdownOpen('joinus') && (
+                <div className="absolute top-full left-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-100 py-2 z-10">
                   <a
                     href="/student"
                     className="block px-4 py-2 text-gray-700 hover:bg-blue-50"

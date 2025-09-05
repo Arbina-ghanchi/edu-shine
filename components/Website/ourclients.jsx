@@ -388,7 +388,9 @@ export default function CoursesPage() {
                 <div
                   className={`w-12 h-12 md:w-16 md:h-16 bg-${stat.color}-100 rounded-xl md:rounded-2xl flex items-center justify-center mx-auto mb-3 md:mb-4`}
                 >
-                  <stat.icon className={`w-6 h-6 md:w-8 md:h-8 text-${stat.color}-600`} />
+                  <stat.icon
+                    className={`w-6 h-6 md:w-8 md:h-8 text-${stat.color}-600`}
+                  />
                 </div>
                 <h3 className="text-xl md:text-2xl lg:text-3xl font-bold text-gray-900 mb-1 md:mb-2">
                   {stat.value}
@@ -411,16 +413,16 @@ export default function CoursesPage() {
             viewport={{ once: true, margin: "-50px" }}
           >
             <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white mb-4 md:mb-6">
-              Ready to Start Your Learning Journey?
+              Become a Tutor Today.{" "}
             </h2>
             <p className="text-lg md:text-xl text-blue-100 mb-6 md:mb-8 max-w-2xl mx-auto px-2">
-              Join thousands of students who have achieved academic excellence
-              with our interactive courses
+              Teach your way. Join thousands of tutors defining the future of
+              education.
             </p>
 
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
               <button className="bg-white text-blue-600 font-semibold px-6 py-3 md:px-8 md:py-4 rounded-lg hover:bg-gray-50 transition-all duration-300 shadow-2xl flex items-center justify-center mx-auto text-sm md:text-base">
-                <span>Enroll Now</span>
+                <span>Apply Now</span>
                 <ChevronRight className="w-4 h-4 md:w-5 md:h-5 ml-2" />
               </button>
             </motion.div>
@@ -432,7 +434,7 @@ export default function CoursesPage() {
               transition={{ delay: 0.3 }}
               viewport={{ once: true }}
             >
-              Free trial available for all new students
+              Set Your Own Schedule{" "}
             </motion.p>
           </motion.div>
         </div>
