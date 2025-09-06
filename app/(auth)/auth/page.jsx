@@ -35,7 +35,7 @@ const Page = () => {
       ...formData,
       [e.target.name]: e.target.value,
     });
-    setError(""); // Clear error when user starts typing
+    setError("");
   };
 
   const handleSignup = async (e) => {

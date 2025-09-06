@@ -227,7 +227,10 @@ const TeacherDashboard = () => {
                 Role: {user?.role || "teacher"}
               </p>
               <hr className="my-3" />
-              <button className="w-full px-4 py-2 text-left text-blue-600 hover:bg-blue-50 rounded-lg font-medium mb-2">
+              <button
+                onClick={() => router.push("/profile")}
+                className="w-full px-4 py-2 text-left text-blue-600 hover:bg-blue-50 rounded-lg font-medium mb-2"
+              >
                 View Profile
               </button>
               <button

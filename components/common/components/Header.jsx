@@ -57,7 +57,12 @@ const Header = () => {
               />
             </svg>
           </div>
-          <span className="app-name">EduShine</span>
+          <span
+            className="app-name cursor-pointer"
+            onClick={() => router.push("/dashboard")}
+          >
+            EduShine
+          </span>
         </div>
 
         {isAuthenticated && (
@@ -83,7 +88,7 @@ const Header = () => {
               <div
                 className="dropdown-menu"
                 onMouseLeave={() => setIsDropdownOpen(false)}
-                onClick={(e) => router.push("/")}
+                onClick={(e) => router.push("/profile")}
               >
                 <div className="dropdown-item">
                   <svg

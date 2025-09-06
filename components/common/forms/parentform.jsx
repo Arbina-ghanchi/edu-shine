@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ProgressBar from "./parentformComponent/progressiveBar";
 import ParentInfo from "./parentformComponent/ParentInfo";
 import StudentInfo from "./parentformComponent/StudentInfo";
@@ -7,38 +7,9 @@ import AcademicRequirements from "./parentformComponent/AcademicRequirements";
 import TuitionPreferences from "./parentformComponent/TuitionPreferences";
 import TeacherPreferences from "./parentformComponent/TeacherPreferences";
 import Logistics from "./parentformComponent/Logistics";
+import { createForm } from "@/service/parentFormService";
 
 // API service function (you can move this to a separate file if needed)
-const createForm = async (formData) => {
-  try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/parentform`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      }
-    );
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-
-    const data = await response.json();
-    return {
-      success: true,
-      data: data,
-    };
-  } catch (error) {
-    return {
-      success: false,
-      error: error.message || "Network error occurred",
-      status: error.status,
-    };
-  }
-};
 
 export const ParentForm = () => {
   const [formData, setFormData] = useState({
@@ -183,10 +154,10 @@ export const ParentForm = () => {
         // Add userId if available (from authentication)
         const formDataWithUserId = {
           ...formData,
-          userId: "current-user-id", // You'll need to get this from your auth context
+          // You'll need to get this from your auth context
         };
 
-        const result = await createForm(formDataWithUserId);
+        const result = await createForm(formDataWithUserId, token);
 
         if (result.success) {
           console.log("Form submitted successfully:", result.data);

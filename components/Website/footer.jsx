@@ -12,49 +12,65 @@ import {
   Instagram,
   Linkedin,
   Award,
+  MessageCircle,
+  Clock,
 } from "lucide-react";
 
 const Footer = () => {
+  const handleCall = (phoneNumber) => {
+    window.location.href = `tel:${phoneNumber}`;
+  };
+
+  const handleEmail = () => {
+    window.location.href = "mailto:edushinestudyhub2all@gmail.com";
+  };
+
+  const handleWhatsApp = () => {
+    window.open("https://wa.me/917990769647", "_blank");
+  };
+
   return (
-    <footer className="bg-gray-900 text-white pt-12 md:pt-16 pb-6 md:pb-8">
+    <footer className="bg-gradient-to-b from-gray-900 to-gray-800 text-white pt-12 md:pt-16 pb-6 md:pb-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Main Footer Content */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-10">
           {/* About Section */}
-          <div className="sm:col-span-2 lg:col-span-1">
-            <h3 className="text-lg md:text-xl font-bold mb-4 md:mb-6 flex items-center">
-              <BookOpen className="w-5 h-5 md:w-6 md:h-6 mr-2 text-blue-400" />
+          <div className="lg:col-span-1">
+            <h3 className="text-xl font-bold mb-5 flex items-center">
+              <div className="bg-blue-500 p-2 rounded-lg mr-3">
+                <BookOpen className="w-6 h-6 text-white" />
+              </div>
               Edu-Shine
             </h3>
-            <p className="text-gray-400 mb-4 md:mb-6 text-sm md:text-base leading-relaxed">
+            <p className="text-gray-300 mb-5 text-sm leading-relaxed">
               Bridging the gap between students and exceptional educators since
               2015. Our mission is to make quality education accessible to all.
             </p>
-            <div className="flex space-x-4">
+            <div className="flex space-x-3">
               <a
                 href="#"
-                className="text-gray-400 hover:text-white transition-colors"
+                className="bg-gray-800 p-2 rounded-lg text-gray-300 hover:text-white hover:bg-gray-700 transition-all"
                 aria-label="Facebook"
               >
                 <Facebook className="w-5 h-5" />
               </a>
               <a
                 href="#"
-                className="text-gray-400 hover:text-white transition-colors"
+                className="bg-gray-800 p-2 rounded-lg text-gray-300 hover:text-white hover:bg-gray-700 transition-all"
                 aria-label="Twitter"
               >
                 <Twitter className="w-5 h-5" />
               </a>
               <a
                 href="#"
-                className="text-gray-400 hover:text-white transition-colors"
+                className="bg-gray-800 p-2 rounded-lg text-gray-300 hover:text-white hover:bg-gray-700 transition-all"
                 aria-label="Instagram"
               >
                 <Instagram className="w-5 h-5" />
               </a>
               <a
                 href="#"
-                className="text-gray-400 hover:text-white transition-colors"
+                className="bg-gray-800 p-2 rounded-lg text-gray-300 hover:text-white hover:bg-gray-700 transition-all"
                 aria-label="LinkedIn"
               >
                 <Linkedin className="w-5 h-5" />
@@ -64,149 +80,132 @@ const Footer = () => {
 
           {/* Quick Links */}
           <div>
-            <h3 className="text-base md:text-lg font-semibold mb-4 md:mb-6">
+            <h3 className="text-lg font-semibold mb-5 pb-2 border-b border-gray-700">
               Quick Links
             </h3>
-            <ul className="space-y-2 md:space-y-3">
-              <li>
-                <a
-                  href="#"
-                  className="text-gray-400 hover:text-white transition-colors flex items-center text-sm md:text-base"
-                >
-                  <Home className="w-4 h-4 mr-2 flex-shrink-0" />
-                  Home
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className="text-gray-400 hover:text-white transition-colors flex items-center text-sm md:text-base"
-                >
-                  <BookOpen className="w-4 h-4 mr-2 flex-shrink-0" />
-                  Courses
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className="text-gray-400 hover:text-white transition-colors flex items-center text-sm md:text-base"
-                >
-                  <Users className="w-4 h-4 mr-2 flex-shrink-0" />
-                  Our Tutors
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className="text-gray-400 hover:text-white transition-colors flex items-center text-sm md:text-base"
-                >
-                  <Award className="w-4 h-4 mr-2 flex-shrink-0" />
-                  Success Stories
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className="text-gray-400 hover:text-white transition-colors flex items-center text-sm md:text-base"
-                >
-                  <Mail className="w-4 h-4 mr-2 flex-shrink-0" />
-                  Contact Us
-                </a>
-              </li>
+            <ul className="space-y-3">
+              {[
+                { icon: Home, text: "Home" },
+                { icon: BookOpen, text: "Courses" },
+                { icon: Users, text: "Our Tutors" },
+                { icon: Award, text: "Success Stories" },
+                { icon: Mail, text: "Contact Us" },
+              ].map((item, index) => (
+                <li key={index}>
+                  <a
+                    href="#"
+                    className="text-gray-300 hover:text-blue-400 transition-colors flex items-center text-sm group"
+                  >
+                    <item.icon className="w-4 h-4 mr-3 text-blue-400 group-hover:scale-110 transition-transform" />
+                    {item.text}
+                  </a>
+                </li>
+              ))}
             </ul>
           </div>
 
           {/* Subjects Offered */}
           <div>
-            <h3 className="text-base md:text-lg font-semibold mb-4 md:mb-6">
+            <h3 className="text-lg font-semibold mb-5 pb-2 border-b border-gray-700">
               Subjects Offered
             </h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 md:gap-3">
-              <span className="text-gray-400 hover:text-white transition-colors text-sm md:text-base cursor-pointer">
-                Mathematics
-              </span>
-              <span className="text-gray-400 hover:text-white transition-colors text-sm md:text-base cursor-pointer">
-                Physics
-              </span>
-              <span className="text-gray-400 hover:text-white transition-colors text-sm md:text-base cursor-pointer">
-                Chemistry
-              </span>
-              <span className="text-gray-400 hover:text-white transition-colors text-sm md:text-base cursor-pointer">
-                Biology
-              </span>
-              <span className="text-gray-400 hover:text-white transition-colors text-sm md:text-base cursor-pointer">
-                English
-              </span>
-              <span className="text-gray-400 hover:text-white transition-colors text-sm md:text-base cursor-pointer">
-                Computer Science
-              </span>
-              <span className="text-gray-400 hover:text-white transition-colors text-sm md:text-base cursor-pointer">
-                Economics
-              </span>
-              <span className="text-gray-400 hover:text-white transition-colors text-sm md:text-base cursor-pointer">
-                Accountancy
-              </span>
+            <div className="grid grid-cols-2 gap-3">
+              {[
+                "Mathematics",
+                "Physics",
+                "Chemistry",
+                "Biology",
+                "English",
+                "Computer Science",
+                "Economics",
+                "Accountancy",
+              ].map((subject, index) => (
+                <span
+                  key={index}
+                  className="text-gray-300 hover:text-white transition-colors text-sm cursor-pointer hover:bg-gray-800 p-2 rounded-lg"
+                >
+                  {subject}
+                </span>
+              ))}
             </div>
           </div>
 
           {/* Contact Info */}
-          <div>
-            <h3 className="text-base md:text-lg font-semibold mb-4 md:mb-6">
+          <div className="md:col-span-2 lg:col-span-1">
+            <h3 className="text-lg font-semibold mb-5 pb-2 border-b border-gray-700">
               Contact Information
             </h3>
-            <div className="space-y-3 md:space-y-4">
-              <div className="flex items-start">
-                <Phone className="w-4 h-4 md:w-5 md:h-5 mt-1 mr-3 text-blue-400 flex-shrink-0" />
+            
+            <div className="space-y-4">
+              <div 
+                className="flex items-start cursor-pointer group" 
+                onClick={() => handleCall("917990769647")}
+              >
+                <div className="bg-blue-500 p-2 rounded-lg mr-3 mt-1 group-hover:bg-blue-600 transition-colors">
+                  <Phone className="w-4 h-4 text-white" />
+                </div>
                 <div>
-                  <p className="text-gray-400 text-xs md:text-sm">Phone</p>
-                  <p className="hover:text-white transition-colors text-sm md:text-base">
-                    +91 98765 43210
+                  <p className="text-gray-400 text-xs">Phone</p>
+                  <p className="text-sm group-hover:text-blue-300 transition-colors">
+                    +91 7990769647
+                    <br />  
+                    +91 9427392612
+                    <br />
+                    +91 8780969747
                   </p>
                 </div>
               </div>
-              <div className="flex items-start">
-                <Mail className="w-4 h-4 md:w-5 md:h-5 mt-1 mr-3 text-blue-400 flex-shrink-0" />
+              
+              <div 
+                className="flex items-start cursor-pointer group" 
+                onClick={handleEmail}
+              >
+                <div className="bg-blue-500 p-2 rounded-lg mr-3 mt-1 group-hover:bg-blue-600 transition-colors">
+                  <Mail className="w-4 h-4 text-white" />
+                </div>
                 <div>
-                  <p className="text-gray-400 text-xs md:text-sm">Email</p>
-                  <p className="hover:text-white transition-colors text-sm md:text-base break-all">
-                    contact@edu-shine.com
+                  <p className="text-gray-400 text-xs">Email</p>
+                  <p className="text-sm group-hover:text-blue-300 transition-colors break-all">
+                    edushinestudyhub2all@gmail.com
                   </p>
                 </div>
               </div>
-              <div className="flex items-start">
-                <MapPin className="w-4 h-4 md:w-5 md:h-5 mt-1 mr-3 text-blue-400 flex-shrink-0" />
+              
+              <div className="flex items-start group">
+                <div className="bg-blue-500 p-2 rounded-lg mr-3 mt-1">
+                  <MapPin className="w-4 h-4 text-white" />
+                </div>
                 <div>
-                  <p className="text-gray-400 text-xs md:text-sm">Address</p>
-                  <p className="hover:text-white transition-colors text-sm md:text-base">
-                    123 Education Street, Learning District, Mumbai 400001
+                  <p className="text-gray-400 text-xs">Address</p>
+                  <p className="text-sm group-hover:text-blue-300 transition-colors">
+                    Divine Galaxy Duplex, 55, near Chanakya Nagari, Kalali, Vadodara, Gujarat 390012
                   </p>
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Newsletter */}
-        <div className="mt-12 md:mt-16 mb-8 md:mb-12">
-          <div className="bg-gray-800 rounded-lg p-6 md:p-8 max-w-4xl mx-auto">
-            <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
-              <div className="text-center lg:text-left">
-                <h3 className="text-lg md:text-xl font-bold mb-2">
-                  Subscribe to Our Newsletter
-                </h3>
-                <p className="text-gray-400 text-sm md:text-base">
-                  Get updates on new courses, teaching tips, and educational
-                  resources
-                </p>
+              
+              <div className="flex items-start group">
+                <div className="bg-blue-500 p-2 rounded-lg mr-3 mt-1">
+                  <Clock className="w-4 h-4 text-white" />
+                </div>
+                <div>
+                  <p className="text-gray-400 text-xs">Operating Hours</p>
+                  <p className="text-sm group-hover:text-blue-300 transition-colors">
+                    Mon-Sat: 9AM - 7PM<br />
+                    Sunday: Closed
+                  </p>
+                </div>
               </div>
-              <div className="flex flex-col sm:flex-row gap-2 lg:gap-0 w-full lg:w-auto">
-                <input
-                  type="email"
-                  placeholder="Your email address"
-                  className="px-4 py-3 rounded-lg sm:rounded-r-none sm:rounded-l-lg w-full sm:w-64 lg:w-72 text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm md:text-base"
-                />
-                <button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg sm:rounded-l-none sm:rounded-r-lg font-medium transition-colors text-sm md:text-base whitespace-nowrap">
-                  Subscribe
+              
+              {/* WhatsApp Community Button */}
+              <div className="pt-4">
+                <button 
+                  onClick={handleWhatsApp}
+                  className="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white px-5 py-3 rounded-xl font-medium transition-all text-sm flex items-center justify-center w-full shadow-lg hover:shadow-green-500/20 hover:scale-[1.02] group"
+                >
+                  <div className="bg-white/20 p-1 rounded-lg mr-3 group-hover:bg-white/30 transition-colors">
+                    <MessageCircle className="w-5 h-5" />
+                  </div>
+                  Join Our WhatsApp Community
                 </button>
               </div>
             </div>
@@ -214,42 +213,21 @@ const Footer = () => {
         </div>
 
         {/* Bottom Bar */}
-        <div className="border-t border-gray-800 pt-6 md:pt-8">
+        <div className="border-t border-gray-700 pt-6 md:pt-8 mt-10">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="text-gray-400 text-center md:text-left text-xs md:text-sm">
+            <p className="text-gray-400 text-center md:text-left text-sm">
               © {new Date().getFullYear()} Edu-Shine. All rights reserved.
             </p>
-            <div className="flex flex-wrap justify-center md:justify-end gap-4 md:gap-6">
-              <a
-                href="#"
-                className="text-gray-400 hover:text-white transition-colors text-xs md:text-sm"
-              >
-                Privacy Policy
-              </a>
-              <a
-                href="#"
-                className="text-gray-400 hover:text-white transition-colors text-xs md:text-sm"
-              >
-                Terms of Service
-              </a>
-              <a
-                href="#"
-                className="text-gray-400 hover:text-white transition-colors text-xs md:text-sm"
-              >
-                FAQ
-              </a>
-              <a
-                href="#"
-                className="text-gray-400 hover:text-white transition-colors text-xs md:text-sm"
-              >
-                About Us
-              </a>
-              <a
-                href="/testimonials"
-                className="text-gray-400 hover:text-white transition-colors text-xs md:text-sm"
-              >
-                Testimonials
-              </a>
+            <div className="flex flex-wrap justify-center md:justify-end gap-5">
+              {["Privacy Policy", "Terms of Service", "FAQ", "About Us", "Testimonials"].map((item, index) => (
+                <a
+                  key={index}
+                  href="#"
+                  className="text-gray-400 hover:text-blue-400 transition-colors text-sm"
+                >
+                  {item}
+                </a>
+              ))}
             </div>
           </div>
         </div>

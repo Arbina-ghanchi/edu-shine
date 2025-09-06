@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   BookOpen,
   TrendingUp,
@@ -24,11 +24,75 @@ import { stats } from "./statsData";
 import { tabs } from "./tabData";
 import { students } from "./studentData";
 import { useRouter } from "next/navigation";
+import { useAuth } from "@/context/AuthContext";
+import { checkMyForm } from "@/service/parentFormService";
 
 const ParentDashboard = () => {
+  const { user, token } = useAuth();
+  const [myForm, setMyForm] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [shouldRedirect, setShouldRedirect] = useState(false);
   const [selectedStudent, setSelectedStudent] = useState("Emma Wilson");
   const [activeTab, setActiveTab] = useState("Overview");
   const router = useRouter();
+
+  useEffect(() => {
+    const fetchMyForm = async () => {
+      setLoading(true);
+      try {
+        const response = await checkMyForm(token);
+
+        // ✅ Handle nested data properly
+        if (
+          !response ||
+          !response.success ||
+          !response.data ||
+          !Array.isArray(response.data.data) ||
+          response.data.data.length === 0
+        ) {
+          console.log("Form not found, redirecting...");
+          router.push("/parent");
+          return;
+        }
+
+        // ✅ Set form data correctly
+        setMyForm(response.data.data);
+      } catch (error) {
+        console.error("Error fetching my form:", error);
+        router.push("/parent"); // fallback redirect
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (token) {
+      fetchMyForm();
+    }
+  }, [token, router]);
+
+  // Separate useEffect for redirect
+  useEffect(() => {
+    if (shouldRedirect) {
+      console.log("Redirecting to /parent...");
+      router.push("/parent");
+    }
+  }, [shouldRedirect, router]);
+
+  // Prevent rendering if redirecting
+  if (shouldRedirect) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-4"></div>
+          <p className="text-gray-600">Redirecting to form...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 p-6">

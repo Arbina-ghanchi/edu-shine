@@ -1,4 +1,14 @@
-import { ChevronDown, BookOpen, Music, Palette, Languages, School, Home, Atom, Heart } from "lucide-react";
+import {
+  ChevronDown,
+  BookOpen,
+  Music,
+  Palette,
+  Languages,
+  School,
+  Home,
+  Atom,
+  Heart,
+} from "lucide-react";
 import { useRouter } from "next/navigation";
 import React, { useState, useRef, useEffect } from "react";
 
@@ -40,19 +50,22 @@ export const Header = () => {
             <span className="text-xl font-bold bg-gradient-to-r from-blue-600 to-blue-700 bg-clip-text text-transparent">
               Edu-Shine
             </span>
-          </div>  
+          </div>
 
-          <nav ref={dropdownRef} className="hidden md:flex items-center space-x-8">
+          <nav
+            ref={dropdownRef}
+            className="hidden md:flex items-center space-x-8"
+          >
             {/* Boards Dropdown */}
             <div className="relative">
               <button
                 className="flex items-center space-x-1 text-gray-700 hover:text-blue-600 transition-colors"
-                onClick={() => toggleDropdown('boards')}
+                onClick={() => toggleDropdown("boards")}
               >
                 <span>Boards</span>
                 <ChevronDown className="w-4 h-4" />
               </button>
-              {isDropdownOpen('boards') && (
+              {isDropdownOpen("boards") && (
                 <div className="absolute top-full left-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-100 py-2 z-10">
                   <a
                     href="#"
@@ -64,7 +77,25 @@ export const Header = () => {
                     href="#"
                     className="block px-4 py-2 text-gray-700 hover:bg-blue-50"
                   >
+                    IB
+                  </a>
+                  <a
+                    href="#"
+                    className="block px-4 py-2 text-gray-700 hover:bg-blue-50"
+                  >
+                    IGCSE
+                  </a>
+                  <a
+                    href="#"
+                    className="block px-4 py-2 text-gray-700 hover:bg-blue-50"
+                  >
                     GSEB
+                  </a>
+                  <a
+                    href="#"
+                    className="block px-4 py-2 text-gray-700 hover:bg-blue-50"
+                  >
+                    ICSE
                   </a>
                   <a
                     href="#"
@@ -76,7 +107,7 @@ export const Header = () => {
                     href="#"
                     className="block px-4 py-2 text-gray-700 hover:bg-blue-50"
                   >
-                    ICSE
+                    OTHER
                   </a>
                 </div>
               )}
@@ -86,12 +117,12 @@ export const Header = () => {
             <div className="relative">
               <button
                 className="flex items-center space-x-1 text-gray-700 hover:text-blue-600 transition-colors"
-                onClick={() => toggleDropdown('activities')}
+                onClick={() => toggleDropdown("activities")}
               >
                 <span>Curricular Activities</span>
                 <ChevronDown className="w-4 h-4" />
               </button>
-              {isDropdownOpen('activities') && (
+              {isDropdownOpen("activities") && (
                 <div className="absolute top-full left-0 mt-2 w-64 bg-white rounded-lg shadow-lg border border-gray-100 py-2 z-10">
                   <a
                     href="#"
@@ -150,12 +181,12 @@ export const Header = () => {
             <div className="relative">
               <button
                 className="flex items-center space-x-1 text-gray-700 hover:text-blue-600 transition-colors"
-                onClick={() => toggleDropdown('joinus')}
+                onClick={() => toggleDropdown("joinus")}
               >
                 <span>Join Us</span>
                 <ChevronDown className="w-4 h-4" />
               </button>
-              {isDropdownOpen('joinus') && (
+              {isDropdownOpen("joinus") && (
                 <div className="absolute top-full left-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-100 py-2 z-10">
                   <a
                     href="/student"
