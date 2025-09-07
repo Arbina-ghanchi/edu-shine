@@ -97,15 +97,8 @@ const ParentDashboard = () => {
   return (
     <div className="min-h-screen bg-gray-50 p-6">
       <div className="max-w-7xl mx-auto">
+        <div className="flex items-center justify-between mb-6"></div>
         <DashboardHeader />
-        <button
-          className="mb-4 bg-blue-500 text-white px-4 py-2 rounded-md cursor-pointer"
-          onClick={() => router.push("/parent")}
-        >
-          {" "}
-          Add Details parent
-        </button>
-
         <StudentSelector
           students={students}
           selectedStudent={selectedStudent}

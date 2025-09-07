@@ -30,10 +30,9 @@ export const createForm = async (formData, token) => {
     };
   }
 };
-
-export const checkParentForm = async (userId) => {
+export const getParentForm = async (token) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/parentform/`, {
+    const response = await fetch(`${API_BASE_URL}/parentform`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

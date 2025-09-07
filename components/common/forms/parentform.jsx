@@ -7,7 +7,7 @@ import AcademicRequirements from "./parentformComponent/AcademicRequirements";
 import TuitionPreferences from "./parentformComponent/TuitionPreferences";
 import TeacherPreferences from "./parentformComponent/TeacherPreferences";
 import Logistics from "./parentformComponent/Logistics";
-import { createForm } from "@/service/parentFormService";
+import { createForm, getParentForm } from "@/service/parentFormService";
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
 
@@ -151,27 +151,17 @@ export const ParentForm = () => {
   const handleSubmit = async () => {
     if (validateStep(currentStep)) {
       setIsSubmitting(true);
-
       try {
-        console.log("📝 Submitting formData:", formData);
-        console.log("🔑 Using token:", token);
-
         const result = await createForm(formData, token);
-
-        console.log("📩 API Raw Response:", result);
-
         if (result.success) {
-          console.log("✅ Form submitted successfully:", result.data);
           alert(
             "Thank you for registering! We will find suitable teachers for your child and contact you soon."
           );
           router.push("/dashboard");
         } else {
-          console.error("❌ Form submission failed:", result.error);
           alert(`Submission failed: ${result.error}`);
         }
       } catch (error) {
-        console.error("💥 Error submitting form:", error);
         alert("An error occurred while submitting the form. Please try again.");
       } finally {
         setIsSubmitting(false);
@@ -180,6 +170,25 @@ export const ParentForm = () => {
       alert("⚠️ Validation failed for step:", currentStep);
     }
   };
+
+  useEffect(() => {
+    const fetchParentForm = async () => {
+      if (!token) return;
+      try {
+        const result = await getParentForm(token);
+        if (result.success && result.data?.data) {
+          setFormData((prev) => ({
+            ...prev,
+            ...result.data.data,
+          }));
+        }
+      } catch (error) {
+        console.error("Error fetching parent form:", error);
+      }
+    };
+
+    fetchParentForm();
+  }, [token]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-white py-12 px-6">
