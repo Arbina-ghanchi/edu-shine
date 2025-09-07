@@ -8,10 +8,12 @@ import TuitionPreferences from "./parentformComponent/TuitionPreferences";
 import TeacherPreferences from "./parentformComponent/TeacherPreferences";
 import Logistics from "./parentformComponent/Logistics";
 import { createForm } from "@/service/parentFormService";
-
-// API service function (you can move this to a separate file if needed)
+import { useAuth } from "@/context/AuthContext";
+import { useRouter } from "next/navigation";
 
 export const ParentForm = () => {
+  const { token } = useAuth();
+  const router = useRouter();
   const [formData, setFormData] = useState({
     // Parent Information
     parentName: "",
@@ -151,32 +153,31 @@ export const ParentForm = () => {
       setIsSubmitting(true);
 
       try {
-        // Add userId if available (from authentication)
-        const formDataWithUserId = {
-          ...formData,
-          // You'll need to get this from your auth context
-        };
+        console.log("📝 Submitting formData:", formData);
+        console.log("🔑 Using token:", token);
 
-        const result = await createForm(formDataWithUserId, token);
+        const result = await createForm(formData, token);
+
+        console.log("📩 API Raw Response:", result);
 
         if (result.success) {
-          console.log("Form submitted successfully:", result.data);
+          console.log("✅ Form submitted successfully:", result.data);
           alert(
             "Thank you for registering! We will find suitable teachers for your child and contact you soon."
           );
-          // Optionally reset form or redirect
-          // setFormData(initialState);
-          // setCurrentStep(1);
+          router.push("/dashboard");
         } else {
-          console.error("Form submission failed:", result.error);
+          console.error("❌ Form submission failed:", result.error);
           alert(`Submission failed: ${result.error}`);
         }
       } catch (error) {
-        console.error("Error submitting form:", error);
+        console.error("💥 Error submitting form:", error);
         alert("An error occurred while submitting the form. Please try again.");
       } finally {
         setIsSubmitting(false);
       }
+    } else {
+      alert("⚠️ Validation failed for step:", currentStep);
     }
   };
 
