@@ -25,16 +25,36 @@ import { tabs } from "./tabData";
 import { students } from "./studentData";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
-import { checkMyForm } from "@/service/parentFormService";
+import { checkMyForm, getMyAllChild } from "@/service/parentFormService";
 
 const ParentDashboard = () => {
   const { user, token } = useAuth();
   const [myForm, setMyForm] = useState(null);
   const [loading, setLoading] = useState(false);
   const [shouldRedirect, setShouldRedirect] = useState(false);
-  const [selectedStudent, setSelectedStudent] = useState("Emma Wilson");
+  const [selectedStudent, setSelectedStudent] = useState(null);
   const [activeTab, setActiveTab] = useState("Overview");
   const router = useRouter();
+  const [studentForm, setStudentForm] = useState(null);
+  console.log(studentForm, "check data");
+  useEffect(() => {
+    const fetchStudentForm = async () => {
+      setLoading(true);
+      try {
+        const response = await getMyAllChild(token);
+
+        setStudentForm(response.data.data);
+      } catch (error) {
+        console.error("Error fetching student form:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (token) {
+      fetchStudentForm();
+    }
+  }, [token, router]);
 
   useEffect(() => {
     const fetchMyForm = async () => {
@@ -98,9 +118,9 @@ const ParentDashboard = () => {
     <div className="min-h-screen bg-gray-50 p-6">
       <div className="max-w-7xl mx-auto">
         <div className="flex items-center justify-between mb-6"></div>
-        <DashboardHeader />
+        <DashboardHeader students={studentForm} />
         <StudentSelector
-          students={students}
+          students={studentForm}
           selectedStudent={selectedStudent}
           setSelectedStudent={setSelectedStudent}
         />

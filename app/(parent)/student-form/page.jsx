@@ -1,27 +1,18 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import ProgressBar from "./parentformComponent/progressiveBar";
-import ParentInfo from "./parentformComponent/ParentInfo";
-import StudentInfo from "./parentformComponent/StudentInfo";
-import AcademicRequirements from "./parentformComponent/AcademicRequirements";
-import TuitionPreferences from "./parentformComponent/TuitionPreferences";
-import TeacherPreferences from "./parentformComponent/TeacherPreferences";
-import Logistics from "./parentformComponent/Logistics";
-import { createForm, getParentForm } from "@/service/parentFormService";
+import AcademicRequirements from "@/components/common/forms/parentformComponent/AcademicRequirements";
+import Logistics from "@/components/common/forms/parentformComponent/Logistics";
+import StudentInfo from "@/components/common/forms/parentformComponent/StudentInfo";
+import TuitionPreferences from "@/components/common/forms/parentformComponent/TuitionPreferences";
+import ProgressBar from "@/components/common/forms/parentformComponent/progressiveBar";
 import { useAuth } from "@/context/AuthContext";
+import { createStudentForm } from "@/service/parentFormService";
 import { useRouter } from "next/navigation";
+import { useState, useEffect } from "react";
 
-export const ParentForm = () => {
+const Page = () => {
   const { token } = useAuth();
   const router = useRouter();
   const [formData, setFormData] = useState({
-    // Parent Information
-    parentName: "",
-    phone: "",
-    alternatePhone: "",
-    address: "",
-    occupation: "",
-
     // Student Information
     studentName: "",
     studentAge: "",
@@ -43,12 +34,6 @@ export const ParentForm = () => {
     sessionDuration: "",
     budgetRange: "",
 
-    // Teacher Preferences
-    teacherGenderPreference: "",
-    teacherExperiencePreference: "",
-    teachingStylePreference: "",
-    languagePreference: "",
-
     // Logistics
     homeAddress: "",
     willingToTravel: "",
@@ -61,7 +46,7 @@ export const ParentForm = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState({});
-  const totalSteps = 6;
+  const totalSteps = 4;
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -85,12 +70,6 @@ export const ParentForm = () => {
 
     switch (step) {
       case 1:
-        if (!formData.parentName)
-          newErrors.parentName = "Parent name is required";
-        if (!formData.phone) newErrors.phone = "Phone number is required";
-        if (!formData.address) newErrors.address = "Address is required";
-        break;
-      case 2:
         if (!formData.studentName)
           newErrors.studentName = "Student name is required";
         if (!formData.studentAge)
@@ -102,7 +81,7 @@ export const ParentForm = () => {
         if (!formData.studentGender)
           newErrors.studentGender = "Student gender is required";
         break;
-      case 3:
+      case 2:
         if (!formData.subjectsNeeded)
           newErrors.subjectsNeeded = "Subjects needed is required";
         if (!formData.currentAcademicLevel)
@@ -110,7 +89,7 @@ export const ParentForm = () => {
         if (!formData.learningGoals)
           newErrors.learningGoals = "Learning goals are required";
         break;
-      case 4:
+      case 3:
         if (!formData.preferredMode)
           newErrors.preferredMode = "Preferred mode is required";
         if (!formData.preferredDays)
@@ -148,7 +127,7 @@ export const ParentForm = () => {
     if (validateStep(currentStep)) {
       setIsSubmitting(true);
       try {
-        const result = await createForm(formData, token);
+        const result = await createStudentForm(formData, token);
         if (result.success) {
           alert(
             "Thank you for registering! We will find suitable teachers for your child and contact you soon."
@@ -198,41 +177,27 @@ export const ParentForm = () => {
 
           <div className="min-h-[600px]">
             {currentStep === 1 && (
-              <ParentInfo
-                formData={formData}
-                handleInputChange={handleInputChange}
-                errors={errors}
-              />
-            )}
-            {currentStep === 2 && (
               <StudentInfo
                 formData={formData}
                 handleInputChange={handleInputChange}
                 errors={errors}
               />
             )}
-            {currentStep === 3 && (
+            {currentStep === 2 && (
               <AcademicRequirements
                 formData={formData}
                 handleInputChange={handleInputChange}
                 errors={errors}
               />
             )}
-            {currentStep === 4 && (
+            {currentStep === 3 && (
               <TuitionPreferences
                 formData={formData}
                 handleInputChange={handleInputChange}
                 errors={errors}
               />
             )}
-            {currentStep === 5 && (
-              <TeacherPreferences
-                formData={formData}
-                handleInputChange={handleInputChange}
-                errors={errors}
-              />
-            )}
-            {currentStep === 6 && (
+            {currentStep === 4 && (
               <Logistics
                 formData={formData}
                 handleInputChange={handleInputChange}
@@ -255,7 +220,7 @@ export const ParentForm = () => {
             </button>
 
             <div className="flex space-x-2">
-              {[1, 2, 3, 4, 5, 6].map((step) => (
+              {[1, 2, 3, 4].map((step) => (
                 <div
                   key={step}
                   className={`w-3 h-3 rounded-full transition-colors ${
@@ -296,4 +261,4 @@ export const ParentForm = () => {
   );
 };
 
-export default ParentForm;
+export default Page;

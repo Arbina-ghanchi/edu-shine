@@ -1,8 +1,8 @@
 "use client";
-import { MessageCircle, Users, Edit } from "lucide-react";
+import { MessageCircle, Users, Edit, Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
 
-export const DashboardHeader = () => {
+export const DashboardHeader = ({ students }) => {
   const router = useRouter();
 
   return (
@@ -18,7 +18,9 @@ export const DashboardHeader = () => {
       <div className="flex items-center gap-4">
         <div className="flex items-center gap-2 bg-blue-100 px-4 py-2 rounded-lg">
           <Users className="w-5 h-5 text-blue-600" />
-          <span className="text-blue-600 font-medium">3 Students</span>
+          <span className="text-blue-600 font-medium">
+            {students?.length} Students
+          </span>
         </div>
         <button
           className="cursor-pointer bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors flex items-center gap-2"
@@ -26,6 +28,13 @@ export const DashboardHeader = () => {
         >
           <Edit className="w-5 h-5" />
           Edit My details
+        </button>
+        <button
+          className="cursor-pointer bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors flex items-center gap-2"
+          onClick={() => router.push("/student-form")}
+        >
+          <Plus className="w-5 h-5" />
+          Add Child
         </button>
         <button className="cursor-pointer bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors flex items-center gap-2">
           <MessageCircle className="w-5 h-5" />

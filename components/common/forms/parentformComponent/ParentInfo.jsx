@@ -30,23 +30,6 @@ const ParentInfo = ({ formData, handleInputChange }) => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              Email Address *
-            </label>
-            <div className="relative">
-              <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
-              <input
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleInputChange}
-                className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                placeholder="your.email@example.com"
-                required
-              />
-            </div>
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
               Phone Number *
             </label>
             <div className="relative">
@@ -61,41 +44,21 @@ const ParentInfo = ({ formData, handleInputChange }) => {
                 required
               />
             </div>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Alternate Phone
-            </label>
-            <div className="relative">
-              <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Occupation
+              </label>
               <input
-                type="tel"
-                name="alternatePhone"
-                value={formData.alternatePhone}
+                type="text"
+                name="occupation"
+                value={formData.occupation}
                 onChange={handleInputChange}
-                className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                placeholder="Alternate number"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                placeholder="Your profession"
               />
             </div>
           </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Occupation
-            </label>
-            <input
-              type="text"
-              name="occupation"
-              value={formData.occupation}
-              onChange={handleInputChange}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              placeholder="Your profession"
-            />
-          </div>
         </div>
-
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Address *

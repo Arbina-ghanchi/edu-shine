@@ -1,50 +1,66 @@
-
 "use client";
-import React, { useState } from 'react';
-import { User, Phone, Mail, MapPin, BookOpen, Calendar, Clock, Users, Award, GraduationCap, DollarSign, Briefcase, Bookmark, Languages, Monitor, Target } from 'lucide-react';
+import React, { useState } from "react";
+import {
+  User,
+  Phone,
+  Mail,
+  MapPin,
+  BookOpen,
+  Calendar,
+  Clock,
+  Users,
+  Award,
+  GraduationCap,
+  DollarSign,
+  Briefcase,
+  Bookmark,
+  Languages,
+  Monitor,
+  Target,
+} from "lucide-react";
 
 export const TeacherForm = () => {
   const [formData, setFormData] = useState({
     // Personal Information
-    fullName: '',
-    email: '',
-    phone: '',
-    alternatePhone: '',
-    address: '',
-    gender: '',
-    dateOfBirth: '',
-    
+    fullName: "",
+    email: "",
+    phone: "",
+    alternatePhone: "",
+    address: "",
+    gender: "",
+    dateOfBirth: "",
+
     // Professional Information
-    highestQualification: '',
-    currentProfession: '',
-    yearsOfExperience: '',
-    teachingCertifications: '',
-    languagesSpoken: '',
-    
+    highestQualification: "",
+    currentProfession: "",
+    yearsOfExperience: "",
+    teachingCertifications: "",
+    languagesSpoken: "",
+
     // Subject Expertise
-    primarySubjects: '',
-    secondarySubjects: '',
-    gradeLevelsTaught: '',
-    curriculumExpertise: '',
-    teachingMethodology: '',
-    
+    primarySubjects: "",
+    secondarySubjects: "",
+    gradeLevelsTaught: "",
+    curriculumExpertise: "",
+    teachingMethodology: "",
+
     // Availability
-    teachingMode: '',
+    teachingMode: "",
     availableDays: [],
-    availableTimeSlots: '',
-    preferredSessionDuration: '',
-    
+    availableTimeSlots: "",
+    preferredSessionDuration: "",
+
     // Tuition Preferences
-    minimumFee: '',
-    preferredPaymentMethod: '',
-    travelRadius: '',
-    onlineTeachingTools: '',
-    
+    minimumFee: "",
+    preferredPaymentMethod: "",
+    travelRadius: "",
+    onlineTeachingTools: "",
+
     // Additional Information
-    bio: '',
-    teachingPhilosophy: '',
-    achievements: '',
-    references: ''
+    bio: "",
+    teachingPhilosophy: "",
+    achievements: "",
+    references: "",
   });
 
   const [currentStep, setCurrentStep] = useState(1);
@@ -52,11 +68,11 @@ export const TeacherForm = () => {
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
-    
-    if (type === 'checkbox') {
+
+    if (type === "checkbox") {
       // Handle checkbox array for availableDays
-      if (name === 'availableDays') {
-        setFormData(prev => {
+      if (name === "availableDays") {
+        setFormData((prev) => {
           const newDays = [...prev.availableDays];
           if (checked) {
             newDays.push(value);
@@ -69,16 +85,18 @@ export const TeacherForm = () => {
           return { ...prev, availableDays: newDays };
         });
       } else {
-        setFormData(prev => ({ ...prev, [name]: checked }));
+        setFormData((prev) => ({ ...prev, [name]: checked }));
       }
     } else {
-      setFormData(prev => ({ ...prev, [name]: value }));
+      setFormData((prev) => ({ ...prev, [name]: value }));
     }
   };
 
   const handleSubmit = () => {
-    console.log('Teacher Form submitted:', formData);
-    alert('Thank you for registering as a tutor! We will review your application and contact you soon.');
+    console.log("Teacher Form submitted:", formData);
+    alert(
+      "Thank you for registering as a tutor! We will review your application and contact you soon."
+    );
   };
 
   const nextStep = () => {
@@ -97,10 +115,12 @@ export const TeacherForm = () => {
     <div className="mb-8">
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-2xl font-bold text-gray-900">Tutor Registration</h2>
-        <span className="text-sm font-medium text-gray-500">Step {currentStep} of {totalSteps}</span>
+        <span className="text-sm font-medium text-gray-500">
+          Step {currentStep} of {totalSteps}
+        </span>
       </div>
       <div className="w-full bg-gray-200 rounded-full h-2">
-        <div 
+        <div
           className="bg-blue-600 h-2 rounded-full transition-all duration-500"
           style={{ width: `${(currentStep / totalSteps) * 100}%` }}
         ></div>
@@ -112,13 +132,17 @@ export const TeacherForm = () => {
     <div className="space-y-6">
       <div className="text-center mb-6">
         <User className="w-12 h-12 text-blue-600 mx-auto mb-4" />
-        <h3 className="text-xl font-semibold text-gray-900">Personal Information</h3>
+        <h3 className="text-xl font-semibold text-gray-900">
+          Personal Information
+        </h3>
         <p className="text-gray-600">Tell us about yourself</p>
       </div>
 
       <div className="space-y-6">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Full Name *</label>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Full Name *
+          </label>
           <input
             type="text"
             name="fullName"
@@ -132,7 +156,9 @@ export const TeacherForm = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Email Address *</label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Email Address *
+            </label>
             <div className="relative">
               <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
               <input
@@ -147,7 +173,9 @@ export const TeacherForm = () => {
             </div>
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Phone Number *</label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Phone Number *
+            </label>
             <div className="relative">
               <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
               <input
@@ -179,7 +207,9 @@ export const TeacherForm = () => {
             </div>
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Gender *</label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Gender *
+            </label>
             <select
               name="gender"
               value={formData.gender}
@@ -198,7 +228,9 @@ export const TeacherForm = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Date of Birth *</label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Date of Birth *
+            </label>
             <input
               type="date"
               name="dateOfBirth"
@@ -209,7 +241,9 @@ export const TeacherForm = () => {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Address *</label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Address *
+            </label>
             <div className="relative">
               <MapPin className="absolute left-3 top-4 w-5 h-5 text-gray-400" />
               <input
@@ -232,13 +266,17 @@ export const TeacherForm = () => {
     <div className="space-y-6">
       <div className="text-center mb-6">
         <GraduationCap className="w-12 h-12 text-blue-600 mx-auto mb-4" />
-        <h3 className="text-xl font-semibold text-gray-900">Professional Information</h3>
+        <h3 className="text-xl font-semibold text-gray-900">
+          Professional Information
+        </h3>
         <p className="text-gray-600">Your qualifications and experience</p>
       </div>
 
       <div className="space-y-6">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Highest Qualification *</label>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Highest Qualification *
+          </label>
           <input
             type="text"
             name="highestQualification"
@@ -252,7 +290,9 @@ export const TeacherForm = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Current Profession *</label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Current Profession *
+            </label>
             <input
               type="text"
               name="currentProfession"
@@ -264,7 +304,9 @@ export const TeacherForm = () => {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Years of Teaching Experience *</label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Years of Teaching Experience *
+            </label>
             <select
               name="yearsOfExperience"
               value={formData.yearsOfExperience}
@@ -283,7 +325,9 @@ export const TeacherForm = () => {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Teaching Certifications (if any)</label>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Teaching Certifications (if any)
+          </label>
           <div className="relative">
             <Award className="absolute left-3 top-4 w-5 h-5 text-gray-400" />
             <textarea
@@ -298,7 +342,9 @@ export const TeacherForm = () => {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Languages You Can Teach In *</label>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Languages You Can Teach In *
+          </label>
           <div className="relative">
             <Languages className="absolute left-3 top-4 w-5 h-5 text-gray-400" />
             <input
@@ -320,13 +366,17 @@ export const TeacherForm = () => {
     <div className="space-y-6">
       <div className="text-center mb-6">
         <BookOpen className="w-12 h-12 text-blue-600 mx-auto mb-4" />
-        <h3 className="text-xl font-semibold text-gray-900">Subject Expertise</h3>
+        <h3 className="text-xl font-semibold text-gray-900">
+          Subject Expertise
+        </h3>
         <p className="text-gray-600">What subjects and levels can you teach?</p>
       </div>
 
       <div className="space-y-6">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Primary Subjects *</label>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Primary Subjects *
+          </label>
           <div className="relative">
             <Bookmark className="absolute left-3 top-4 w-5 h-5 text-gray-400" />
             <textarea
@@ -342,7 +392,9 @@ export const TeacherForm = () => {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Secondary Subjects</label>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Secondary Subjects
+          </label>
           <div className="relative">
             <BookOpen className="absolute left-3 top-4 w-5 h-5 text-gray-400" />
             <textarea
@@ -357,7 +409,9 @@ export const TeacherForm = () => {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Grade Levels You Can Teach *</label>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Grade Levels You Can Teach *
+          </label>
           <select
             name="gradeLevelsTaught"
             value={formData.gradeLevelsTaught}
@@ -369,14 +423,18 @@ export const TeacherForm = () => {
             <option value="Primary (1-5)">Primary (1-5)</option>
             <option value="Middle School (6-8)">Middle School (6-8)</option>
             <option value="High School (9-10)">High School (9-10)</option>
-            <option value="Higher Secondary (11-12)">Higher Secondary (11-12)</option>
+            <option value="Higher Secondary (11-12)">
+              Higher Secondary (11-12)
+            </option>
             <option value="College/University">College/University</option>
             <option value="All Levels">All Levels</option>
           </select>
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Curriculum Expertise *</label>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Curriculum Expertise *
+          </label>
           <select
             name="curriculumExpertise"
             value={formData.curriculumExpertise}
@@ -395,7 +453,9 @@ export const TeacherForm = () => {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Teaching Methodology</label>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Teaching Methodology
+          </label>
           <div className="relative">
             <Target className="absolute left-3 top-4 w-5 h-5 text-gray-400" />
             <textarea
@@ -422,20 +482,24 @@ export const TeacherForm = () => {
 
       <div className="space-y-6">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Preferred Teaching Mode *</label>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Preferred Teaching Mode *
+          </label>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <label className="flex items-center p-4 border border-gray-300 rounded-lg cursor-pointer hover:bg-blue-50">
               <input
                 type="radio"
                 name="teachingMode"
                 value="Home Tuition"
-                checked={formData.teachingMode === 'Home Tuition'}
+                checked={formData.teachingMode === "Home Tuition"}
                 onChange={handleInputChange}
                 className="mr-3 text-blue-600 focus:ring-blue-500"
               />
               <div>
                 <div className="font-medium">Home Tuition</div>
-                <div className="text-sm text-gray-500">Teach at student's home</div>
+                <div className="text-sm text-gray-500">
+                  Teach at student's home
+                </div>
               </div>
             </label>
             <label className="flex items-center p-4 border border-gray-300 rounded-lg cursor-pointer hover:bg-blue-50">
@@ -443,7 +507,7 @@ export const TeacherForm = () => {
                 type="radio"
                 name="teachingMode"
                 value="Online Classes"
-                checked={formData.teachingMode === 'Online Classes'}
+                checked={formData.teachingMode === "Online Classes"}
                 onChange={handleInputChange}
                 className="mr-3 text-blue-600 focus:ring-blue-500"
               />
@@ -457,7 +521,7 @@ export const TeacherForm = () => {
                 type="radio"
                 name="teachingMode"
                 value="Both"
-                checked={formData.teachingMode === 'Both'}
+                checked={formData.teachingMode === "Both"}
                 onChange={handleInputChange}
                 className="mr-3 text-blue-600 focus:ring-blue-500"
               />
@@ -470,9 +534,19 @@ export const TeacherForm = () => {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Available Days *</label>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Available Days *
+          </label>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-            {['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'].map(day => (
+            {[
+              "Monday",
+              "Tuesday",
+              "Wednesday",
+              "Thursday",
+              "Friday",
+              "Saturday",
+              "Sunday",
+            ].map((day) => (
               <label key={day} className="flex items-center">
                 <input
                   type="checkbox"
@@ -490,7 +564,9 @@ export const TeacherForm = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Available Time Slots *</label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Available Time Slots *
+            </label>
             <select
               name="availableTimeSlots"
               value={formData.availableTimeSlots}
@@ -499,14 +575,22 @@ export const TeacherForm = () => {
               required
             >
               <option value="">Select Time Slots</option>
-              <option value="Morning (6 AM - 12 PM)">Morning (6 AM - 12 PM)</option>
-              <option value="Afternoon (12 PM - 5 PM)">Afternoon (12 PM - 5 PM)</option>
-              <option value="Evening (5 PM - 9 PM)">Evening (5 PM - 9 PM)</option>
+              <option value="Morning (6 AM - 12 PM)">
+                Morning (6 AM - 12 PM)
+              </option>
+              <option value="Afternoon (12 PM - 5 PM)">
+                Afternoon (12 PM - 5 PM)
+              </option>
+              <option value="Evening (5 PM - 9 PM)">
+                Evening (5 PM - 9 PM)
+              </option>
               <option value="Flexible">Flexible</option>
             </select>
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Preferred Session Duration *</label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Preferred Session Duration *
+            </label>
             <select
               name="preferredSessionDuration"
               value={formData.preferredSessionDuration}
@@ -529,14 +613,18 @@ export const TeacherForm = () => {
     <div className="space-y-6">
       <div className="text-center mb-6">
         <DollarSign className="w-12 h-12 text-blue-600 mx-auto mb-4" />
-        <h3 className="text-xl font-semibold text-gray-900">Tuition Preferences</h3>
+        <h3 className="text-xl font-semibold text-gray-900">
+          Tuition Preferences
+        </h3>
         <p className="text-gray-600">Your expectations and requirements</p>
       </div>
 
       <div className="space-y-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Minimum Expected Fee (per hour) *</label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Minimum Expected Fee (per hour) *
+            </label>
             <div className="relative">
               <DollarSign className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
               <input
@@ -551,7 +639,9 @@ export const TeacherForm = () => {
             </div>
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Preferred Payment Method *</label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Preferred Payment Method *
+            </label>
             <select
               name="preferredPaymentMethod"
               value={formData.preferredPaymentMethod}
@@ -570,7 +660,9 @@ export const TeacherForm = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Travel Radius (for home tuition)</label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Travel Radius (for home tuition)
+            </label>
             <select
               name="travelRadius"
               value={formData.travelRadius}
@@ -585,7 +677,9 @@ export const TeacherForm = () => {
             </select>
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Online Teaching Tools</label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Online Teaching Tools
+            </label>
             <div className="relative">
               <Monitor className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
               <input
@@ -607,13 +701,17 @@ export const TeacherForm = () => {
     <div className="space-y-6">
       <div className="text-center mb-6">
         <Briefcase className="w-12 h-12 text-blue-600 mx-auto mb-4" />
-        <h3 className="text-xl font-semibold text-gray-900">Additional Information</h3>
+        <h3 className="text-xl font-semibold text-gray-900">
+          Additional Information
+        </h3>
         <p className="text-gray-600">Help students get to know you better</p>
       </div>
 
       <div className="space-y-6">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Bio/Introduction *</label>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Bio/Introduction *
+          </label>
           <textarea
             name="bio"
             value={formData.bio}
@@ -626,7 +724,9 @@ export const TeacherForm = () => {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Teaching Philosophy</label>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Teaching Philosophy
+          </label>
           <textarea
             name="teachingPhilosophy"
             value={formData.teachingPhilosophy}
@@ -638,7 +738,9 @@ export const TeacherForm = () => {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Notable Achievements</label>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Notable Achievements
+          </label>
           <textarea
             name="achievements"
             value={formData.achievements}
@@ -650,7 +752,9 @@ export const TeacherForm = () => {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">References (if any)</label>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            References (if any)
+          </label>
           <textarea
             name="references"
             value={formData.references}
@@ -662,11 +766,15 @@ export const TeacherForm = () => {
         </div>
 
         <div className="bg-blue-50 border border-blue-200 rounded-lg p-6">
-          <h4 className="font-semibold text-gray-900 mb-3">What happens next?</h4>
+          <h4 className="font-semibold text-gray-900 mb-3">
+            What happens next?
+          </h4>
           <ul className="space-y-2 text-sm text-gray-700">
             <li>• We'll review your application and verify your credentials</li>
             <li>• You'll receive student requests matching your profile</li>
-            <li>• You can accept or decline requests based on your availability</li>
+            <li>
+              • You can accept or decline requests based on your availability
+            </li>
             <li>• We'll help coordinate the first class and handle payments</li>
           </ul>
         </div>
@@ -679,7 +787,7 @@ export const TeacherForm = () => {
       <div className="max-w-4xl mx-auto">
         <div className="bg-white rounded-2xl shadow-xl p-8">
           {renderProgressBar()}
-          
+
           <div className="min-h-[600px]">
             {currentStep === 1 && renderStep1()}
             {currentStep === 2 && renderStep2()}
@@ -695,8 +803,8 @@ export const TeacherForm = () => {
               disabled={currentStep === 1}
               className={`px-6 py-3 rounded-lg font-medium transition-colors ${
                 currentStep === 1
-                  ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                  : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                  ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+                  : "bg-gray-200 text-gray-700 hover:bg-gray-300"
               }`}
             >
               Previous
@@ -708,10 +816,10 @@ export const TeacherForm = () => {
                   key={step}
                   className={`w-3 h-3 rounded-full transition-colors ${
                     step === currentStep
-                      ? 'bg-blue-600'
+                      ? "bg-blue-600"
                       : step < currentStep
-                      ? 'bg-blue-300'
-                      : 'bg-gray-200'
+                      ? "bg-blue-300"
+                      : "bg-gray-200"
                   }`}
                 />
               ))}
