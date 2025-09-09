@@ -8,6 +8,20 @@ import {
   Home,
   Atom,
   Heart,
+  User,
+  Phone,
+  Info,
+  GraduationCap,
+  MessageCircle,
+  HelpCircle,
+  Star,
+  Users,
+  Target,
+  MapPin,
+  Mail,
+  Book,
+  Trophy,
+  Contact,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React, { useState, useRef, useEffect } from "react";
@@ -205,6 +219,75 @@ export const Header = () => {
                     className="block px-4 py-2 text-gray-700 hover:bg-blue-50"
                   >
                     As Parent
+                  </a>
+                </div>
+              )}
+            </div>
+
+            {/* More Dropdown - Updated with your specific pages */}
+            <div className="relative">
+              <button
+                className="flex items-center space-x-1 text-gray-700 hover:text-blue-600 transition-colors"
+                onClick={() => toggleDropdown("more")}
+              >
+                <span>More</span>
+                <ChevronDown className="w-4 h-4" />
+              </button>
+              {isDropdownOpen("more") && (
+                <div className="absolute top-full left-0 mt-2 w-64 bg-white rounded-lg shadow-lg border border-gray-100 py-2 z-10">
+                  {/* Courses Section */}
+                  <a
+                    href="/Courses/CoursesPage"
+                    className="flex items-center px-4 py-2 text-gray-700 hover:bg-blue-50"
+                  >
+                    <Book className="w-4 h-4 mr-2 text-blue-500" />
+                    Explore Our Courses
+                  </a>
+                  
+                  {/* Success Stories Section */}
+                  <a
+                    href="/success-stories"
+                    className="flex items-center px-4 py-2 text-gray-700 hover:bg-blue-50"
+                  >
+                    <Trophy className="w-4 h-4 mr-2 text-yellow-500" />
+                    Success Stories
+                  </a>
+                  
+                  {/* Our Tutors Section */}
+                  <a
+                    href="/our-tutors"
+                    className="flex items-center px-4 py-2 text-gray-700 hover:bg-blue-50"
+                  >
+                    <Users className="w-4 h-4 mr-2 text-green-500" />
+                    Our Tutors
+                  </a>
+                  
+                  {/* Contact Us Section */}
+                  <a
+                    href="/contact-us"
+                    className="flex items-center px-4 py-2 text-gray-700 hover:bg-blue-50"
+                  >
+                    <Contact className="w-4 h-4 mr-2 text-purple-500" />
+                    Contact Us
+                  </a>
+                  
+                  {/* Divider */}
+                  <div className="border-t border-gray-100 my-1"></div>
+                  
+                  {/* Additional Links */}
+                  <a
+                    href="/about"
+                    className="flex items-center px-4 py-2 text-gray-700 hover:bg-blue-50"
+                  >
+                    <Info className="w-4 h-4 mr-2 text-gray-500" />
+                    About Us
+                  </a>
+                  <a
+                    href="/become-tutor"
+                    className="flex items-center px-4 py-2 text-gray-700 hover:bg-blue-50"
+                  >
+                    <GraduationCap className="w-4 h-4 mr-2 text-indigo-500" />
+                    Become a Tutor
                   </a>
                 </div>
               )}

@@ -139,7 +139,7 @@ export const MainPage = () => {
               {/* Main Image */}
               <div className="relative rounded-xl md:rounded-2xl overflow-hidden aspect-[4/3] mb-4 md:mb-6 shadow-lg">
                 <img
-                  src="https://i.pinimg.com/1200x/71/92/07/71920785fb11ce5e2830424ac4500281.jpg"
+                  src="https://i.pinimg.com/736x/9a/ea/95/9aea952ee0f09bf5af0d4f076c3148c4.jpg"
                   alt="Students learning together with laptops and books"
                   className="w-full h-full object-cover"
                 />

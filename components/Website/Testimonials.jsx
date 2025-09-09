@@ -2,7 +2,7 @@
 import { motion } from 'framer-motion';
 import { Star, Quote } from 'lucide-react';
 
-export default function Testimonials() {
+export default function testimonials() {
   const testimonials = [
     {
       id: 1,

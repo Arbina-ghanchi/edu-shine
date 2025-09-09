@@ -15,8 +15,11 @@ import {
   MessageCircle,
   Clock,
 } from "lucide-react";
+import { useRouter } from "next/navigation"; // Import useRouter
 
 const Footer = () => {
+  const router = useRouter(); // Initialize router
+
   const handleCall = (phoneNumber) => {
     window.location.href = `tel:${phoneNumber}`;
   };
@@ -27,6 +30,11 @@ const Footer = () => {
 
   const handleWhatsApp = () => {
     window.open("https://wa.me/917990769647", "_blank");
+  };
+
+  // Function to handle navigation
+  const handleNavigation = (path) => {
+    router.push(path);
   };
 
   return (
@@ -85,20 +93,24 @@ const Footer = () => {
             </h3>
             <ul className="space-y-3">
               {[
-                { icon: Home, text: "Home" },
-                { icon: BookOpen, text: "Courses" },
-                { icon: Users, text: "Our Tutors" },
-                { icon: Award, text: "Success Stories" },
-                { icon: Mail, text: "Contact Us" },
+                { icon: Home, text: "Home", path: "/" },
+                { icon: BookOpen, text: "Courses", path: "/courses" },
+                { icon: Users, text: "Our Tutors", path: "/tutors" },
+                {
+                  icon: Award,
+                  text: "Success Stories",
+                  path: "/success-stories",
+                },
+                { icon: Mail, text: "Contact Us", path: "/contact" },
               ].map((item, index) => (
                 <li key={index}>
-                  <a
-                    href="#"
-                    className="text-gray-300 hover:text-blue-400 transition-colors flex items-center text-sm group"
+                  <button
+                    onClick={() => handleNavigation(item.path)}
+                    className="text-gray-300 hover:text-blue-400 transition-colors flex items-center text-sm group w-full text-left"
                   >
                     <item.icon className="w-4 h-4 mr-3 text-blue-400 group-hover:scale-110 transition-transform" />
                     {item.text}
-                  </a>
+                  </button>
                 </li>
               ))}
             </ul>
@@ -135,10 +147,10 @@ const Footer = () => {
             <h3 className="text-lg font-semibold mb-5 pb-2 border-b border-gray-700">
               Contact Information
             </h3>
-            
+
             <div className="space-y-4">
-              <div 
-                className="flex items-start cursor-pointer group" 
+              <div
+                className="flex items-start cursor-pointer group"
                 onClick={() => handleCall("917990769647")}
               >
                 <div className="bg-blue-500 p-2 rounded-lg mr-3 mt-1 group-hover:bg-blue-600 transition-colors">
@@ -148,16 +160,16 @@ const Footer = () => {
                   <p className="text-gray-400 text-xs">Phone</p>
                   <p className="text-sm group-hover:text-blue-300 transition-colors">
                     +91 7990769647
-                    <br />  
+                    <br />
                     +91 9427392612
                     <br />
                     +91 8780969747
                   </p>
                 </div>
               </div>
-              
-              <div 
-                className="flex items-start cursor-pointer group" 
+
+              <div
+                className="flex items-start cursor-pointer group"
                 onClick={handleEmail}
               >
                 <div className="bg-blue-500 p-2 rounded-lg mr-3 mt-1 group-hover:bg-blue-600 transition-colors">
@@ -170,7 +182,7 @@ const Footer = () => {
                   </p>
                 </div>
               </div>
-              
+
               <div className="flex items-start group">
                 <div className="bg-blue-500 p-2 rounded-lg mr-3 mt-1">
                   <MapPin className="w-4 h-4 text-white" />
@@ -178,11 +190,12 @@ const Footer = () => {
                 <div>
                   <p className="text-gray-400 text-xs">Address</p>
                   <p className="text-sm group-hover:text-blue-300 transition-colors">
-                    Divine Galaxy Duplex, 55, near Chanakya Nagari, Kalali, Vadodara, Gujarat 390012
+                    Divine Galaxy Duplex, 55, near Chanakya Nagari, Kalali,
+                    Vadodara, Gujarat 390012
                   </p>
                 </div>
               </div>
-              
+
               <div className="flex items-start group">
                 <div className="bg-blue-500 p-2 rounded-lg mr-3 mt-1">
                   <Clock className="w-4 h-4 text-white" />
@@ -190,15 +203,16 @@ const Footer = () => {
                 <div>
                   <p className="text-gray-400 text-xs">Operating Hours</p>
                   <p className="text-sm group-hover:text-blue-300 transition-colors">
-                    Mon-Sat: 9AM - 7PM<br />
+                    Mon-Sat: 9AM - 7PM
+                    <br />
                     Sunday: Closed
                   </p>
                 </div>
               </div>
-              
+
               {/* WhatsApp Community Button */}
               <div className="pt-4">
-                <button 
+                <button
                   onClick={handleWhatsApp}
                   className="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white px-5 py-3 rounded-xl font-medium transition-all text-sm flex items-center justify-center w-full shadow-lg hover:shadow-green-500/20 hover:scale-[1.02] group"
                 >
@@ -219,14 +233,20 @@ const Footer = () => {
               © {new Date().getFullYear()} Edu-Shine. All rights reserved.
             </p>
             <div className="flex flex-wrap justify-center md:justify-end gap-5">
-              {["Privacy Policy", "Terms of Service", "FAQ", "About Us", "Testimonials"].map((item, index) => (
-                <a
+              {[
+                { name: "Privacy Policy", path: "/privacy-policy" },
+                { name: "Terms of Service", path: "/terms" },
+                { name: "FAQ", path: "/faq" }, // Changed to /faq
+                { name: "About Us", path: "/about" },
+                { name: "Testimonials", path: "/testomonial" }, // Changed to /testimonials
+              ].map((item, index) => (
+                <button
                   key={index}
-                  href="#"
+                  onClick={() => handleNavigation(item.path)}
                   className="text-gray-400 hover:text-blue-400 transition-colors text-sm"
                 >
-                  {item}
-                </a>
+                  {item.name}
+                </button>
               ))}
             </div>
           </div>

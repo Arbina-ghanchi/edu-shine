@@ -21,7 +21,7 @@ export default function Achievements() {
     setIsVisible(true);
     
     // Animate numbers counting up
-    const duration = 2000; // 2 seconds
+    const duration = 7000; // 2 seconds
     const steps = 60; // 60 steps for smooth animation
     const stepDuration = duration / steps;
     
