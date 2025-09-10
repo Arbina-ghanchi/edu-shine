@@ -2,11 +2,7 @@
 import React, { useEffect, useState } from "react";
 import ProgressBar from "./parentformComponent/progressiveBar";
 import ParentInfo from "./parentformComponent/ParentInfo";
-import StudentInfo from "./parentformComponent/StudentInfo";
-import AcademicRequirements from "./parentformComponent/AcademicRequirements";
-import TuitionPreferences from "./parentformComponent/TuitionPreferences";
 import TeacherPreferences from "./parentformComponent/TeacherPreferences";
-import Logistics from "./parentformComponent/Logistics";
 import { createForm, getParentForm } from "@/service/parentFormService";
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
@@ -21,47 +17,12 @@ export const ParentForm = () => {
     alternatePhone: "",
     address: "",
     occupation: "",
-
-    // Student Information
-    studentName: "",
-    studentAge: "",
-    studentGrade: "",
-    currentSchool: "",
-    studentGender: "",
-
-    // Academic Requirements
-    subjectsNeeded: "",
-    currentAcademicLevel: "",
-    specificChallenges: "",
-    learningGoals: "",
-    previousTutoringExperience: "",
-
-    // Tuition Preferences
-    preferredMode: "",
-    preferredDays: "",
-    preferredTime: "",
-    sessionDuration: "",
-    budgetRange: "",
-
-    // Teacher Preferences
-    teacherGenderPreference: "",
-    teacherExperiencePreference: "",
-    teachingStylePreference: "",
-    languagePreference: "",
-
-    // Logistics
-    homeAddress: "",
-    willingToTravel: "",
-    hasStudyRoom: false,
-    internetConnection: "",
-    deviceAvailable: "",
-    additionalRequirements: "",
   });
 
   const [currentStep, setCurrentStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState({});
-  const totalSteps = 6;
+  const totalSteps = 1;
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -82,45 +43,12 @@ export const ParentForm = () => {
 
   const validateStep = (step) => {
     const newErrors = {};
-
     switch (step) {
       case 1:
         if (!formData.parentName)
           newErrors.parentName = "Parent name is required";
         if (!formData.phone) newErrors.phone = "Phone number is required";
         if (!formData.address) newErrors.address = "Address is required";
-        break;
-      case 2:
-        if (!formData.studentName)
-          newErrors.studentName = "Student name is required";
-        if (!formData.studentAge)
-          newErrors.studentAge = "Student age is required";
-        if (!formData.studentGrade)
-          newErrors.studentGrade = "Student grade is required";
-        if (!formData.currentSchool)
-          newErrors.currentSchool = "Current school is required";
-        if (!formData.studentGender)
-          newErrors.studentGender = "Student gender is required";
-        break;
-      case 3:
-        if (!formData.subjectsNeeded)
-          newErrors.subjectsNeeded = "Subjects needed is required";
-        if (!formData.currentAcademicLevel)
-          newErrors.currentAcademicLevel = "Academic level is required";
-        if (!formData.learningGoals)
-          newErrors.learningGoals = "Learning goals are required";
-        break;
-      case 4:
-        if (!formData.preferredMode)
-          newErrors.preferredMode = "Preferred mode is required";
-        if (!formData.preferredDays)
-          newErrors.preferredDays = "Preferred days are required";
-        if (!formData.preferredTime)
-          newErrors.preferredTime = "Preferred time is required";
-        if (!formData.sessionDuration)
-          newErrors.sessionDuration = "Session duration is required";
-        if (!formData.budgetRange)
-          newErrors.budgetRange = "Budget range is required";
         break;
       default:
         break;
@@ -204,71 +132,9 @@ export const ParentForm = () => {
                 errors={errors}
               />
             )}
-            {currentStep === 2 && (
-              <StudentInfo
-                formData={formData}
-                handleInputChange={handleInputChange}
-                errors={errors}
-              />
-            )}
-            {currentStep === 3 && (
-              <AcademicRequirements
-                formData={formData}
-                handleInputChange={handleInputChange}
-                errors={errors}
-              />
-            )}
-            {currentStep === 4 && (
-              <TuitionPreferences
-                formData={formData}
-                handleInputChange={handleInputChange}
-                errors={errors}
-              />
-            )}
-            {currentStep === 5 && (
-              <TeacherPreferences
-                formData={formData}
-                handleInputChange={handleInputChange}
-                errors={errors}
-              />
-            )}
-            {currentStep === 6 && (
-              <Logistics
-                formData={formData}
-                handleInputChange={handleInputChange}
-                errors={errors}
-              />
-            )}
           </div>
 
-          <div className="flex justify-between items-center mt-8 pt-6 border-t border-gray-200">
-            <button
-              onClick={prevStep}
-              disabled={currentStep === 1}
-              className={`px-6 py-3 rounded-lg font-medium transition-colors ${
-                currentStep === 1
-                  ? "bg-gray-100 text-gray-400 cursor-not-allowed"
-                  : "bg-gray-200 text-gray-700 hover:bg-gray-300"
-              }`}
-            >
-              Previous
-            </button>
-
-            <div className="flex space-x-2">
-              {[1, 2, 3, 4, 5, 6].map((step) => (
-                <div
-                  key={step}
-                  className={`w-3 h-3 rounded-full transition-colors ${
-                    step === currentStep
-                      ? "bg-blue-600"
-                      : step < currentStep
-                      ? "bg-blue-300"
-                      : "bg-gray-200"
-                  }`}
-                />
-              ))}
-            </div>
-
+          <div className="flex justify-end items-center mt-8 pt-6 border-t border-gray-200">
             {currentStep < totalSteps ? (
               <button
                 onClick={nextStep}

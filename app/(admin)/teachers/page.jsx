@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import Head from "next/head";
-import { getAllUser } from "@/service/adminService";
+import { getAllTeacher } from "@/service/adminService";
 
 const UserDashboard = () => {
   const [users, setUsers] = useState([]);
@@ -19,7 +19,7 @@ const UserDashboard = () => {
     const getUsers = async () => {
       try {
         setLoading(true);
-        const userData = await getAllUser();
+        const userData = await getAllTeacher();
         console.log(userData, "check for user");
         setUsers(userData.data.users);
         setFilteredUsers(userData.data.users);
