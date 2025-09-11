@@ -89,7 +89,7 @@ const Header = () => {
               <div
                 className="dropdown-menu"
                 onMouseLeave={() => setIsDropdownOpen(false)}
-                onClick={(e) => router.push("/profile")}
+                onClick={(e) => router.push("/")}
               >
                 <div className="dropdown-item">
                   <svg

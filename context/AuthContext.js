@@ -21,8 +21,8 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     // Check for existing auth data on app load
-    const savedToken = Cookies.get("token");
-    const savedUser = Cookies.get("user");
+    const savedToken = Cookies?.get("token");
+    const savedUser = Cookies?.get("user");
 
     if (savedToken && savedUser) {
       const parsedUser = JSON.parse(savedUser);
@@ -40,9 +40,8 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const login = (userData, authToken) => {
-    // Set cookies with expiration (7 days)
-    Cookies.set("token", authToken, { expires: 7 });
-    Cookies.set("user", JSON.stringify(userData), { expires: 7 });
+    Cookies.set("token", authToken);
+    Cookies.set("user", JSON.stringify(userData));
 
     setUser(userData);
     setToken(authToken);
@@ -58,9 +57,11 @@ export const AuthProvider = ({ children }) => {
   const logout = () => {
     Cookies.remove("token");
     Cookies.remove("user");
-    router.push("/");
+
     setUser(null);
     setToken(null);
+
+    router.push("/");
   };
 
   const value = {

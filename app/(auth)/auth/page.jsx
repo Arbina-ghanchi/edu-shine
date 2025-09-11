@@ -23,13 +23,6 @@ const Page = () => {
   const { login, isAuthenticated } = useAuth();
   const router = useRouter();
 
-  // Redirect if already authenticated
-  useEffect(() => {
-    if (isAuthenticated) {
-      router.push("/dashboard");
-    }
-  }, [isAuthenticated, router]);
-
   const handleInputChange = (e) => {
     setFormData({
       ...formData,

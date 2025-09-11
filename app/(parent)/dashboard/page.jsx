@@ -71,7 +71,9 @@ const ParentDashboard = () => {
           response.data.data.length === 0
         ) {
           console.log("Form not found, redirecting...");
-          router.push("/parent");
+          if (user?.role === "parent") {
+            router.push("/parent");
+          }
           return;
         }
 
@@ -119,12 +121,13 @@ const ParentDashboard = () => {
       <div className="max-w-7xl mx-auto">
         <div className="flex items-center justify-between mb-6"></div>
         <DashboardHeader students={studentForm} />
-        <StudentSelector
-          students={studentForm}
-          selectedStudent={selectedStudent}
-          setSelectedStudent={setSelectedStudent}
-        />
-
+        {user?.role === "parent" && (
+          <StudentSelector
+            students={studentForm}
+            selectedStudent={selectedStudent}
+            setSelectedStudent={setSelectedStudent}
+          />
+        )}
         {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           {stats.map((stat, index) => (
