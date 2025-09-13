@@ -2,8 +2,10 @@
 import { useState, useEffect } from "react";
 import Head from "next/head";
 import { getAllTeacher } from "@/service/adminService";
+import { useRouter } from "next/navigation";
 
 const UserDashboard = () => {
+  const router = useRouter();
   const [users, setUsers] = useState([]);
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
@@ -211,7 +213,12 @@ const UserDashboard = () => {
           <tbody>
             {sortedUsers.length > 0 ? (
               sortedUsers.map((user) => (
-                <tr key={user._id || user.email}>
+                // In your UserDashboard component, update the table row to be clickable
+                <tr
+                  key={user._id || user.email}
+                  onClick={() => router.push(`/teachers/${user._id}`)}
+                  style={{ cursor: "pointer" }}
+                >
                   <td>
                     <div className="user-info">
                       <div className="avatar">

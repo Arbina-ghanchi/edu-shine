@@ -29,3 +29,18 @@ export const getAllTeacher = async () => {
     console.error(error, "check for the error");
   }
 };
+
+export const getTeacherDetails = async (id) => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/admin/all-teacher/${id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    return response.json();
+  } catch (error) {
+    console.error(error, "check for the error");
+  }
+};
