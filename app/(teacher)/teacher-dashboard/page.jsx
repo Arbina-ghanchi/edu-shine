@@ -33,6 +33,8 @@ import { classSchedule } from "./classSchedule";
 import { students } from "./student";
 import { assignments } from "./assignment";
 import { messages } from "./message";
+import { useAuth } from "@/context/AuthContext";
+import { getTeacherForm } from "@/service/teacherFormService";
 
 const TeacherDashboard = () => {
   const [activeTab, setActiveTab] = useState("overview");
@@ -41,6 +43,44 @@ const TeacherDashboard = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const router = useRouter();
+  const { user: teacher, token } = useAuth();
+  const [myForm, setMyForm] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const fetchMyForm = async () => {
+      setLoading(true);
+      try {
+        const response = await getTeacherForm(token);
+
+        if (response && response.success && response.data) {
+          const formData = response.data;
+
+          const hasFormData = formData && Object.keys(formData).length > 0;
+
+          if (hasFormData) {
+            setMyForm(formData);
+          } else {
+            console.log("No form data found, redirecting to teacher form...");
+            if (teacher?.role === "teacher") {
+              router.push("/teacher");
+            }
+          }
+        } else {
+          if (teacher?.role === "teacher") {
+            router.push("/teacher");
+          }
+        }
+      } catch (error) {
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (token && teacher?.role === "teacher") {
+      fetchMyForm();
+    }
+  }, [token, teacher, router]);
   // Check if mobile on mount and resize
   useEffect(() => {
     const checkMobile = () => {

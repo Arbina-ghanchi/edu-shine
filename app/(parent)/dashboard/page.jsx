@@ -36,7 +36,7 @@ const ParentDashboard = () => {
   const [activeTab, setActiveTab] = useState("Overview");
   const router = useRouter();
   const [studentForm, setStudentForm] = useState(null);
-  console.log(studentForm, "check data");
+
   useEffect(() => {
     const fetchStudentForm = async () => {
       setLoading(true);
