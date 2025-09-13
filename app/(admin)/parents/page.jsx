@@ -216,7 +216,7 @@ const UserDashboard = () => {
                 // In your UserDashboard component, update the table row to be clickable
                 <tr
                   key={user._id || user.email}
-                  onClick={() => router.push(`/teachers/${user._id}`)}
+                  onClick={() => router.push(`/parents/${user._id}`)}
                   style={{ cursor: "pointer" }}
                 >
                   <td>

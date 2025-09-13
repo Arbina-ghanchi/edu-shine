@@ -65,7 +65,7 @@ const SubjectExpertiseStep = ({ formData, handleInputChange }) => {
             <BookOpen className="absolute left-3 top-4 w-5 h-5 text-gray-400" />
             <select
               name="secondarySubject"
-              value={formData.secondarySubjects || ""}
+              value={formData.secondarySubject || ""}
               onChange={handleInputChange}
               className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none"
             >

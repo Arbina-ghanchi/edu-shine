@@ -110,7 +110,27 @@ const TeacherDetailsPage = () => {
             </div>
           </div>
         </div>
-
+        <div className="detail-section">
+          <h2>Subject Expertise</h2>
+          <div className="detail-grid">
+            <div className="detail-item">
+              <label>Primary Subject</label>
+              <span>{teacher.primarySubjects || "Not provided"}</span>
+            </div>
+            <div className="detail-item">
+              <label>Current Profession</label>
+              <span>{teacher.secondarySubjects || "Not provided"}</span>
+            </div>
+            <div className="detail-item">
+              <label>Years of Experience</label>
+              <span>{teacher.yearsOfExperience || "Not provided"}</span>
+            </div>
+            <div className="detail-item">
+              <label>Languages Spoken</label>
+              <span>{teacher.languagesSpoken || "Not provided"}</span>
+            </div>
+          </div>
+        </div>
         <div className="detail-section">
           <h2>Professional Information</h2>
           <div className="detail-grid">

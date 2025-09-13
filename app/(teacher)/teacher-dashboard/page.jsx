@@ -274,6 +274,12 @@ const TeacherDashboard = () => {
                 View Profile
               </button>
               <button
+                onClick={() => router.push("/teacher")}
+                className="w-full px-4 py-2 text-left text-blue-600 hover:bg-blue-50 rounded-lg font-medium mb-2"
+              >
+                Edit my form submitted
+              </button>
+              <button
                 onClick={logout}
                 className="w-full px-4 py-2 text-left text-red-600 hover:bg-red-50 rounded-lg font-medium"
               >

@@ -12,7 +12,6 @@ export const checkMyTeacherForm = async (token) => {
         },
       }
     );
-    console.log(response, "check for response");
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
@@ -62,7 +61,6 @@ export const createTeacherForm = async (formData, token) => {
 
 // get my teacher for for submit
 export const getTeacherForm = async (token) => {
-  console.log(token, "check for token");
   try {
     const response = await fetch(`${API_BASE_URL}/teacherform`, {
       method: "GET",

@@ -22,12 +22,10 @@ const UserDashboard = () => {
       try {
         setLoading(true);
         const userData = await getAllStudent();
-        console.log(userData, "check for user");
         setUsers(userData.data.users);
         setFilteredUsers(userData.data.users);
       } catch (err) {
         setError("Failed to load users. Please try again later.");
-        console.error(err);
       } finally {
         setLoading(false);
       }
@@ -216,7 +214,7 @@ const UserDashboard = () => {
                 // In your UserDashboard component, update the table row to be clickable
                 <tr
                   key={user._id || user.email}
-                  onClick={() => router.push(`/teachers/${user._id}`)}
+                  onClick={() => router.push(`/students/${user._id}`)}
                   style={{ cursor: "pointer" }}
                 >
                   <td>
