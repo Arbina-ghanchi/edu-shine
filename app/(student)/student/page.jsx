@@ -1,12 +1,11 @@
-
 import { Studentform } from "@/components/common/forms/studentform";
 
 const page = () => {
-  return <div>
-<Studentform/>
-
-
-  </div>;
+  return (
+    <div>
+      <Studentform />
+    </div>
+  );
 };
 
 export default page;

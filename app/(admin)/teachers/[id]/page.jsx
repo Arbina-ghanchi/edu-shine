@@ -177,7 +177,7 @@ const TeacherDetailsPage = () => {
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-600 mb-1">
-                Current Profession
+                Secondary subjects
               </label>
               <span className="text-gray-900">
                 {teacher.secondarySubjects || "Not provided"}
