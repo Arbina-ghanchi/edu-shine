@@ -2,6 +2,10 @@
 import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { getAllStudent, getTeacherDetails } from "@/service/adminService";
+import {
+  createAssignmentTeacher,
+  getAssignmentTeacher,
+} from "@/service/teacherAssing.service";
 
 const Page = () => {
   const { id } = useParams();
@@ -10,32 +14,21 @@ const Page = () => {
   const [selectedStudents, setSelectedStudents] = useState([]);
   const [teacher, setTeacher] = useState({});
   const [userDetails, setUserDetails] = useState({});
+  const [existingAssignment, setExistingAssignment] = useState(null);
   const [formData, setFormData] = useState({
     teacherId: id,
-    teacherAssigned: "",
+    teacherAssigned: id,
     subject: "",
-    teachingMedium: "Offline",
+    teachingMedium: "Home Tuition",
     endDate: "",
     status: "Active",
     notes: "",
   });
   const [loading, setLoading] = useState(false);
+  const [fetchingAssignment, setFetchingAssignment] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
-
-  // Function to map teacher's teaching mode to form teaching medium
-  const mapTeachingModeToMedium = (teachingMode) => {
-    switch (teachingMode) {
-      case "Online":
-        return "Online";
-      case "Home Tuition":
-        return "Offline";
-      case "Both":
-        return "Hybrid";
-      default:
-        return "Offline";
-    }
-  };
+  const [studentsLoaded, setStudentsLoaded] = useState(false);
 
   // Fetch teacher details
   useEffect(() => {
@@ -53,14 +46,14 @@ const Page = () => {
           setFormData((prev) => ({
             ...prev,
             subject: teacherData.primarySubjects || "",
-            teachingMedium: mapTeachingModeToMedium(teacherData.teachingMode),
+            teachingMedium: teacherData?.teachingMode,
+            teacherAssigned: id,
           }));
         } else {
           setError("Failed to load teacher details");
         }
       } catch (err) {
         setError("Error fetching teacher details");
-        console.error(err);
       } finally {
         setLoading(false);
       }
@@ -78,6 +71,7 @@ const Page = () => {
 
         if (response.success) {
           setStudents(response.data);
+          setStudentsLoaded(true);
         } else {
           setError("Failed to fetch students");
         }
@@ -91,19 +85,65 @@ const Page = () => {
     fetchStudents();
   }, []);
 
-  // Find student form data by user ID
+  // Fetch existing assignment when teacherId and subject are available AND students are loaded
+  useEffect(() => {
+    const fetchExistingAssignment = async () => {
+      if (!formData.teacherId || !formData.subject || !studentsLoaded) return;
+
+      try {
+        setFetchingAssignment(true);
+        const response = await getAssignmentTeacher(
+          formData.teacherId,
+          formData.subject
+        );
+
+        // Check the response structure based on your example
+        if (response.success && response.data) {
+          // The assignment data is directly in response.data
+          const assignmentData = response.data.data;
+          if (assignmentData && assignmentData.studentIds) {
+            setExistingAssignment(assignmentData);
+
+            setFormData((prev) => ({
+              ...prev,
+              teachingMedium:
+                assignmentData.teachingMedium || prev.teachingMedium,
+              status: assignmentData.status || prev.status,
+              notes: assignmentData.notes || prev.notes,
+            }));
+
+            // FIXED: Pre-select students using studentIds array
+            if (Array.isArray(assignmentData.studentIds)) {
+              // Since studentIds are already strings in your API response, just convert to ensure consistency
+              const studentIds = assignmentData.studentIds.map((id) =>
+                String(id)
+              );
+              setSelectedStudents(studentIds);
+            }
+          }
+        }
+      } catch (err) {
+      } finally {
+        setFetchingAssignment(false);
+      }
+    };
+
+    fetchExistingAssignment();
+  }, [formData.teacherId, formData.subject, studentsLoaded]);
+
   const findStudentForm = (userId) => {
     return students.studentForms?.find((form) => form.userId === userId) || {};
   };
 
   const handleStudentSelection = (studentId) => {
-    if (selectedStudents.includes(studentId)) {
-      setSelectedStudents(selectedStudents.filter((id) => id !== studentId));
+    const normalizedId = String(studentId);
+
+    if (selectedStudents.includes(normalizedId)) {
+      setSelectedStudents(selectedStudents.filter((id) => id !== normalizedId));
     } else {
-      setSelectedStudents([...selectedStudents, studentId]);
+      setSelectedStudents([...selectedStudents, normalizedId]);
     }
   };
-
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -130,45 +170,53 @@ const Page = () => {
 
     try {
       setLoading(true);
+
+      // Prepare assignment data according to your controller expectations
       const assignmentData = {
-        ...formData,
+        teacherId: formData.teacherId,
         studentIds: selectedStudents,
+        teacherAssigned: formData.teacherAssigned,
+        subject: formData.subject,
+        teachingMedium: formData.teachingMedium,
+        status: formData.status,
+        notes: formData.notes,
       };
 
-      const response = await fetch("/api/assignments", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(assignmentData),
-      });
+      // Use your service function
+      const response = await createAssignmentTeacher(assignmentData);
 
-      const data = await response.json();
+      // The service already returns parsed JSON, no need for response.json()
+      if (response.success) {
+        setSuccess(
+          existingAssignment
+            ? "Assignment updated successfully!"
+            : "Assignment created successfully!"
+        );
 
-      if (data.success) {
-        setSuccess("Assignment created successfully!");
         // Reset form
         setSelectedStudents([]);
         setFormData({
           teacherId: id,
-          teacherAssigned: "",
+          teacherAssigned: id,
           subject: teacher.primarySubjects || "",
-          teachingMedium: mapTeachingModeToMedium(teacher.teachingMode),
+          teachingMedium: teacher.teachingMode,
           endDate: "",
           status: "Active",
           notes: "",
         });
 
+        // Clear existing assignment data
+        setExistingAssignment(null);
+
         // Redirect after success
         setTimeout(() => {
-          router.push("/dashboard/assignments");
+          router.push("/admin");
         }, 2000);
       } else {
-        setError(data.message || "Failed to create assignment");
+        setError(response.error || "Failed to create assignment");
       }
     } catch (err) {
       setError("Error creating assignment");
-      console.error(err);
     } finally {
       setLoading(false);
     }
@@ -192,7 +240,9 @@ const Page = () => {
         <div className="bg-white rounded-lg shadow-md p-6">
           <div className="flex items-center justify-between mb-6">
             <h1 className="text-2xl font-bold text-gray-800">
-              Assign Students to Teacher
+              {existingAssignment
+                ? "Edit Assignment"
+                : "Assign Students to Teacher"}
             </h1>
             <button
               onClick={() => router.back()}
@@ -228,6 +278,23 @@ const Page = () => {
             </div>
           </div>
 
+          {/* Existing Assignment Info */}
+          {existingAssignment && (
+            <div className="bg-yellow-50 p-4 rounded-lg mb-6 border border-yellow-200">
+              <h2 className="text-lg font-semibold text-yellow-800 mb-2">
+                Existing Assignment Found
+              </h2>
+              <p className="text-sm text-yellow-700">
+                An assignment already exists for this teacher and subject. You
+                are now editing the existing assignment.
+              </p>
+              <p className="text-xs text-yellow-600 mt-2">
+                {existingAssignment.assignedStudentCount} student(s) already
+                assigned
+              </p>
+            </div>
+          )}
+
           {error && (
             <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
               {error}
@@ -244,17 +311,19 @@ const Page = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Teacher Assigned (User ID) *
+                  Teacher ID (Assigned) *
                 </label>
                 <input
                   type="text"
                   name="teacherAssigned"
-                  value={formData.teacherId}
+                  value={formData.teacherAssigned}
                   onChange={handleInputChange}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                   required
-                  disabled
                 />
+                <p className="text-xs text-gray-500 mt-1">
+                  This should be the teacher's user ID
+                </p>
               </div>
 
               <div>
@@ -288,32 +357,23 @@ const Page = () => {
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Teaching Medium
                 </label>
-                <input
+                <select
                   name="teachingMedium"
-                  value={teacher.teachingMode}
+                  value={formData.teachingMedium}
                   onChange={handleInputChange}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-100"
-                  disabled
-                />
-
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+                  <option value="Home Tuition">Home Tuition</option>
+                  <option value="Online">Online</option>
+                  <option value="Hybrid">Hybrid</option>
+                </select>
                 {teacher.teachingMode && (
                   <p className="text-xs text-blue-600 mt-1">
                     Teacher prefers: {teacher.teachingMode}
                   </p>
                 )}
               </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Teaching Batch
-                </label>
-                <input
-                  name="teachingMedium"
-                  value={teacher.availableTimeSlots}
-                  onChange={handleInputChange}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-100"
-                  disabled
-                />
-              </div>
+
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Status
@@ -341,12 +401,40 @@ const Page = () => {
                 onChange={handleInputChange}
                 rows={3}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="Add any additional notes about this assignment"
               />
             </div>
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-3">
                 Select Students *
+                {fetchingAssignment && (
+                  <div className="bg-blue-50 p-3 rounded-lg mb-4">
+                    <p className="text-sm text-blue-700 flex items-center">
+                      <svg
+                        className="animate-spin -ml-1 mr-2 h-4 w-4 text-blue-500"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                      >
+                        <circle
+                          className="opacity-25"
+                          cx="12"
+                          cy="12"
+                          r="10"
+                          stroke="currentColor"
+                          strokeWidth="4"
+                        ></circle>
+                        <path
+                          className="opacity-75"
+                          fill="currentColor"
+                          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                        ></path>
+                      </svg>
+                      Checking for existing assignments...
+                    </p>
+                  </div>
+                )}
               </label>
 
               {loading ? (
@@ -359,11 +447,15 @@ const Page = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3 max-h-96 overflow-y-auto p-2 border border-gray-200 rounded-md">
                   {students.users?.map((student) => {
                     const studentForm = findStudentForm(student._id);
+                    const isSelected = selectedStudents.includes(
+                      String(student._id)
+                    );
+
                     return (
                       <div
                         key={student._id}
                         className={`flex p-3 rounded-md cursor-pointer ${
-                          selectedStudents.includes(student._id)
+                          isSelected
                             ? "bg-blue-100 border border-blue-300"
                             : "bg-gray-50 hover:bg-gray-100 border border-gray-200"
                         }`}
@@ -371,7 +463,7 @@ const Page = () => {
                       >
                         <input
                           type="checkbox"
-                          checked={selectedStudents.includes(student._id)}
+                          checked={isSelected}
                           onChange={() => handleStudentSelection(student._id)}
                           className="h-4 w-4 text-blue-600 rounded focus:ring-blue-500 mt-1"
                         />
@@ -470,7 +562,13 @@ const Page = () => {
                 disabled={loading}
                 className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50"
               >
-                {loading ? "Creating Assignment..." : "Create Assignment"}
+                {loading
+                  ? existingAssignment
+                    ? "Updating Assignment..."
+                    : "Creating Assignment..."
+                  : existingAssignment
+                  ? "Update Assignment"
+                  : "Create Assignment"}
               </button>
             </div>
           </form>
