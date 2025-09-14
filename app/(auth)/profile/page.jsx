@@ -26,8 +26,6 @@ const Profile = () => {
   const [deleteLoading, setDeleteLoading] = useState(false);
   const [deleteError, setDeleteError] = useState("");
   const router = useRouter();
-  console.log(process.env.NEXT_PUBLIC_API_BASE_URL);
-  console.log(token,'cehc ')
   useEffect(() => {
     fetchProfile();
   }, []);
@@ -37,7 +35,6 @@ const Profile = () => {
       setLoading(true);
       setError("");
       const result = await authService.getProfile(token);
-      console.log(result, "result");
       if (result.success) {
         setProfileData(result.data.data.user);
       } else {

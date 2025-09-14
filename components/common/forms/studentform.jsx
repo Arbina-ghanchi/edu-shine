@@ -42,7 +42,6 @@ export function Studentform() {
   };
 
   const handleSubmit = () => {
-    console.log('Form submitted:', formData);
     alert('Thank you for your registration! We will contact you soon.');
   };
 

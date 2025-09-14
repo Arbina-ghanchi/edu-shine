@@ -74,7 +74,6 @@ export const TeacherForm = () => {
           return;
         }
         const result = await getTeacherForm(token);
-        console.log(result, "check for teacher form");
         if (result.success && result.data) {
           setFormData(result.data);
           setIsEditing(true); // Mark as editing existing form
@@ -126,7 +125,6 @@ export const TeacherForm = () => {
       const result = await createTeacherForm(formData, token);
 
       if (result.success) {
-        console.log("Teacher Form submitted successfully:", result.data);
         alert(
           `Thank you for ${
             isEditing ? "updating" : "submitting"

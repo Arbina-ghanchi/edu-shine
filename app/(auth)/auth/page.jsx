@@ -61,8 +61,6 @@ const Page = () => {
       const result = await authService.signup(userData);
 
       if (result.success) {
-        console.log("Signup successful:", result.data);
-
         // Store user data and token using context
         login(result.data.data.user, result.data.data.token);
 

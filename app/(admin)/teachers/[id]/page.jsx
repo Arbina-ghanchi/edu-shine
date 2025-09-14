@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Head from "next/head";
 import { getTeacherDetails } from "@/service/adminService";
+import Link from "next/link";
 
 const TeacherDetailsPage = () => {
   const router = useRouter();
@@ -39,70 +40,119 @@ const TeacherDetailsPage = () => {
 
   if (loading) {
     return (
-      <div className="container">
-        <div className="loading">Loading teacher details...</div>
+      <div className="container mx-auto px-4 py-8 max-w-6xl">
+        <div className="text-center py-10 text-lg">
+          Loading teacher details...
+        </div>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="container">
-        <div className="error">{error}</div>
+      <div className="container mx-auto px-4 py-8 max-w-6xl">
+        <div className="text-center py-10 text-lg text-red-600">{error}</div>
       </div>
     );
   }
 
   if (!teacher || !userDetails) {
     return (
-      <div className="container">
-        <div className="error">Teacher not found</div>
+      <div className="container mx-auto px-4 py-8 max-w-6xl">
+        <div className="text-center py-10 text-lg text-red-600">
+          Teacher not found
+        </div>
       </div>
     );
   }
 
+  const getStatusBadgeClass = (status) => {
+    switch (status?.toLowerCase()) {
+      case "pending":
+        return "bg-yellow-100 text-yellow-800";
+      case "approved":
+        return "bg-green-100 text-green-800";
+      case "rejected":
+        return "bg-red-100 text-red-800";
+      default:
+        return "bg-gray-100 text-gray-800";
+    }
+  };
+
   return (
-    <div className="container">
+    <div className="container mx-auto px-4 py-8 max-w-6xl">
       <Head>
         <title>{teacher.fullName} - Teacher Details</title>
       </Head>
 
-      <button onClick={() => router.back()} className="back-button">
-        ← Back to Dashboard
-      </button>
+      <div className="flex justify-between mb-6">
+        <button
+          onClick={() => router.back()}
+          className="text-blue-500 hover:text-blue-700 text-lg mb-6 transition-colors duration-200"
+        >
+          ← Back to Dashboard
+        </button>
 
-      <div className="teacher-header">
-        <div className="teacher-avatar">
+        <Link href={`assign/${id}`}>
+          <button className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">
+            Assign Student
+          </button>
+        </Link>
+      </div>
+
+      <div className="bg-white rounded-lg shadow-md p-6 mb-8 flex flex-col md:flex-row items-center gap-6">
+        <div className="w-20 h-20 md:w-24 md:h-24 bg-blue-500 rounded-full flex items-center justify-center text-white text-2xl md:text-3xl font-bold">
           {teacher.fullName?.charAt(0).toUpperCase() || "T"}
         </div>
-        <div className="teacher-info">
-          <h1>{teacher.fullName}</h1>
-          <p className="teacher-email">{userDetails.email}</p>
-          <span className={`role-badge ${userDetails.role}`}>
+        <div className="text-center md:text-left">
+          <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">
+            {teacher.fullName}
+          </h1>
+          <p className="text-gray-600 mb-3">{userDetails.email}</p>
+          <span
+            className={`inline-block px-3 py-1 rounded-full text-sm font-medium bg-pink-100 text-pink-800`}
+          >
             {userDetails.role}
           </span>
         </div>
       </div>
 
-      <div className="teacher-details">
-        <div className="detail-section">
-          <h2>Personal Information</h2>
-          <div className="detail-grid">
-            <div className="detail-item">
-              <label>Phone</label>
-              <span>{teacher.phone || "Not provided"}</span>
+      <div className="space-y-6">
+        {/* Personal Information */}
+        <div className="bg-white rounded-lg shadow-md p-6">
+          <h2 className="text-xl font-semibold text-gray-800 mb-4 pb-2 border-b border-gray-200">
+            Personal Information
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-600 mb-1">
+                Phone
+              </label>
+              <span className="text-gray-900">
+                {teacher.phone || "Not provided"}
+              </span>
             </div>
-            <div className="detail-item">
-              <label>Address</label>
-              <span>{teacher.address || "Not provided"}</span>
+            <div>
+              <label className="block text-sm font-medium text-gray-600 mb-1">
+                Address
+              </label>
+              <span className="text-gray-900">
+                {teacher.address || "Not provided"}
+              </span>
             </div>
-            <div className="detail-item">
-              <label>Gender</label>
-              <span>{teacher.gender || "Not provided"}</span>
+            <div>
+              <label className="block text-sm font-medium text-gray-600 mb-1">
+                Gender
+              </label>
+              <span className="text-gray-900">
+                {teacher.gender || "Not provided"}
+              </span>
             </div>
-            <div className="detail-item">
-              <label>Date of Birth</label>
-              <span>
+            <div>
+              <label className="block text-sm font-medium text-gray-600 mb-1">
+                Date of Birth
+              </label>
+              <span className="text-gray-900">
                 {teacher.dateOfBirth
                   ? new Date(teacher.dateOfBirth).toLocaleDateString()
                   : "Not provided"}
@@ -110,161 +160,280 @@ const TeacherDetailsPage = () => {
             </div>
           </div>
         </div>
-        <div className="detail-section">
-          <h2>Subject Expertise</h2>
-          <div className="detail-grid">
-            <div className="detail-item">
-              <label>Primary Subject</label>
-              <span>{teacher.primarySubjects || "Not provided"}</span>
+
+        {/* Subject Expertise */}
+        <div className="bg-white rounded-lg shadow-md p-6">
+          <h2 className="text-xl font-semibold text-gray-800 mb-4 pb-2 border-b border-gray-200">
+            Subject Expertise
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-600 mb-1">
+                Primary Subject
+              </label>
+              <span className="text-gray-900">
+                {teacher.primarySubjects || "Not provided"}
+              </span>
             </div>
-            <div className="detail-item">
-              <label>Current Profession</label>
-              <span>{teacher.secondarySubjects || "Not provided"}</span>
+            <div>
+              <label className="block text-sm font-medium text-gray-600 mb-1">
+                Current Profession
+              </label>
+              <span className="text-gray-900">
+                {teacher.secondarySubjects || "Not provided"}
+              </span>
             </div>
-            <div className="detail-item">
-              <label>Years of Experience</label>
-              <span>{teacher.yearsOfExperience || "Not provided"}</span>
+            <div>
+              <label className="block text-sm font-medium text-gray-600 mb-1">
+                Years of Experience
+              </label>
+              <span className="text-gray-900">
+                {teacher.yearsOfExperience || "Not provided"}
+              </span>
             </div>
-            <div className="detail-item">
-              <label>Languages Spoken</label>
-              <span>{teacher.languagesSpoken || "Not provided"}</span>
-            </div>
-          </div>
-        </div>
-        <div className="detail-section">
-          <h2>Professional Information</h2>
-          <div className="detail-grid">
-            <div className="detail-item">
-              <label>Highest Qualification</label>
-              <span>{teacher.highestQualification || "Not provided"}</span>
-            </div>
-            <div className="detail-item">
-              <label>Current Profession</label>
-              <span>{teacher.currentProfession || "Not provided"}</span>
-            </div>
-            <div className="detail-item">
-              <label>Years of Experience</label>
-              <span>{teacher.yearsOfExperience || "Not provided"}</span>
-            </div>
-            <div className="detail-item">
-              <label>Languages Spoken</label>
-              <span>{teacher.languagesSpoken || "Not provided"}</span>
+            <div>
+              <label className="block text-sm font-medium text-gray-600 mb-1">
+                Languages Spoken
+              </label>
+              <span className="text-gray-900">
+                {teacher.languagesSpoken || "Not provided"}
+              </span>
             </div>
           </div>
         </div>
 
-        <div className="detail-section">
-          <h2>Teaching Information</h2>
-          <div className="detail-grid">
-            <div className="detail-item">
-              <label>Grade Levels Taught</label>
-              <span>{teacher.gradeLevelsTaught || "Not provided"}</span>
+        {/* Professional Information */}
+        <div className="bg-white rounded-lg shadow-md p-6">
+          <h2 className="text-xl font-semibold text-gray-800 mb-4 pb-2 border-b border-gray-200">
+            Professional Information
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-600 mb-1">
+                Highest Qualification
+              </label>
+              <span className="text-gray-900">
+                {teacher.highestQualification || "Not provided"}
+              </span>
             </div>
-            <div className="detail-item">
-              <label>Curriculum Expertise</label>
-              <span>{teacher.curriculumExpertise || "Not provided"}</span>
+            <div>
+              <label className="block text-sm font-medium text-gray-600 mb-1">
+                Current Profession
+              </label>
+              <span className="text-gray-900">
+                {teacher.currentProfession || "Not provided"}
+              </span>
             </div>
-            <div className="detail-item">
-              <label>Teaching Certifications</label>
-              <span>{teacher.teachingCertifications || "Not provided"}</span>
+            <div>
+              <label className="block text-sm font-medium text-gray-600 mb-1">
+                Years of Experience
+              </label>
+              <span className="text-gray-900">
+                {teacher.yearsOfExperience || "Not provided"}
+              </span>
             </div>
-            <div className="detail-item">
-              <label>Teaching Methodology</label>
-              <span>{teacher.teachingMethodology || "Not provided"}</span>
+            <div>
+              <label className="block text-sm font-medium text-gray-600 mb-1">
+                Languages Spoken
+              </label>
+              <span className="text-gray-900">
+                {teacher.languagesSpoken || "Not provided"}
+              </span>
             </div>
           </div>
         </div>
 
-        <div className="detail-section">
-          <h2>Availability</h2>
-          <div className="detail-grid">
-            <div className="detail-item">
-              <label>Teaching Mode</label>
-              <span>{teacher.teachingMode || "Not provided"}</span>
+        {/* Teaching Information */}
+        <div className="bg-white rounded-lg shadow-md p-6">
+          <h2 className="text-xl font-semibold text-gray-800 mb-4 pb-2 border-b border-gray-200">
+            Teaching Information
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-600 mb-1">
+                Grade Levels Taught
+              </label>
+              <span className="text-gray-900">
+                {teacher.gradeLevelsTaught || "Not provided"}
+              </span>
             </div>
-            <div className="detail-item">
-              <label>Available Days</label>
-              <span>
+            <div>
+              <label className="block text-sm font-medium text-gray-600 mb-1">
+                Curriculum Expertise
+              </label>
+              <span className="text-gray-900">
+                {teacher.curriculumExpertise || "Not provided"}
+              </span>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-600 mb-1">
+                Teaching Certifications
+              </label>
+              <span className="text-gray-900">
+                {teacher.teachingCertifications || "Not provided"}
+              </span>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-600 mb-1">
+                Teaching Methodology
+              </label>
+              <span className="text-gray-900">
+                {teacher.teachingMethodology || "Not provided"}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        {/* Availability */}
+        <div className="bg-white rounded-lg shadow-md p-6">
+          <h2 className="text-xl font-semibold text-gray-800 mb-4 pb-2 border-b border-gray-200">
+            Availability
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-600 mb-1">
+                Teaching Mode
+              </label>
+              <span className="text-gray-900">
+                {teacher.teachingMode || "Not provided"}
+              </span>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-600 mb-1">
+                Available Days
+              </label>
+              <span className="text-gray-900">
                 {teacher.availableDays && teacher.availableDays.length > 0
                   ? teacher.availableDays.join(", ")
                   : "Not provided"}
               </span>
             </div>
-            <div className="detail-item">
-              <label>Available Time Slots</label>
-              <span>{teacher.availableTimeSlots || "Not provided"}</span>
+            <div>
+              <label className="block text-sm font-medium text-gray-600 mb-1">
+                Available Time Slots
+              </label>
+              <span className="text-gray-900">
+                {teacher.availableTimeSlots || "Not provided"}
+              </span>
             </div>
-            <div className="detail-item">
-              <label>Preferred Session Duration</label>
-              <span>{teacher.preferredSessionDuration || "Not provided"}</span>
+            <div>
+              <label className="block text-sm font-medium text-gray-600 mb-1">
+                Preferred Session Duration
+              </label>
+              <span className="text-gray-900">
+                {teacher.preferredSessionDuration || "Not provided"}
+              </span>
             </div>
           </div>
         </div>
 
-        <div className="detail-section">
-          <h2>Tuition Preferences</h2>
-          <div className="detail-grid">
-            <div className="detail-item">
-              <label>Minimum Fee</label>
-              <span>
+        {/* Tuition Preferences */}
+        <div className="bg-white rounded-lg shadow-md p-6">
+          <h2 className="text-xl font-semibold text-gray-800 mb-4 pb-2 border-b border-gray-200">
+            Tuition Preferences
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-600 mb-1">
+                Minimum Fee
+              </label>
+              <span className="text-gray-900">
                 {teacher.minimumFee ? `₹${teacher.minimumFee}` : "Not provided"}
               </span>
             </div>
-            <div className="detail-item">
-              <label>Preferred Payment Method</label>
-              <span>{teacher.preferredPaymentMethod || "Not provided"}</span>
+            <div>
+              <label className="block text-sm font-medium text-gray-600 mb-1">
+                Preferred Payment Method
+              </label>
+              <span className="text-gray-900">
+                {teacher.preferredPaymentMethod || "Not provided"}
+              </span>
             </div>
-            <div className="detail-item">
-              <label>Travel Radius</label>
-              <span>{teacher.travelRadius || "Not provided"}</span>
+            <div>
+              <label className="block text-sm font-medium text-gray-600 mb-1">
+                Travel Radius
+              </label>
+              <span className="text-gray-900">
+                {teacher.travelRadius || "Not provided"}
+              </span>
             </div>
-            <div className="detail-item">
-              <label>Online Teaching Tools</label>
-              <span>{teacher.onlineTeachingTools || "Not provided"}</span>
-            </div>
-          </div>
-        </div>
-
-        <div className="detail-section">
-          <h2>Additional Information</h2>
-          <div className="detail-grid-full">
-            <div className="detail-item-full">
-              <label>Bio</label>
-              <p>{teacher.bio || "Not provided"}</p>
-            </div>
-            <div className="detail-item-full">
-              <label>Teaching Philosophy</label>
-              <p>{teacher.teachingPhilosophy || "Not provided"}</p>
-            </div>
-            <div className="detail-item-full">
-              <label>Achievements</label>
-              <p>{teacher.achievements || "Not provided"}</p>
+            <div>
+              <label className="block text-sm font-medium text-gray-600 mb-1">
+                Online Teaching Tools
+              </label>
+              <span className="text-gray-900">
+                {teacher.onlineTeachingTools || "Not provided"}
+              </span>
             </div>
           </div>
         </div>
 
-        <div className="detail-section">
-          <h2>Application Status</h2>
-          <div className="detail-grid">
-            <div className="detail-item">
-              <label>Status</label>
+        {/* Additional Information */}
+        <div className="bg-white rounded-lg shadow-md p-6">
+          <h2 className="text-xl font-semibold text-gray-800 mb-4 pb-2 border-b border-gray-200">
+            Additional Information
+          </h2>
+          <div className="space-y-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-600 mb-2">
+                Bio
+              </label>
+              <p className="text-gray-900 bg-gray-50 p-4 rounded-lg border-l-4 border-blue-500">
+                {teacher.bio || "Not provided"}
+              </p>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-600 mb-2">
+                Teaching Philosophy
+              </label>
+              <p className="text-gray-900 bg-gray-50 p-4 rounded-lg border-l-4 border-blue-500">
+                {teacher.teachingPhilosophy || "Not provided"}
+              </p>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-600 mb-2">
+                Achievements
+              </label>
+              <p className="text-gray-900 bg-gray-50 p-4 rounded-lg border-l-4 border-blue-500">
+                {teacher.achievements || "Not provided"}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Application Status */}
+        <div className="bg-white rounded-lg shadow-md p-6">
+          <h2 className="text-xl font-semibold text-gray-800 mb-4 pb-2 border-b border-gray-200">
+            Application Status
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-600 mb-1">
+                Status
+              </label>
               <span
-                className={`status-badge ${teacher.applicationStatus?.toLowerCase()}`}
+                className={`inline-block px-3 py-1 rounded-full text-sm font-medium ${getStatusBadgeClass(
+                  teacher.applicationStatus
+                )}`}
               >
                 {teacher.applicationStatus || "Not provided"}
               </span>
             </div>
-            <div className="detail-item">
-              <label>Created At</label>
-              <span>
+            <div>
+              <label className="block text-sm font-medium text-gray-600 mb-1">
+                Created At
+              </label>
+              <span className="text-gray-900">
                 {teacher.createdAt
                   ? new Date(teacher.createdAt).toLocaleDateString()
                   : "Not provided"}
               </span>
             </div>
-            <div className="detail-item">
-              <label>Last Updated</label>
-              <span>
+            <div>
+              <label className="block text-sm font-medium text-gray-600 mb-1">
+                Last Updated
+              </label>
+              <span className="text-gray-900">
                 {teacher.updatedAt
                   ? new Date(teacher.updatedAt).toLocaleDateString()
                   : "Not provided"}
@@ -273,155 +442,6 @@ const TeacherDetailsPage = () => {
           </div>
         </div>
       </div>
-
-      <style jsx>{`
-        .container {
-          max-width: 1000px;
-          margin: 0 auto;
-          padding: 20px;
-        }
-        .back-button {
-          background: none;
-          border: none;
-          color: #3b82f6;
-          cursor: pointer;
-          font-size: 16px;
-          margin-bottom: 20px;
-          padding: 8px 0;
-        }
-        .back-button:hover {
-          color: #2563eb;
-        }
-        .teacher-header {
-          display: flex;
-          align-items: center;
-          gap: 20px;
-          margin-bottom: 30px;
-          padding: 20px;
-          background: white;
-          border-radius: 8px;
-          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-        .teacher-avatar {
-          width: 80px;
-          height: 80px;
-          border-radius: 50%;
-          background: #3b82f6;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          color: white;
-          font-size: 32px;
-          font-weight: bold;
-        }
-        .teacher-info h1 {
-          margin: 0 0 8px 0;
-          color: #1f2937;
-        }
-        .teacher-email {
-          color: #6b7280;
-          margin: 0 0 12px 0;
-        }
-        .role-badge {
-          padding: 6px 12px;
-          border-radius: 20px;
-          font-size: 14px;
-          text-transform: capitalize;
-        }
-        .role-badge.teacher {
-          background-color: #fce7f3;
-          color: #be185d;
-        }
-        .status-badge {
-          padding: 6px 12px;
-          border-radius: 20px;
-          font-size: 14px;
-          text-transform: capitalize;
-        }
-        .status-badge.pending {
-          background-color: #fef3c7;
-          color: #d97706;
-        }
-        .status-badge.approved {
-          background-color: #d1fae5;
-          color: #065f46;
-        }
-        .status-badge.rejected {
-          background-color: #fee2e2;
-          color: #dc2626;
-        }
-        .teacher-details {
-          display: flex;
-          flex-direction: column;
-          gap: 24px;
-        }
-        .detail-section {
-          background: white;
-          padding: 24px;
-          border-radius: 8px;
-          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-        .detail-section h2 {
-          margin: 0 0 20px 0;
-          color: #374151;
-          border-bottom: 2px solid #f3f4f6;
-          padding-bottom: 12px;
-        }
-        .detail-grid {
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-          gap: 16px;
-        }
-        .detail-grid-full {
-          display: flex;
-          flex-direction: column;
-          gap: 16px;
-        }
-        .detail-item,
-        .detail-item-full {
-          display: flex;
-          flex-direction: column;
-          gap: 4px;
-        }
-        .detail-item label,
-        .detail-item-full label {
-          font-weight: 600;
-          color: #6b7280;
-          font-size: 14px;
-        }
-        .detail-item span {
-          color: #1f2937;
-          font-size: 16px;
-        }
-        .detail-item-full p {
-          color: #1f2937;
-          margin: 0;
-          line-height: 1.5;
-          background: #f9fafb;
-          padding: 12px;
-          border-radius: 6px;
-          border-left: 4px solid #3b82f6;
-        }
-        .loading,
-        .error {
-          text-align: center;
-          padding: 40px;
-          font-size: 18px;
-        }
-        .error {
-          color: #ef4444;
-        }
-
-        @media (max-width: 768px) {
-          .teacher-header {
-            flex-direction: column;
-            text-align: center;
-          }
-          .detail-grid {
-            grid-template-columns: 1fr;
-          }
-        }
-      `}</style>
     </div>
   );
 };

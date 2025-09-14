@@ -38,7 +38,6 @@ export const getAllStudent = async () => {
         "Content-Type": "application/json",
       },
     });
-    console.log(response, "check for it ");
     return response.json();
   } catch (error) {
     console.error(error, "check for the error");
@@ -61,7 +60,6 @@ export const getTeacherDetails = async (id) => {
 };
 
 export const getAllParent = async () => {
-  console.log("check for parent");
   try {
     const response = await fetch(`${API_BASE_URL}/admin/all-parents`, {
       method: "GET",
@@ -69,7 +67,6 @@ export const getAllParent = async () => {
         "Content-Type": "application/json",
       },
     });
-    console.log(response);
     return response.json();
   } catch (error) {
     console.error(error, "check for the error");

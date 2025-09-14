@@ -22,7 +22,6 @@ const UserDashboard = () => {
       try {
         setLoading(true);
         const userData = await getAllTeacher();
-        console.log(userData, "check for user");
         setUsers(userData.data.users);
         setFilteredUsers(userData.data.users);
       } catch (err) {

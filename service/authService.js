@@ -13,11 +13,6 @@ const api = axios.create({
 // Add request interceptor for logging (optional)
 api.interceptors.request.use(
   (config) => {
-    console.log(
-      "Making API request:",
-      config.method?.toUpperCase(),
-      config.url
-    );
     return config;
   },
   (error) => {
@@ -29,7 +24,6 @@ api.interceptors.request.use(
 // Add response interceptor for error handling
 api.interceptors.response.use(
   (response) => {
-    console.log("API response:", response.status, response.data);
     return response;
   },
   (error) => {
@@ -102,7 +96,6 @@ export const authService = {
   },
 
   deleteAccount: async (token, password) => {
-    console.log(token);
     try {
       const response = await api.delete("/auth/delete", {
         data: { password },

@@ -42,7 +42,6 @@ const StudentDashboard = () => {
   // Handle leave form submission
   const handleLeaveSubmit = (e) => {
     e.preventDefault();
-    console.log("Leave form submitted:", leaveForm);
     // Add your API call here to submit the leave application
     setShowLeaveModal(false);
     setLeaveForm({

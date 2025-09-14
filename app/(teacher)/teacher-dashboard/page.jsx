@@ -61,7 +61,6 @@ const TeacherDashboard = () => {
           if (hasFormData) {
             setMyForm(formData);
           } else {
-            console.log("No form data found, redirecting to teacher form...");
             if (teacher?.role === "teacher") {
               router.push("/teacher");
             }

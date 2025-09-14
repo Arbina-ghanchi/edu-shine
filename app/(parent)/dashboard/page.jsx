@@ -70,7 +70,6 @@ const ParentDashboard = () => {
           !Array.isArray(response.data.data) ||
           response.data.data.length === 0
         ) {
-          console.log("Form not found, redirecting...");
           if (user?.role === "parent") {
             router.push("/parent");
           }
@@ -95,7 +94,6 @@ const ParentDashboard = () => {
   // Separate useEffect for redirect
   useEffect(() => {
     if (shouldRedirect) {
-      console.log("Redirecting to /parent...");
       router.push("/parent");
     }
   }, [shouldRedirect, router]);
