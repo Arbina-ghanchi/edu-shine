@@ -4,7 +4,10 @@ import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 import { getTeacherForm } from "@/service/teacherFormService";
-import { getTeacherDashboard } from "@/service/teacherDashboardService";
+import {
+  getStudentDashboard,
+  getTeacherDashboard,
+} from "@/service/teacherDashboardService";
 
 // Import all the new components
 import Sidebar from "@/components/TeacherDashboard/Sidebar";
@@ -16,16 +19,10 @@ import ClassesTab from "@/components/TeacherDashboard/ClassesTab";
 import CalendarTab from "@/components/TeacherDashboard/CalendarTab";
 import MessagesTab from "@/components/TeacherDashboard/MessagesTab";
 import SettingsTab from "@/components/TeacherDashboard/SettingsTab";
-// import StudentsTab from "./components/tabs/StudentsTab";
-// import AssignmentsTab from "./components/tabs/AssignmentsTab";
-// import ClassesTab from "./components/tabs/ClassesTab";
-// import CalendarTab from "./components/tabs/CalendarTab";
-// import MessagesTab from "./components/tabs/MessagesTab";
-// import SettingsTab from "./components/tabs/SettingsTab";
 
 const TeacherDashboard = () => {
   const [activeTab, setActiveTab] = useState("overview");
-  const [selectedClass, setSelectedClass] = useState("Mathematics - Grade 10A");
+  const [selectedClass, setSelectedClass] = useState(" ");
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const router = useRouter();
@@ -33,6 +30,7 @@ const TeacherDashboard = () => {
   const { user: teacher, token } = useAuth();
   const [myForm, setMyForm] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [students, setStudents] = useState([]);
 
   useEffect(() => {
     const fetchMyForm = async () => {
@@ -87,19 +85,41 @@ const TeacherDashboard = () => {
       try {
         const response = await getTeacherDashboard(token);
         setClasses(response?.data);
+        setSelectedClass(response?.data[0]);
       } catch (error) {
         console.error("Error fetching teacher dashboard:", error);
       } finally {
         setLoading(false);
       }
     };
+
     fetchSubjects();
   }, [token]);
+
+  useEffect(() => {
+    const fetchDashboards = async () => {
+      try {
+        if (!selectedClass) return; // use selected subject/class
+        const response = await getStudentDashboard(selectedClass, token);
+        setStudents(response?.data);
+      } catch (error) {
+        console.log(error, "error");
+      }
+    };
+
+    fetchDashboards();
+  }, [token, selectedClass]); // depend on selectedClass instead of classes
 
   const renderContent = () => {
     switch (activeTab) {
       case "students":
-        return <StudentsTab classes={classes} selectedClass={selectedClass} />;
+        return (
+          <StudentsTab
+            classes={classes}
+            selectedClass={selectedClass}
+            students={students?.students}
+          />
+        );
       case "assignments":
         return <AssignmentsTab />;
       case "classes":

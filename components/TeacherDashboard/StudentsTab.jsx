@@ -1,50 +1,77 @@
-// components/tabs/StudentsTab.jsx
-import React from "react";
-import { Plus, Filter, Download, Edit } from "lucide-react";
-import { students } from "./data/student";
+import React, { useState, useEffect } from "react";
+import { Plus, Filter, Download, Edit, Search } from "lucide-react";
 
-const StudentsTab = ({ classes, selectedClass }) => {
+const StudentsTab = ({ students }) => {
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filteredStudents, setFilteredStudents] = useState([]);
+  // Filter students based on search term
+  useEffect(() => {
+    if (students && students.length > 0) {
+      const filtered = students?.filter(
+        (student) =>
+          student.fullName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          student.email.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      setFilteredStudents(filtered);
+    }
+  }, [students, searchTerm]);
+
+  // Format date to readable format
+  const formatDate = (dateString) => {
+    const options = { year: "numeric", month: "short", day: "numeric" };
+    return new Date(dateString).toLocaleDateString(undefined, options);
+  };
+
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 p-4 max-w-6xl mx-auto">
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-        {/* <div className="flex flex-wrap items-center gap-2 md:gap-4">
-          <button className="flex items-center space-x-2 px-4 py-2 border border-slate-300 rounded-lg hover:bg-slate-50 text-sm">
-            <Filter className="w-4 h-4" />
-            <span>Filter</span>
-          </button>
-          <button className="flex items-center space-x-2 px-4 py-2 border border-slate-300 rounded-lg hover:bg-slate-50 text-sm">
-            <Download className="w-4 h-4" />
-            <span>Export</span>
-          </button>
-        </div> */}
+        <h2 className="text-2xl font-bold text-gray-800">Students</h2>
+
+        <div className="flex flex-wrap items-center gap-3">
+          <div className="relative">
+            <Search className="w-5 h-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+          </div>
+        </div>
       </div>
 
-      <div className="bg-white rounded-xl shadow-sm border border-slate-200">
+      <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full min-w-full">
-            <thead className="bg-slate-50 border-b border-slate-200">
+            <thead className="bg-gray-50 border-b border-gray-200">
               <tr>
-                <th className="text-left p-3 md:p-4 font-medium text-slate-700 text-sm">
+                <th className="text-left p-4 font-medium text-gray-700 text-sm">
                   Student
                 </th>
-                <th className="text-left p-3 md:p-4 font-medium text-slate-700 text-sm">
-                  Grade
+                <th className="text-left p-4 font-medium text-gray-700 text-sm">
+                  Email
                 </th>
-                <th className="text-left p-3 md:p-4 font-medium text-slate-700 text-sm">
-                  Attendance
+                <th className="text-left p-4 font-medium text-gray-700 text-sm">
+                  Role
                 </th>
-                <th className="text-left p-3 md:p-4 font-medium text-slate-700 text-sm hidden md:table-cell">
-                  Last Active
+                <th className="text-left p-4 font-medium text-gray-700 text-sm">
+                  Joined Date
                 </th>
-                <th className="text-left p-3 md:p-4 font-medium text-slate-700 text-sm">
+                <th className="text-left p-4 font-medium text-gray-700 text-sm">
                   Actions
                 </th>
               </tr>
             </thead>
             <tbody>
-              {students.map((student) => (
-                <StudentRow key={student.id} student={student} />
-              ))}
+              {filteredStudents.length > 0 ? (
+                filteredStudents.map((student) => (
+                  <StudentRow
+                    key={student._id}
+                    student={student}
+                    formatDate={formatDate}
+                  />
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="5" className="text-center p-8 text-gray-500">
+                    No students found
+                  </td>
+                </tr>
+              )}
             </tbody>
           </table>
         </div>
@@ -53,58 +80,40 @@ const StudentsTab = ({ classes, selectedClass }) => {
   );
 };
 
-const StudentRow = ({ student }) => (
-  <tr className="border-b border-slate-100 hover:bg-slate-50">
-    <td className="p-3 md:p-4">
+const StudentRow = ({ student, formatDate }) => (
+  <tr className="border-b border-gray-100 hover:bg-gray-50 transition-colors">
+    <td className="p-4">
       <div className="flex items-center space-x-3">
-        <div className="w-8 h-8 md:w-10 md:h-10 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
+        <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
           <span className="text-blue-600 font-semibold text-sm">
-            {student.name.charAt(0)}
+            {student.fullName.charAt(0)}
           </span>
         </div>
         <div className="min-w-0">
-          <span className="font-medium text-slate-800 text-sm block">
-            {student.name}
+          <span className="font-medium text-gray-800 text-sm block">
+            {student.fullName}
           </span>
-          <span className="text-slate-500 text-xs md:hidden">
-            {student.lastActive}
+          <span className="text-gray-500 text-xs">
+            ID: {student._id.substring(0, 8)}...
           </span>
         </div>
       </div>
     </td>
-    <td className="p-3 md:p-4">
-      <span
-        className={`px-2 md:px-3 py-1 rounded-full text-xs font-medium ${
-          student.grade.startsWith("A")
-            ? "bg-green-100 text-green-700"
-            : "bg-yellow-100 text-yellow-700"
-        }`}
-      >
-        {student.grade}
+    <td className="p-4 text-gray-700 text-sm">{student.email}</td>
+    <td className="p-4">
+      <span className="px-3 py-1 rounded-full text-xs font-medium bg-purple-100 text-purple-700">
+        {student.role}
       </span>
     </td>
-    <td className="p-3 md:p-4">
-      <div className="flex items-center space-x-2">
-        <div className="w-16 md:w-20 bg-slate-200 rounded-full h-2">
-          <div
-            className="bg-blue-600 h-2 rounded-full"
-            style={{ width: `${student.attendance}%` }}
-          ></div>
-        </div>
-        <span className="text-xs md:text-sm text-slate-600">
-          {student.attendance}%
-        </span>
-      </div>
+    <td className="p-4 text-gray-600 text-sm">
+      {formatDate(student.createdAt)}
     </td>
-    <td className="p-3 md:p-4 text-slate-600 text-sm hidden md:table-cell">
-      {student.lastActive}
-    </td>
-    <td className="p-3 md:p-4">
+    <td className="p-4">
       <div className="flex items-center space-x-2">
-        <button className="text-blue-600 hover:text-blue-700 font-medium text-sm">
+        <button className="text-blue-600 hover:text-blue-700 font-medium text-sm px-2 py-1 rounded hover:bg-blue-50 transition-colors">
           View
         </button>
-        <button className="text-slate-500 hover:text-slate-700">
+        <button className="text-gray-600 hover:text-gray-800 p-2 rounded hover:bg-gray-100 transition-colors">
           <Edit className="w-4 h-4" />
         </button>
       </div>

@@ -1,7 +1,6 @@
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 export const createAssignmentTeacher = async (formData) => {
-  console.log(formData, "check ");
   try {
     const response = await fetch(`${API_BASE_URL}/assign/assignments`, {
       method: "POST",
@@ -21,7 +20,6 @@ export const createAssignmentTeacher = async (formData) => {
       data: data,
     };
   } catch (error) {
-    console.log(error, "check for the error");
     return {
       success: false,
       error: error.message || "Network error occurred",
@@ -30,7 +28,6 @@ export const createAssignmentTeacher = async (formData) => {
   }
 };
 export const getAssignmentTeacher = async (teacherId, subject) => {
-  console.log(teacherId, subject, "check ");
   try {
     const response = await fetch(
       `${API_BASE_URL}/assign/assignments?teacherId=${teacherId}&subject=${subject}`,
@@ -52,7 +49,6 @@ export const getAssignmentTeacher = async (teacherId, subject) => {
       data: data,
     };
   } catch (error) {
-    console.log(error, "check for the error");
     return {
       success: false,
       error: error.message || "Network error occurred",

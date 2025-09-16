@@ -13,7 +13,6 @@ export const getTeacherDashboard = async (token) => {
         },
       }
     );
-
     return response.json();
   } catch (error) {
     console.error(error, "check for the error");
@@ -33,7 +32,6 @@ export const getStudentDashboard = async (subjects, token) => {
         },
       }
     );
-
     return response.json();
   } catch (error) {
     console.error(error, "check for the error");
