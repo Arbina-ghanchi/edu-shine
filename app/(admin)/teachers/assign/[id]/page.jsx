@@ -318,8 +318,9 @@ const Page = () => {
                   name="teacherAssigned"
                   value={formData.teacherAssigned}
                   onChange={handleInputChange}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none disabled:opacity-50 focus:ring-2 focus:ring-blue-500"
                   required
+                  disabled
                 />
                 <p className="text-xs text-gray-500 mt-1">
                   This should be the teacher's user ID
@@ -358,10 +359,11 @@ const Page = () => {
                   Teaching Medium
                 </label>
                 <select
+                  disabled
                   name="teachingMedium"
                   value={formData.teachingMedium}
                   onChange={handleInputChange}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 py-2 disabled:opacity-50 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 >
                   <option value="Home Tuition">Home Tuition</option>
                   <option value="Online">Online</option>
