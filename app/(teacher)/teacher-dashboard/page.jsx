@@ -6,6 +6,7 @@ import { useAuth } from "@/context/AuthContext";
 import { getTeacherForm } from "@/service/teacherFormService";
 import {
   getStudentDashboard,
+  getStudentDashboardById,
   getTeacherDashboard,
 } from "@/service/teacherDashboardService";
 
@@ -31,6 +32,7 @@ const TeacherDashboard = () => {
   const [myForm, setMyForm] = useState(null);
   const [loading, setLoading] = useState(false);
   const [students, setStudents] = useState([]);
+  const [batch, setBatch] = useState([]);
 
   useEffect(() => {
     const fetchMyForm = async () => {
@@ -97,6 +99,22 @@ const TeacherDashboard = () => {
   }, [token]);
 
   useEffect(() => {
+    const fetchClasses = async () => {
+      setLoading(true);
+      try {
+        const response = await getStudentDashboardById(token);
+        setBatch(response?.data);
+      } catch (error) {
+        console.error("Error fetching teacher dashboard:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchClasses();
+  }, [token]);
+
+  useEffect(() => {
     const fetchDashboards = async () => {
       try {
         if (!selectedClass) return; // use selected subject/class
@@ -120,16 +138,16 @@ const TeacherDashboard = () => {
             students={students?.students}
           />
         );
-      case "assignments":
-        return <AssignmentsTab />;
+      // case "assignments":
+      //   return <AssignmentsTab />;
       case "classes":
-        return <ClassesTab classes={classes} />;
-      case "calendar":
-        return <CalendarTab />;
-      case "messages":
-        return <MessagesTab />;
-      case "settings":
-        return <SettingsTab user={teacher} />;
+        return <ClassesTab assignments={batch} />;
+      // case "calendar":
+      //   return <CalendarTab />;
+      // case "messages":
+      //   return <MessagesTab />;
+      // case "settings":
+      //   return <SettingsTab user={teacher} />;
       default:
         return <OverviewTab />;
     }

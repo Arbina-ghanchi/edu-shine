@@ -22,11 +22,11 @@ const Sidebar = ({
   const menuItems = [
     { id: "overview", label: "Overview", icon: BarChart3 },
     { id: "students", label: "Students", icon: Users },
-    { id: "assignments", label: "Assignments", icon: FileText },
+    // { id: "assignments", label: "Assignments", icon: FileText },
     { id: "classes", label: "Classes", icon: BookOpen },
-    { id: "calendar", label: "Calendar", icon: Calendar },
-    { id: "messages", label: "Messages", icon: MessageSquare },
-    { id: "settings", label: "Settings", icon: Settings },
+    // { id: "calendar", label: "Calendar", icon: Calendar },
+    // { id: "messages", label: "Messages", icon: MessageSquare },
+    // { id: "settings", label: "Settings", icon: Settings },
   ];
 
   return (

@@ -1,82 +1,96 @@
 // components/tabs/ClassesTab.jsx
 import React from "react";
-import { Plus, Edit, Calendar, BookOpen } from "lucide-react";
+import { Plus, Edit, Calendar, BookOpen, Users, Clock } from "lucide-react";
 
-const ClassesTab = ({ classes }) => {
+const ClassesTab = ({ assignments }) => {
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center space-x-4">
-          <button className="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm">
-            <Plus className="w-4 h-4" />
-            <span>Add Class</span>
-          </button>
-        </div>
-      </div>
+      <div className="flex items-center justify-between"></div>
 
-      {/* <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
-        {classes &&
-          classes?.map((classItem, index) => {
-            const scheduleItem = classSchedule[index] || {};
-            return (
-              <ClassCard
-                key={classItem}
-                classItem={classItem}
-                scheduleItem={scheduleItem}
-                index={index}
-              />
-            );
-          })}
-      </div> */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+        {assignments && assignments.length > 0 ? (
+          assignments.map((assignment) => (
+            <ClassCard key={assignment._id} assignment={assignment} />
+          ))
+        ) : (
+          <p className="text-slate-600">No classes found</p>
+        )}
+      </div>
     </div>
   );
 };
 
-const ClassCard = ({ classItem, scheduleItem, index }) => (
-  <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
-    <div className="flex items-start justify-between mb-4">
-      <div>
-        <h3 className="font-semibold text-slate-800 text-lg">
-          {scheduleItem.subject || classItem.split(" - ")[0]}
-        </h3>
-        <p className="text-slate-600 text-sm">
-          {scheduleItem.grade || classItem.split(" - ")[1]}
-        </p>
-      </div>
-      <BookOpen className="w-6 h-6 text-blue-600" />
-    </div>
+const ClassCard = ({ assignment }) => {
+  // Format date for display
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+    });
+  };
 
-    <div className="space-y-3">
-      <div className="flex items-center justify-between text-sm">
-        <span className="text-slate-600">Time:</span>
-        <span className="font-medium">{scheduleItem.time || "TBD"}</span>
+  return (
+    <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+      <div className="flex items-start justify-between mb-4">
+        <div>
+          <h3 className="font-semibold text-slate-800 text-lg">
+            {assignment.subject}
+          </h3>
+          <p className="text-slate-600 text-sm capitalize">
+            {assignment.teachingMedium.toLowerCase()}
+          </p>
+        </div>
+        <BookOpen className="w-6 h-6 text-blue-600" />
       </div>
 
-      <div className="flex items-center justify-between text-sm">
-        <span className="text-slate-600">Room:</span>
-        <span className="font-medium">{scheduleItem.room || "TBD"}</span>
+      <div className="space-y-3">
+        <div className="flex items-center text-sm">
+          <Clock className="w-4 h-4 text-slate-500 mr-2" />
+          <span className="text-slate-600">Started:</span>
+          <span className="font-medium ml-1">
+            {formatDate(assignment.startDate)}
+          </span>
+        </div>
+
+        <div className="flex items-center text-sm">
+          <Users className="w-4 h-4 text-slate-500 mr-2" />
+          <span className="text-slate-600">Students:</span>
+          <span className="font-medium ml-1">
+            {assignment.studentId.length}
+          </span>
+        </div>
+
+        <div className="flex items-center text-sm">
+          <span className="text-slate-600">Status:</span>
+          <span
+            className={`font-medium ml-1 px-2 py-1 rounded-full text-xs ${
+              assignment.status === "Active"
+                ? "bg-green-100 text-green-800"
+                : "bg-gray-100 text-gray-800"
+            }`}
+          >
+            {assignment.status}
+          </span>
+        </div>
       </div>
 
-      <div className="flex items-center justify-between text-sm">
-        <span className="text-slate-600">Students:</span>
-        <span className="font-medium">{30 - index * 2}</span>
-      </div>
-    </div>
-
-    <div className="flex items-center justify-between mt-6 pt-4 border-t border-slate-200">
-      <button className="text-blue-600 hover:text-blue-700 font-medium text-sm">
-        View Details
-      </button>
-      <div className="flex items-center space-x-2">
-        <button className="text-slate-600 hover:text-slate-700">
-          <Edit className="w-4 h-4" />
+      <div className="flex items-center justify-between mt-6 pt-4 border-t border-slate-200">
+        <button className="text-blue-600 hover:text-blue-700 font-medium text-sm">
+          View Details
         </button>
-        <button className="text-slate-600 hover:text-slate-700">
-          <Calendar className="w-4 h-4" />
-        </button>
+        <div className="flex items-center space-x-2">
+          <button className="text-slate-600 hover:text-slate-700">
+            <Edit className="w-4 h-4" />
+          </button>
+          <button className="text-slate-600 hover:text-slate-700">
+            <Calendar className="w-4 h-4" />
+          </button>
+        </div>
       </div>
     </div>
-  </div>
-);
+  );
+};
 
 export default ClassesTab;

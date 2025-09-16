@@ -37,3 +37,21 @@ export const getStudentDashboard = async (subjects, token) => {
     console.error(error, "check for the error");
   }
 };
+// get all the student that teacher teaches
+export const getStudentDashboardById = async (token) => {
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}/teacher-dashboard/get-teacher-classes`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response.json();
+  } catch (error) {
+    console.error(error, "check for the error");
+  }
+};
