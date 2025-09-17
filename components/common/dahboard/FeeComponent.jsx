@@ -139,7 +139,6 @@ export const FeeManagement = () => {
   return (
     <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
       <div className="flex items-center gap-2 mb-6">
-        <DollarSign className="w-6 h-6 text-green-600" />
         <h2 className="text-xl font-semibold">Fee Management</h2>
         {isFirstOfMonth && (
           <span className="ml-auto inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-red-100 text-red-800">
@@ -153,17 +152,17 @@ export const FeeManagement = () => {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
         <div className="bg-blue-50 p-4 rounded-lg">
           <div className="text-sm font-medium text-blue-800">Total Paid</div>
-          <div className="text-2xl font-bold text-blue-900">$750.00</div>
+          <div className="text-2xl font-bold text-blue-900">750.00</div>
           <div className="text-xs text-blue-600">Last 3 months</div>
         </div>
         <div className="bg-yellow-50 p-4 rounded-lg">
           <div className="text-sm font-medium text-yellow-800">Pending</div>
-          <div className="text-2xl font-bold text-yellow-900">$250.00</div>
+          <div className="text-2xl font-bold text-yellow-900">250.00</div>
           <div className="text-xs text-yellow-600">Due in 5 days</div>
         </div>
         <div className="bg-green-50 p-4 rounded-lg">
           <div className="text-sm font-medium text-green-800">Upcoming</div>
-          <div className="text-2xl font-bold text-green-900">$250.00</div>
+          <div className="text-2xl font-bold text-green-900">250.00</div>
           <div className="text-xs text-green-600">Due next month</div>
         </div>
       </div>

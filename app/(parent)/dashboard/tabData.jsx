@@ -1,8 +1,1 @@
-export const tabs = [
-  "Overview",
-  "Grades",
-  "Assignments",
-  "Fees",
-  "Reviews",
-  "Referrals",
-];
+export const tabs = ["Overview", "Assignments", "Fees"];

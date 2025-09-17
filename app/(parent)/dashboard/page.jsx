@@ -1,31 +1,35 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import {
-  BookOpen,
-  TrendingUp,
   Calendar,
+  User,
+  BookOpen,
+  MapPin,
+  Clock,
   DollarSign,
-  Star,
-  UserPlus,
+  Monitor,
+  Wifi,
+  School,
+  Target,
+  Award,
+  Map,
 } from "lucide-react";
-import { StatCard } from "@/components/common/dahboard/StatCard";
 import { TabNavigation } from "@/components/common/dahboard/Tabnavigation";
 import { StudentSelector } from "@/components/common/dahboard/Studentselector";
 import { EventCard } from "@/components/common/dahboard/eventcard";
 import { FeatureCard } from "@/components/common/dahboard/Featurecard";
 import { DashboardHeader } from "@/components/common/dahboard/Header";
-import { EmptyState } from "@/components/common/dahboard/Emptystate";
 import { FeeManagement } from "@/components/common/dahboard/FeeComponent";
-import { ReviewManagement } from "@/components/common/dahboard/Review";
-import { GradeManagement } from "@/components/common/dahboard/GradeManagemnt";
 import { AssignmentManagement } from "@/components/common/dahboard/Assignment";
 import { upcomingEvents } from "./upcomingEvent";
-import { stats } from "./statsData";
 import { tabs } from "./tabData";
-import { students } from "./studentData";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 import { checkMyForm, getMyAllChild } from "@/service/parentFormService";
+import { StudentDetailsCard } from "@/components/common/dahboard/SelectedStudent";
+import { StudentProfileHeader } from "@/components/common/dahboard/SelectedStudentHeader";
+
+// Student Details Card Component
 
 const ParentDashboard = () => {
   const { user, token } = useAuth();
@@ -42,8 +46,11 @@ const ParentDashboard = () => {
       setLoading(true);
       try {
         const response = await getMyAllChild(token);
-
         setStudentForm(response.data.data);
+        // Set the first student as selected by default
+        if (response.data.data && response.data.data.length > 0) {
+          setSelectedStudent(response.data.data[0]);
+        }
       } catch (error) {
         console.error("Error fetching student form:", error);
       } finally {
@@ -62,7 +69,6 @@ const ParentDashboard = () => {
       try {
         const response = await checkMyForm(token);
 
-        // ✅ Handle nested data properly
         if (
           !response ||
           !response.success ||
@@ -76,11 +82,10 @@ const ParentDashboard = () => {
           return;
         }
 
-        // ✅ Set form data correctly
         setMyForm(response.data.data);
       } catch (error) {
         console.error("Error fetching my form:", error);
-        router.push("/parent"); // fallback redirect
+        router.push("/parent");
       } finally {
         setLoading(false);
       }
@@ -89,16 +94,14 @@ const ParentDashboard = () => {
     if (token) {
       fetchMyForm();
     }
-  }, [token, router]);
+  }, [token, router, user]);
 
-  // Separate useEffect for redirect
   useEffect(() => {
     if (shouldRedirect) {
       router.push("/parent");
     }
   }, [shouldRedirect, router]);
 
-  // Prevent rendering if redirecting
   if (shouldRedirect) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
@@ -111,7 +114,14 @@ const ParentDashboard = () => {
   }
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading dashboard...</p>
+        </div>
+      </div>
+    );
   }
 
   return (
@@ -119,6 +129,7 @@ const ParentDashboard = () => {
       <div className="max-w-7xl mx-auto">
         <div className="flex items-center justify-between mb-6"></div>
         <DashboardHeader students={studentForm} />
+
         {user?.role === "parent" && (
           <StudentSelector
             students={studentForm}
@@ -126,22 +137,6 @@ const ParentDashboard = () => {
             setSelectedStudent={setSelectedStudent}
           />
         )}
-        {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          {stats.map((stat, index) => (
-            <StatCard
-              key={index}
-              icon={stat.icon}
-              title={stat.title}
-              value={stat.value}
-              subtitle={stat.subtitle}
-              trend={stat.trend}
-              trendUp={stat.trendUp}
-              bgColor={stat.bgColor}
-              iconColor={stat.iconColor}
-            />
-          ))}
-        </div>
 
         <TabNavigation
           tabs={tabs}
@@ -152,32 +147,49 @@ const ParentDashboard = () => {
         {/* Main Content Area */}
         {activeTab === "Fees" ? (
           <FeeManagement />
-        ) : activeTab === "Reviews" ? (
-          <ReviewManagement />
-        ) : activeTab === "Grades" ? (
-          <GradeManagement />
         ) : activeTab === "Assignments" ? (
           <AssignmentManagement />
         ) : (
           <>
+            {selectedStudent && (
+              <StudentProfileHeader student={selectedStudent} />
+            )}
+
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-              {/* Recent Grades */}
+              {/* Left Column - Student Details */}
               <div className="lg:col-span-2">
-                <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
-                  <div className="flex items-center gap-2 mb-6">
-                    <TrendingUp className="w-6 h-6 text-blue-600" />
-                    <h2 className="text-xl font-semibold">Recent Grades</h2>
-                  </div>
-                  <EmptyState
-                    icon={<BookOpen className="w-8 h-8 text-gray-400" />}
-                    title="No grades available yet"
-                    description="Grades will appear here once assignments are graded"
+                {selectedStudent && (
+                  <StudentDetailsCard student={selectedStudent} />
+                )}
+
+                {/* Quick Stats Cards */}
+                <div className="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  <FeatureCard
+                    title="Fee Status"
+                    value="Paid"
+                    description="All fees up to date"
+                    valueColor="text-green-600"
+                    icon={<DollarSign className="w-5 h-5" />}
+                  />
+                  <FeatureCard
+                    title="Sessions Completed"
+                    value="12"
+                    description="This month"
+                    valueColor="text-blue-600"
+                    icon={<BookOpen className="w-5 h-5" />}
+                  />
+                  <FeatureCard
+                    title="Next Session"
+                    value="Tomorrow"
+                    description="3:00 PM - 4:30 PM"
+                    valueColor="text-purple-600"
+                    icon={<Clock className="w-5 h-5" />}
                   />
                 </div>
               </div>
 
-              {/* Upcoming Events */}
-              <div>
+              {/* Right Column - Upcoming Events */}
+              <div className="space-y-8">
                 <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
                   <div className="flex items-center gap-2 mb-6">
                     <Calendar className="w-6 h-6 text-purple-600" />
@@ -197,44 +209,23 @@ const ParentDashboard = () => {
                     ))}
                   </div>
                 </div>
+
+                {/* Quick Actions Card */}
+                <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                  <h2 className="text-xl font-semibold mb-6">Quick Actions</h2>
+                  <div className="space-y-3">
+                    <button className="w-full bg-blue-100 hover:bg-blue-200 text-blue-700 py-2 px-4 rounded-lg text-sm font-medium transition-colors">
+                      Schedule New Session
+                    </button>
+                    <button className="w-full bg-green-100 hover:bg-green-200 text-green-700 py-2 px-4 rounded-lg text-sm font-medium transition-colors">
+                      View Progress Report
+                    </button>
+                    <button className="w-full bg-purple-100 hover:bg-purple-200 text-purple-700 py-2 px-4 rounded-lg text-sm font-medium transition-colors">
+                      Contact Tutor
+                    </button>
+                  </div>
+                </div>
               </div>
-            </div>
-
-            {/* Additional Features */}
-            <div className="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              <FeatureCard
-                icon={
-                  <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
-                    <DollarSign className="w-5 h-5 text-green-600" />
-                  </div>
-                }
-                title="Fee Status"
-                value="Paid"
-                description="All fees up to date"
-                valueColor="text-green-600"
-              />
-
-              <FeatureCard
-                icon={
-                  <div className="w-10 h-10 bg-yellow-100 rounded-lg flex items-center justify-center">
-                    <Star className="w-5 h-5 text-yellow-600" />
-                  </div>
-                }
-                title="Reviews"
-                value="4.8/5"
-                description="Average rating"
-              />
-
-              <FeatureCard
-                icon={
-                  <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
-                    <UserPlus className="w-5 h-5 text-purple-600" />
-                  </div>
-                }
-                title="Referrals"
-                value="2"
-                description="Successful referrals"
-              />
             </div>
           </>
         )}
